@@ -1,0 +1,101 @@
+/*
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Code Pro'), local('SourceCodePro-Regular'), url(${contextPath}/lib/SourceCodePro-Regular.woff) format('woff');
+}
+*/
+
+* {
+    font-size: 10pt;
+    font-family: sans-serif;
+}
+
+BODY {
+    margin: 0px;
+    padding: 8px;
+    color: #000000;
+    background-color: #ffffff;
+}
+
+FORM {
+    margin: 0px;
+    padding: 0px;
+}
+
+H1 { font-size: 20pt; padding: 0px; margin: 8px 0px 8px 0px; }
+H2 { font-size: 16pt; padding: 0px; margin: 8px 0px 8px 0px; }
+H3 { font-size: 12pt; padding: 0px; margin: 8px 0px 8px 0px; }
+H4 { font-size: 10pt; padding: 0px; margin: 8px 0px 8px 0px; }
+H5 { font-size: 9pt;  padding: 0px; margin: 8px 0px 8px 0px; }
+H6 { font-size: 8pt;  padding: 0px; margin: 8px 0px 8px 0px; }
+
+A:link, A:visited, A:active { color: #000000; }
+A:hover { color: #ff0099; }
+
+.bold { font-weight: bold; color: #990066; }
+.strike { text-decoration: line-through; color: #ff0000; }
+.underline { text-decoration: underline; color: #000099; }
+
+.button { padding: 0px 4px 0px 4px; }
+.current { background-color: #ffeecc; }
+.error-message { color: #ff0000; }
+
+TABLE.index, TABLE.index TH, TABLE.index TD {
+	border-collapse: collapse;
+	border: 1px solid #000000;
+}
+
+TABLE.index TH {
+	background-color: #f0f0f0;
+	font-weight: bold;
+	text-align: middle;
+}
+
+TABLE.diff {
+    border-collapse: collapse;
+}
+
+.code { font-family: 'Source Code Pro', monospace; }
+
+.code-block {
+	margin: 8px 0px 8px 0px;
+	padding: 4px;
+	background-color: #f0f0f0;
+    border: 1px solid #666666;
+}
+
+TABLE.diff TH { text-align: left; padding: 0px 0px 0px 8px; }
+	
+TABLE.diff .rdiv {
+  border-style: solid;
+  border-color: #cccccc;
+  border-width: 0px 1px 0px 0px;
+}
+
+.diff-left-only-even { background-color: #fff0f0; }
+.diff-left-only-odd  { background-color: #ffe0e0; }
+
+.diff-right-only-even { background-color: #f0fff0; }
+.diff-right-only-odd  { background-color: #e0ffe0; }
+
+.line-no {
+	min-width: 20px;
+	text-align: right;
+	border-style: solid;
+	border-width: 0px 2px 0px 0px;
+	border-color: #999999;
+}
+
+TABLE.solid, TABLE.solid TH, TABLE.solid TD {
+    border-collapse: collapse;
+    border: 1px solid #000000;
+}
+
+TABLE.solid TH {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    text-align: middle;
+}
+ 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project basedir="../" default="dist">
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist" location="dist"/>
+	<target name="dist">
+		<mkdir dir="${dist}"/>
+		<jar destfile="${dist}/jwiki.jar">
+			<zipfileset dir="${build}/java">
+				<include name="**/*"/>
+				<exclude name="**/test/**"/>
+				<exclude name="**/*Test*"/>
+			</zipfileset>
+		</jar>
+	</target>
+</project>
