@@ -3,6 +3,7 @@ package jwiki.core.impl;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.URLEncoder;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class WikiContext implements IWikiContext {
 
 	private int idCount = 0;
 
-	private IWikilet[] wikilets = null;
+	private Collection<IWikilet> wikilets = null;
 	private String pathPrefix = "";
 	private String path = "";
 	private ResourceBundle resource;
@@ -40,11 +41,11 @@ public class WikiContext implements IWikiContext {
 	public WikiContext() {
 	}
 
-	public IWikilet[] getWikilets() {
+	public Collection<IWikilet> getWikilets() {
 		return wikilets;
 	}
 
-	public void setWikilets(IWikilet[] wikilets) {
+	public void setWikilets(Collection<IWikilet> wikilets) {
 		this.wikilets = wikilets;
 	}
 

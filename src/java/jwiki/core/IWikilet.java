@@ -16,7 +16,7 @@ public interface IWikilet {
 	String pattern();
 
 	/**
-	 * @return 通常は null を返します。 
+	 * @return グループ化終了のパターン。 通常は null を返します。 
 	 * null 以外の値を返す場合、パターンが一致するまでグループ化されます。
 	 */
 	String endPattern();

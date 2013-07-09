@@ -1,6 +1,7 @@
 package jwiki.core;
 
 import java.io.Writer;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public interface IWikiContext {
 	String createPathUrlEncoded(String path);
 	String generateUniqueId();
 	
-	IWikilet[] getWikilets();
+	Collection<IWikilet> getWikilets();
 	
 	Map<String,Object> getRequestScope();
 	Map<String,Object> getPageScope();

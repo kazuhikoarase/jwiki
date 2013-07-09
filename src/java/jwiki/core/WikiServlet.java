@@ -2,6 +2,9 @@ package jwiki.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletConfig;
@@ -94,7 +97,7 @@ public class WikiServlet extends HttpServlet {
 		return (IUserInfo)request.getAttribute(Constants.JWIKI_USER);
 	}
 	
-	protected IWikilet[] getWikilets() {
+	protected Collection<IWikilet> getWikilets() {
 		return DEFAULT_WIKILETS;
 	}
 	
@@ -164,25 +167,25 @@ public class WikiServlet extends HttpServlet {
 		action.execute();
 	}
 	
-	private static IWikilet[] createWikilets() {
-		return new IWikilet[]{
-			new HeaderWikilet(),
-			new IndexWikilet(),
-			new NavigatorWikilet(),
-			new HistoryWikilet(),
-			new DiffWikilet(),
-			new TableWikilet(),
-			new DocumentWikilet(),
-			new ListWikilet(),
-			new HrWikilet(),
-			new CodeWikilet(),
-			new AttachedFileWikilet(),
-			// ˆÈ‰º‚Ì‚Q‚Â‚ÍŒÅ’è
-			new BlankWikilet(),
-			new DefaultWikilet()
-		};
+	private static Collection<IWikilet> createWikilets() {
+		List<IWikilet> wikilets = new ArrayList<IWikilet>();
+		wikilets.add(new HeaderWikilet() );
+		wikilets.add(new IndexWikilet() );
+		wikilets.add(new NavigatorWikilet() );
+		wikilets.add(new HistoryWikilet() );
+		wikilets.add(new DiffWikilet() );
+		wikilets.add(new TableWikilet() );
+		wikilets.add(new DocumentWikilet() );
+		wikilets.add(new ListWikilet() );
+		wikilets.add(new HrWikilet() );
+		wikilets.add(new CodeWikilet() );
+		wikilets.add(new AttachedFileWikilet() );
+		// ˆÈ‰º‚Ì‚Q‚Â‚ÍŒÅ’è
+		wikilets.add(new BlankWikilet() );
+		wikilets.add(new DefaultWikilet() );
+		return wikilets;
 	}
 
-	private static final IWikilet[] DEFAULT_WIKILETS =
+	private static final Collection<IWikilet> DEFAULT_WIKILETS =
 		createWikilets();
 }
