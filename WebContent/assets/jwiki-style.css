@@ -1,25 +1,4 @@
 
-* { font-size: 10pt; font-family: sans-serif; }
-
-BODY {
-    margin: 0px;
-    padding: 8px;
-    color: #000000;
-    background-color: #ffffff;
-}
-
-FORM { margin: 0px; padding: 0px; }
-
-A:link, A:visited, A:active { color: #000000; }
-A:hover { color: #ff0099; }
-
-H1 { font-size: 20pt; padding: 0px; margin: 8px 0px 8px 0px; }
-H2 { font-size: 16pt; padding: 0px; margin: 8px 0px 8px 0px; }
-H3 { font-size: 12pt; padding: 0px; margin: 8px 0px 8px 0px; }
-H4 { font-size: 10pt; padding: 0px; margin: 8px 0px 8px 0px; }
-H5 { font-size: 9pt;  padding: 0px; margin: 8px 0px 8px 0px; }
-H6 { font-size: 8pt;  padding: 0px; margin: 8px 0px 8px 0px; }
-
 .jwiki-bold { font-weight: bold; color: #990066; }
 .jwiki-strike { text-decoration: line-through; color: #ff0000; }
 .jwiki-underline { text-decoration: underline; color: #000099; }
