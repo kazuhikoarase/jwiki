@@ -15,14 +15,18 @@
 	</head>
 	<body>
 
-	  <div>
-		<div style="float:left;">
+	  <div style="margin: 2px 0px 2px 0px;">
+		<div style="float: left;">
 		  <jwiki:render>[[navigator]]</jwiki:render>
 		</div>
-		<div style="float:right;">
+		<div style="float: right;">
 		  <c:out value="${jwikiUser.username}"/>
 		</div>
-		<div style="clear:both;"><jsp:text></jsp:text></div>
+		<div style="clear: both;"><jsp:text></jsp:text></div>
+	  </div>
+	  
+	  <div style="margin: 2px 0px 2px 0px;">
+	    <jwiki:controls />
 	  </div>
 
 	  <jwiki:page />

@@ -12,9 +12,6 @@
 				<exclude name="**/test/**"/>
 				<exclude name="**/*Test*"/>
 			</zipfileset>
-			<zipfileset dir="${WebContent}/WEB-INF" prefix="META-INF">
-				<include name="jwiki.tld"/>
-			</zipfileset>
 		</jar>
 	</target>
 </project>

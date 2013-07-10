@@ -170,6 +170,23 @@ public class FileEditAction extends WikiAction {
 		return true;
 	}
 
+	public void writeControls(Writer out) throws Exception {
+
+		IFile file = context.getFile(context.getPath(), -1);
+
+		if (file.exists() ) {
+			writeLinkButton(out,
+				context.createPathUrlEncoded(context.getPath() ),
+				context.getString("label.back") );
+		} else {
+			// 存在しない場合、親ディレクトリ
+			writeLinkButton(out,
+				context.createPathUrlEncoded(
+				PathUtil.getParent(context.getPath() ) ),
+				context.getString("label.back") );
+		}
+	}
+
 	public void writeWikiPage(Writer out) throws Exception {
 
 		String pageName = Util.trim(getParameter("pageName") );
@@ -177,24 +194,6 @@ public class FileEditAction extends WikiAction {
 		String data = Util.rtrim(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 
-		IFile file = context.getFile(context.getPath(), -1);
-
-		if (file.exists() ) {
-			out.write("<div class=\"jwiki-action-area\">");
-			writeLinkButton(out,
-				context.createPathUrlEncoded(context.getPath() ),
-				context.getString("label.back") );
-			out.write("</div>");
-		} else {
-			// 存在しない場合、親ディレクトリ
-			out.write("<div class=\"jwiki-action-area\">");
-			writeLinkButton(out,
-				context.createPathUrlEncoded(
-				PathUtil.getParent(context.getPath() ) ),
-				context.getString("label.back") );
-			out.write("</div>");
-		}
-		
 		String lockOwner = (String)context.getRequestScope().get("locked");
 		if (lockOwner != null) {
 			// ロックされている

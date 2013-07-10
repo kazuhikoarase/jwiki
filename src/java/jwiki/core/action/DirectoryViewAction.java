@@ -11,13 +11,11 @@ import jwiki.fs.IContent;
  */
 public class DirectoryViewAction extends WikiAction {
 
-	public void writeWikiPage(Writer out) throws Exception {
-
+	public void writeControls(Writer out) throws Exception {
+		
 		// index
 		String indexPath = PathUtil.buildPath(context.getPath(), "index");
 
-		out.write("<div class=\"jwiki-action-area\">");
-		
 		writeLinkButton(out,
 			context.createPathUrlEncoded(indexPath) + "?v=e",
 			context.getString("label.edit") );
@@ -29,9 +27,13 @@ public class DirectoryViewAction extends WikiAction {
         	PathUtil.buildPath(context.getPath(), 
         			context.getString("label.new_page") ) ) + "?v=e",
         			context.getString("label.new_page") );
+	}
 
-		out.write("</div>");
-		
+	public void writeWikiPage(Writer out) throws Exception {
+
+		// index
+		String indexPath = PathUtil.buildPath(context.getPath(), "index");
+
 		IContent content = context.get(indexPath, -1);
 		if (content.getData().length > 0) {
 			context.setPath(indexPath);

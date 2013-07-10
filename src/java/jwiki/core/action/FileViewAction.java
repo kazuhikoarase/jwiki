@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiPage;
 import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IWikilet;
 import jwiki.core.PathUtil;
@@ -23,15 +24,28 @@ import jwiki.util.Base64;
  * @author kazuhiko arase
  */
 public class FileViewAction extends WikiAction {
-
+	
+	private IWikiPage delegate = null;
+	
 	@Override
 	public void outputResponse() throws Exception {
+
 		String qs = request.getQueryString();
 		if ("raw".equals(qs) ) {
 			downloadAttachedFile();
-		} else {
-			super.outputResponse();
+			return;
 		}
+
+		String view = request.getParameter("v");
+		if ("h".equals(view) ) {
+			delegate = new HistoryPage();
+		} else 	if ("d".equals(view) ) {
+			delegate = new DiffPage();
+		} else {
+			delegate = new DefaultPage();
+		}
+
+		super.outputResponse();
 	}
 	
 	private void downloadAttachedFile() throws Exception {
@@ -83,17 +97,12 @@ public class FileViewAction extends WikiAction {
 		}
 	}
 
-	public void writeWikiPage(Writer out) throws Exception {
+	public void writeControls(Writer out) throws Exception {
+		delegate.writeControls(out);
+	}
 
-		String view = request.getParameter("v");
-		
-		if ("h".equals(view) ) {
-			writeHistoryView(out);
-		} else 	if ("d".equals(view) ) {
-			writeDiffView(out);
-		} else {
-			writeDefaultView(out);
-		}
+	public void writeWikiPage(Writer out) throws Exception {
+		delegate.writeWikiPage(out);
 	}
 	
 	private long getRevision() {
@@ -104,7 +113,8 @@ public class FileViewAction extends WikiAction {
 		return -1;
 	}
 	
-	private void outputFileInfo(Writer out, IFile file) throws Exception {
+	private void writeFileInfo(Writer out, IFile file) throws Exception {
+
 		out.write(' ');
 		out.write('r');
 		out.write(String.valueOf(file.getRevision() ) );
@@ -125,82 +135,85 @@ public class FileViewAction extends WikiAction {
 			out.write(')');
 		}
 	}
-	
-	private void writeDefaultView(Writer out) throws Exception {
 
-		final long revision = getRevision();
-		final IContent content = context.get(context.getPath(), revision);
-		final IFile file = context.getFile(	context.getPath(), revision);
-		
-		if (revision == -1) {
-
-			if (file.exists() ) {
+	private class DefaultPage extends Delegate {
+		public void writeControls(Writer out) throws Exception {
+			final long revision = getRevision();
+			final IFile file = context.getFile(	context.getPath(), revision);
 			
-				out.write("<div class=\"jwiki-action-area\">");
-				writeLinkButton(out,
-					context.createPathUrlEncoded(context.getPath() ) + "?v=e",
-					context.getString("label.edit") );
-				out.write("<span class=\"jwiki-spacer\">|</span>");
-				writeLinkButton(out,
-					context.createPathUrlEncoded(context.getPath() ) + "?v=h",
-					context.getString("label.history") );
+			if (revision == -1) {
 
-				outputFileInfo(out, file);
+				if (file.exists() ) {
 
-				out.write("</div>");
-
-			} else {
-				// ë∂ç›ÇµÇ»Ç¢èÍçá
-				out.write("<div class=\"jwiki-action-area\">");
-				writeLinkButton(out,
+					writeLinkButton(out,
 						context.createPathUrlEncoded(context.getPath() ) + "?v=e",
 						context.getString("label.edit") );
-				out.write("</div>");
+					out.write("<span class=\"jwiki-spacer\">|</span>");
+					writeLinkButton(out,
+						context.createPathUrlEncoded(context.getPath() ) + "?v=h",
+						context.getString("label.history") );
+
+					writeFileInfo(out, file);
+
+				} else {
+					// ë∂ç›ÇµÇ»Ç¢èÍçá
+					writeLinkButton(out,
+							context.createPathUrlEncoded(context.getPath() ) + "?v=e",
+							context.getString("label.edit") );
+				}
+
+			} else {
+				// óöó
+				writeLinkButton(out,
+					context.createPathUrlEncoded(context.getPath() ) + "?v=h",
+					context.getString("label.back") );
+				writeFileInfo(out, file);
 			}
-
-		} else {
-			// óöó
-			out.write("<div class=\"jwiki-action-area\">");
-			writeLinkButton(out,
-				context.createPathUrlEncoded(context.getPath() ) + "?v=h",
-				context.getString("label.back") );
-			outputFileInfo(out, file);
-			out.write("</div>");
 		}
-
-		context.render(out, dataToString(content.getData() ) );
+		public void writeWikiPage(Writer out) throws Exception {
+			final long revision = getRevision();
+			final IContent content = context.get(context.getPath(), revision);
+			context.render(out, dataToString(content.getData() ) );
+		}
 	}
 	
-	private void writeHistoryView(Writer out) throws Exception {
-
-		out.write("<div class=\"jwiki-action-area\">");
-		writeLinkButton(out,
-			context.createPathUrlEncoded(context.getPath() ),
-			context.getString("label.back") );
-		out.write("</div>");
-
-		context.render(out, "[[history]]");
+	private class HistoryPage extends Delegate {
+		public void writeControls(Writer out) throws Exception {
+			writeLinkButton(out,
+					context.createPathUrlEncoded(context.getPath() ),
+					context.getString("label.back") );
+		}
+		public void writeWikiPage(Writer out) throws Exception {
+			context.render(out, "[[history]]");
+		}
 	}
 
-	private void writeDiffView(Writer out) throws Exception {
+	private class DiffPage extends Delegate {
+		public void writeControls(Writer out) throws Exception {
+			writeLinkButton(out,
+					context.createPathUrlEncoded(context.getPath() ) + "?v=h",
+					context.getString("label.back") );
+		}
+		public void writeWikiPage(Writer out) throws Exception {
+			long lRev = Long.valueOf(Util.coalesce(request.getParameter("lRev"), "-1") );
+			long rRev = Long.valueOf(Util.coalesce(request.getParameter("rRev"), "-1") );
+			String lText = dataToString(context.get(context.getPath(), lRev).getData() );
+			String rText = dataToString(context.get(context.getPath(), rRev).getData() );
+			context.getRequestScope().put("lText", lText);
+			context.getRequestScope().put("rText", rText);
+			String text = String.format("[[diff(%s,%s,%s,%s)]]",
+				"r" + lRev, "lText",
+				"r" + rRev, "rText");
+			context.render(out, text);
+		}
+	}
 
-		long lRev = Long.valueOf(Util.coalesce(request.getParameter("lRev"), "-1") );
-		long rRev = Long.valueOf(Util.coalesce(request.getParameter("rRev"), "-1") );
-		String lText = dataToString(context.get(context.getPath(), lRev).getData() );
-		String rText = dataToString(context.get(context.getPath(), rRev).getData() );
-		context.getRequestScope().put("lText", lText);
-		context.getRequestScope().put("rText", rText);
-
-		out.write("<div class=\"jwiki-action-area\">");
-		writeLinkButton(out,
-			context.createPathUrlEncoded(context.getPath() ) + "?v=h",
-			context.getString("label.back") );
-		out.write("</div>");
-		
-		String text = String.format("[[diff(%s,%s,%s,%s)]]",
-			"r" + lRev, "lText",
-			"r" + rRev, "rText");
-
-		context.render(out, text);
+	private abstract class Delegate implements IWikiPage {
+		public String getPath() {
+			throw new RuntimeException("not implemented.");
+		}
+		public void render(Writer out, String plainText) throws Exception {
+			throw new RuntimeException("not implemented.");
+		}
 	}
 }

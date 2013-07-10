@@ -8,6 +8,7 @@ import java.io.Writer;
  */
 public interface IWikiPage {
 	String getPath();
-	void writeWikiPage(Writer out) throws Exception;
 	void render(Writer out, String plainText) throws Exception;
+	void writeControls(Writer out) throws Exception;
+	void writeWikiPage(Writer out) throws Exception;
 }
