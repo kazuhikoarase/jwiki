@@ -22,7 +22,7 @@ public class DirectoryViewAction extends WikiAction {
 			context.createPathUrlEncoded(indexPath) + "?v=e",
 			context.getString("label.edit") );
 		
-		out.write("|");
+		out.write("<span class=\"jwiki-spacer\">|</span>");
 		
 		writeLinkButton(out,
 			context.createPathUrlEncoded(
