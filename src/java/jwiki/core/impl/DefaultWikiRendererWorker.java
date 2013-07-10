@@ -9,6 +9,10 @@ import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IWikilet;
 import jwiki.core.WikiUtil;
 
+/**
+ * DefaultWikiRendererWorker
+ * @author kazuhiko arase
+ */
 public class DefaultWikiRendererWorker
 implements IWikiRendererWorker {
 	

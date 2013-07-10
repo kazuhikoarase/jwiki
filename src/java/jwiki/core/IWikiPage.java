@@ -2,7 +2,6 @@ package jwiki.core;
 
 import java.io.Writer;
 
-
 /**
  * IWikiPage
  * @author kazuhiko arase

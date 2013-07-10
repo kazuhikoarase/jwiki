@@ -5,6 +5,10 @@ import java.io.Writer;
 import jwiki.core.PathUtil;
 import jwiki.fs.IContent;
 
+/**
+ * DirectoryViewAction
+ * @author kazuhiko arase
+ */
 public class DirectoryViewAction extends WikiAction {
 
 	public void writeWikiPage(Writer out) throws Exception {

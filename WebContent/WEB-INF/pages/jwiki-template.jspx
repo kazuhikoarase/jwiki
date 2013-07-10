@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0"
-    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:jwiki="urn:jwiki">
 
   <jsp:directive.page contentType="text/html;charset=UTF-8" />
-
-  <jsp:scriptlet><![CDATA[
-	jwiki.core.IWikiPage wikiPage =
-		(jwiki.core.IWikiPage)request.getAttribute(
-		jwiki.core.Constants.JWIKI_PAGE);
-  ]]></jsp:scriptlet>
 
   <![CDATA[<!doctype html>]]>
   <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19,12 +14,12 @@
 	  <title><c:out value="${jwikiPage.path}"/></title>
 	</head>
 	<body>
+
+
 	
 	  <div>
 		<div style="float:left;">
-		  <jsp:scriptlet><![CDATA[
-			wikiPage.render(out, "[[navigator]]");
-		  ]]></jsp:scriptlet>
+		  <jwiki:render>[[navigator]]</jwiki:render>
 		</div>
 		<div style="float:right;">
 		  <c:out value="${jwikiUser.username}"/>
@@ -32,10 +27,8 @@
 		<div style="clear:both;"><jsp:text></jsp:text></div>
 	  </div>
 
-	  <jsp:scriptlet><![CDATA[
-		wikiPage.writeWikiPage(out);
-	  ]]></jsp:scriptlet>
-		
+	  <jwiki:page />
+	  
     </body>
   </html>
 

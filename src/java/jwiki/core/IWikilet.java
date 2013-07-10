@@ -3,7 +3,6 @@ package jwiki.core;
 import java.io.Writer;
 import java.util.List;
 
-
 /**
  * IWikilet
  * @author kazuhiko arase

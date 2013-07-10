@@ -2,6 +2,10 @@ package jwiki.core.i18n;
 
 import java.util.ListResourceBundle;
 
+/**
+ * WikiResource_ja
+ * @author kazuhiko arase
+ */
 public class WikiResource_ja extends ListResourceBundle {
 	@Override
 	protected Object[][] getContents() {

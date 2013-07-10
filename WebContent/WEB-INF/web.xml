@@ -27,5 +27,12 @@
 	   <servlet-name>jwiki</servlet-name>
 	   <url-pattern>/wiki/*</url-pattern>
 	</servlet-mapping>
+	
+	<jsp-config>
+		<taglib>
+			<taglib-uri>urn:jwiki</taglib-uri>
+			<taglib-location>/WEB-INF/jwiki.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 
 </web-app>

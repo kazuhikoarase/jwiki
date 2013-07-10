@@ -1,5 +1,9 @@
 package jwiki.core;
 
+/**
+ * Constants
+ * @author kazuhiko arase
+ */
 public interface Constants {
 	String JWIKI_USER = "jwikiUser";
 	String JWIKI_PAGE = "jwikiPage";

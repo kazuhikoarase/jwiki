@@ -13,6 +13,10 @@ import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IWikilet;
 import jwiki.core.Util;
 
+/**
+ * WikiRenderer
+ * @author kazuhiko arase
+ */
 public class WikiRenderer {
 
 	private IWikilet lastWikilet = null;

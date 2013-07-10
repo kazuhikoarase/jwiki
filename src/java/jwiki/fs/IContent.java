@@ -2,7 +2,6 @@ package jwiki.fs;
 
 import java.util.Map;
 
-
 /**
  * IContent
  * @author kazuhiko arase

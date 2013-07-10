@@ -6,6 +6,10 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * WikiUtil
+ * @author kazuhiko arase
+ */
 public class WikiUtil {
 
 	private WikiUtil() {

@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Util
+ * @author kazuhiko arase
+ */
 public class Util {
 	
 	private Util() {
