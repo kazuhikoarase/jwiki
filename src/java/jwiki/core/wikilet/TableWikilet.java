@@ -37,7 +37,7 @@ public class TableWikilet implements IWikilet {
 		for (List<String> row : table) {
 			maxCols = Math.max(maxCols, row.size() );
 		}
-		out.write("<table class=\"solid\">");
+		out.write("<table class=\"jwiki-solid\">");
 		for (List<String> row : table) {
 			out.write("<tr>");
 			for (int i = 0; i < maxCols; i += 1) {

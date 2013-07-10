@@ -198,7 +198,7 @@ public class FileEditAction extends WikiAction {
 		String lockOwner = (String)context.getRequestScope().get("locked");
 		if (lockOwner != null) {
 			// ÉçÉbÉNÇ≥ÇÍÇƒÇ¢ÇÈ
-			out.write("<div class=\"error-message\">");
+			out.write("<div class=\"jwiki-error-message\">");
 			WikiUtil.writeEscaped(out, lockOwner);
 			out.write(' ');
 			WikiUtil.writeEscaped(out, context.getString("message.locked") );
@@ -223,7 +223,7 @@ public class FileEditAction extends WikiAction {
 		String errorMessage = 
 			(String)context.getRequestScope().get("errorMessage");
 		if (errorMessage != null) {
-			out.write("<div class=\"error-message\">");
+			out.write("<div class=\"jwiki-error-message\">");
 			WikiUtil.writeEscaped(out, errorMessage);
 			out.write("</div>");
 		}
@@ -237,7 +237,7 @@ public class FileEditAction extends WikiAction {
 		out.write("<br/>");
 
 		out.write("<textarea name=\"data\"");
-		out.write(" class=\"code\"");
+		out.write(" class=\"jwiki-code\"");
 		out.write(" style=\"width:720px;height:200px;\">");
 
 		WikiUtil.writeEscaped(out, data);

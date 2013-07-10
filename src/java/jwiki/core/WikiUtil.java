@@ -105,15 +105,15 @@ public class WikiUtil {
 				out.write("</span>");
 			} else if (startsWith(s, index, BOLD) ) {
 				stack.push(BOLD);
-				out.write("<span class=\"bold\">");
+				out.write("<span class=\"jwiki-bold\">");
 				index += BOLD.length();
 			} else if (startsWith(s, index, STRIKE) ) {
 				stack.push(STRIKE);
-				out.write("<span class=\"strike\">");
+				out.write("<span class=\"jwiki-strike\">");
 				index += STRIKE.length();
 			} else if (startsWith(s, index, UNDERLINE) ) {
 				stack.push(UNDERLINE);
-				out.write("<span class=\"underline\">");
+				out.write("<span class=\"jwiki-underline\">");
 				index += UNDERLINE.length();
 			} else if (s.charAt(index) == '[') {
 				int start = index + 1;

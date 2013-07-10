@@ -28,7 +28,7 @@ public class CodeWikilet implements IWikilet {
 		Writer out
 	) throws Exception {
 
-		out.write("<p class=\"code-block code\">");
+		out.write("<p class=\"jwiki-code-block jwiki-code\">");
 		for (int i = 1; i < groupList.size(); i += 1) {
 			ILine<String[]> group = groupList.get(i);
 			if (group.get()[0].matches(endPattern() ) ) {

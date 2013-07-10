@@ -139,22 +139,22 @@ public class DiffWikilet extends SimpleWikilet {
 		List<String[]> list = diff(dc.getLText(), dc.getRText() );
 
 		out.write("<tr>");
-		out.write("<td class=\"line-no\">");
+		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getLIndex() + 1) );
 		out.write("</td>");
-		out.write("<td class=\"line-no\">");
+		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getRIndex() + 1) );
 		out.write("</td>");
-		out.write("<td class=\"code rdiv\">");
+		out.write("<td class=\"jwiki-code diff-rdiv\">");
 		for (String[] item : list) {
 			if (item[0].length() == 0) {
-				out.write("<span class=\"code diff-right-only");
+				out.write("<span class=\"jwiki-code diff-right-only");
 				out.write(getClassSuffix(dc.getIndex() ) );
 				out.write("\">");
 				WikiUtil.writeEscaped(out, item[1], true);
 				out.write("</span>");
 			} else if (item[1].length() == 0) {
-				out.write("<span class=\"code diff-left-only");
+				out.write("<span class=\"jwiki-code diff-left-only");
 				out.write(getClassSuffix(dc.getIndex() ) );
 				out.write("\">");
 				WikiUtil.writeEscaped(out, item[0], true);
@@ -170,11 +170,11 @@ public class DiffWikilet extends SimpleWikilet {
 
 	private void outputLeftOnlyRow(Writer out, DiffContext dc) throws Exception {
 		out.write("<tr>");
-		out.write("<td class=\"line-no\">");
+		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getLIndex() + 1) );
 		out.write("</td>");
-		out.write("<td class=\"line-no\"></td>");
-		out.write("<td class=\"code rdiv diff-left-only");
+		out.write("<td class=\"diff-line-no\"></td>");
+		out.write("<td class=\"jwiki-code diff-rdiv diff-left-only");
 		out.write(getClassSuffix(dc.getIndex() ) );
 		out.write("\">");
 		WikiUtil.writeEscaped(out, dc.getLText(), true);
@@ -185,11 +185,11 @@ public class DiffWikilet extends SimpleWikilet {
 
 	private void outputRightOnlyRow(Writer out, DiffContext dc) throws Exception {
 		out.write("<tr>");
-		out.write("<td class=\"line-no\"></td>");
-		out.write("<td class=\"line-no\">");
+		out.write("<td class=\"diff-line-no\"></td>");
+		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getRIndex() + 1) );
 		out.write("</td>");
-		out.write("<td class=\"code rdiv diff-right-only");
+		out.write("<td class=\"jwiki-code diff-rdiv diff-right-only");
 		out.write(getClassSuffix(dc.getIndex() ) );
 		out.write("\">");
 		WikiUtil.writeEscaped(out, dc.getRText(), true);
@@ -203,13 +203,13 @@ public class DiffWikilet extends SimpleWikilet {
 		out.write("<tr class=\"src");
 		out.write(getClassSuffix(dc.getIndex() ) );
 		out.write("\">");
-		out.write("<td class=\"line-no\">");
+		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getLIndex() + 1) );
 		out.write("</td>");
-		out.write("<td class=\"line-no\">");
+		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getRIndex() + 1) );
 		out.write("</td>");
-		out.write("<td class=\"code rdiv\">");
+		out.write("<td class=\"jwiki-code diff-rdiv\">");
 		WikiUtil.writeEscaped(out, dc.getLText(), true);
 		out.write("</td>");
 		out.write("</tr>");

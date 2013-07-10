@@ -30,7 +30,7 @@ public class IndexWikilet extends SimpleWikilet {
 			context.getPath() :
 			PathUtil.getParent(context.getPath() );
 		
-		out.write("<table class=\"index\">");
+		out.write("<table class=\"jwiki-index\">");
 		
 		out.write("<tr>");
 		out.write("<th></th>");

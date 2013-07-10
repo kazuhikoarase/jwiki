@@ -36,7 +36,7 @@ public class HistoryWikilet extends SimpleWikilet {
 		out.write(id);
 		out.write("\">");
 		
-		out.write("<table class=\"index\">");
+		out.write("<table class=\"jwiki-index\">");
 		
 		out.write("<tr>");
 		

@@ -50,11 +50,11 @@ public class NavigatorWikilet extends SimpleWikilet {
 					context.getString("label.top") );
 
 			if (i == pathList.size() - 1) {
-				out.write("<span class=\"button current\">");
+				out.write("<span class=\"jwiki-button jwiki-current\">");
 				WikiUtil.writeEscaped(out, label);
 				out.write("</span>");
 			} else {
-				out.write("<span class=\"button\">");
+				out.write("<span class=\"jwiki-button\">");
 				out.write("<a href=\"");
 				out.write(context.createPathUrlEncoded(dir) );
 				out.write("\">");
