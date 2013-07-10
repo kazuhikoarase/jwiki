@@ -41,7 +41,7 @@ public class NavigatorWikilet extends SimpleWikilet {
 		for (int i = 0; i < pathList.size(); i += 1) {
 			
 			if (i > 0) {
-				out.write("/");
+				out.write("<span class=\"jwiki-spacer\">/</span>");
 			}
 
 			String dir = pathList.get(i);
@@ -50,17 +50,15 @@ public class NavigatorWikilet extends SimpleWikilet {
 					context.getString("label.top") );
 
 			if (i == pathList.size() - 1) {
-				out.write("<span class=\"jwiki-button jwiki-current\">");
+				out.write("<span class=\"jwiki-current\">");
 				WikiUtil.writeEscaped(out, label);
 				out.write("</span>");
 			} else {
-				out.write("<span class=\"jwiki-button\">");
 				out.write("<a href=\"");
 				out.write(context.createPathUrlEncoded(dir) );
 				out.write("\">");
 				WikiUtil.writeEscaped(out, label);
 				out.write("</a>");
-				out.write("</span>");
 			}
 		}
 

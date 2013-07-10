@@ -180,14 +180,14 @@ public class FileEditAction extends WikiAction {
 		IFile file = context.getFile(context.getPath(), -1);
 
 		if (file.exists() ) {
-			out.write("<div class=\"action-area\">");
+			out.write("<div class=\"jwiki-action-area\">");
 			writeLinkButton(out,
 				context.createPathUrlEncoded(context.getPath() ),
 				context.getString("label.back") );
 			out.write("</div>");
 		} else {
 			// 存在しない場合、親ディレクトリ
-			out.write("<div class=\"action-area\">");
+			out.write("<div class=\"jwiki-action-area\">");
 			writeLinkButton(out,
 				context.createPathUrlEncoded(
 				PathUtil.getParent(context.getPath() ) ),

@@ -24,7 +24,8 @@ H6 { font-size: 8pt;  padding: 0px; margin: 8px 0px 8px 0px; }
 .jwiki-strike { text-decoration: line-through; color: #ff0000; }
 .jwiki-underline { text-decoration: underline; color: #000099; }
 
-.jwiki-button { padding: 0px 4px 0px 4px; }
+.jwiki-spacer { padding: 0px 4px 0px 4px; }
+.jwiki-action-area { margin: 4px 0px 4px 0px; }
 .jwiki-current { background-color: #ffeecc; }
 .jwiki-error-message { color: #ff0000; }
 
@@ -84,4 +85,11 @@ TABLE.diff TH { text-align: left; padding: 0px 0px 0px 8px; }
 	border-width: 0px 2px 0px 0px;
 	border-color: #999999;
 }
- 
+
+.jwiki-doc {
+	margin: 4px 2px 4px 8px;
+	padding: 2px;
+	border-width: 1px 1px 1px 4px;
+	border-style: solid;
+	border-color: #666699;
+}

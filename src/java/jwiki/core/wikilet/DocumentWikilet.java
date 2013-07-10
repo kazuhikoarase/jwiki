@@ -29,11 +29,7 @@ public class DocumentWikilet implements IWikilet {
 	) throws Exception {
 
 		String tag = "div";
-		String attrs = " style=\"margin: 4px 2px 4px 8px;" +
-			" padding: 2px;" +
-			" border-width: 1px 1px 1px 4px;" +
-			" border-style: solid;" +
-			" border-color: #666699;\"";
+		String attrs = " class=\"jwiki-doc\"";
 
 		IndentContext ic = new IndentContext();
 		int indent = -1;

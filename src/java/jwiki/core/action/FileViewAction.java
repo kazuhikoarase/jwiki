@@ -136,11 +136,11 @@ public class FileViewAction extends WikiAction {
 
 			if (file.exists() ) {
 			
-				out.write("<div class=\"action-area\">");
+				out.write("<div class=\"jwiki-action-area\">");
 				writeLinkButton(out,
 					context.createPathUrlEncoded(context.getPath() ) + "?v=e",
 					context.getString("label.edit") );
-				out.write("|");
+				out.write("<span class=\"jwiki-spacer\">|</span>");
 				writeLinkButton(out,
 					context.createPathUrlEncoded(context.getPath() ) + "?v=h",
 					context.getString("label.history") );
@@ -151,7 +151,7 @@ public class FileViewAction extends WikiAction {
 
 			} else {
 				// ë∂ç›ÇµÇ»Ç¢èÍçá
-				out.write("<div class=\"action-area\">");
+				out.write("<div class=\"jwiki-action-area\">");
 				writeLinkButton(out,
 						context.createPathUrlEncoded(context.getPath() ) + "?v=e",
 						context.getString("label.edit") );
@@ -160,7 +160,7 @@ public class FileViewAction extends WikiAction {
 
 		} else {
 			// óöó
-			out.write("<div class=\"action-area\">");
+			out.write("<div class=\"jwiki-action-area\">");
 			writeLinkButton(out,
 				context.createPathUrlEncoded(context.getPath() ) + "?v=h",
 				context.getString("label.back") );
@@ -173,7 +173,7 @@ public class FileViewAction extends WikiAction {
 	
 	private void writeHistoryView(Writer out) throws Exception {
 
-		out.write("<div class=\"action-area\">");
+		out.write("<div class=\"jwiki-action-area\">");
 		writeLinkButton(out,
 			context.createPathUrlEncoded(context.getPath() ),
 			context.getString("label.back") );
@@ -191,7 +191,7 @@ public class FileViewAction extends WikiAction {
 		context.getRequestScope().put("lText", lText);
 		context.getRequestScope().put("rText", rText);
 
-		out.write("<div class=\"action-area\">");
+		out.write("<div class=\"jwiki-action-area\">");
 		writeLinkButton(out,
 			context.createPathUrlEncoded(context.getPath() ) + "?v=h",
 			context.getString("label.back") );

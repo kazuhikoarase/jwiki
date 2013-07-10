@@ -16,7 +16,7 @@ public class DirectoryViewAction extends WikiAction {
 		// index
 		String indexPath = PathUtil.buildPath(context.getPath(), "index");
 
-		out.write("<div class=\"action-area\">");
+		out.write("<div class=\"jwiki-action-area\">");
 		
 		writeLinkButton(out,
 			context.createPathUrlEncoded(indexPath) + "?v=e",

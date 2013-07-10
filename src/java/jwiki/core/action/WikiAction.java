@@ -76,13 +76,11 @@ extends Action implements IWikiPage {
 
 	protected void writeLinkButton(Writer out, String href, String label) 
 	throws Exception {
-		out.write("<span class=\"jwiki-button\">");
 		out.write("<a href=\"");
 		out.write(href);
 		out.write("\">");
 		WikiUtil.writeEscaped(out, label);
 		out.write("</a>");
-		out.write("</span>");
 	}
 
 	protected void setParameter(String name, String value)
