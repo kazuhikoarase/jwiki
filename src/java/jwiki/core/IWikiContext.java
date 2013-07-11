@@ -21,7 +21,7 @@ public interface IWikiContext {
 	String createPathUrlEncoded(String path);
 	String generateUniqueId();
 	
-	Collection<IWikilet> getWikilets();
+	Collection<IParagraphDecorator> getDecorators();
 	
 	Map<String,Object> getRequestScope();
 	Map<String,Object> getPageScope();

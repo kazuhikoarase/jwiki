@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Writer;
@@ -6,15 +6,15 @@ import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IWikilet;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.PathUtil;
 import jwiki.core.WikiUtil;
 
 /**
- * AttachedFileWikilet
+ * AttachedFileDecorator
  * @author kazuhiko arase
  */
-public class AttachedFileWikilet implements IWikilet {
+public class AttachedFileDecorator implements IParagraphDecorator {
 
 	public String pattern() {
 		return "^\\[\\[attached\\]\\]$";

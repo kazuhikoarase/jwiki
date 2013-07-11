@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 
@@ -10,10 +10,10 @@ import jwiki.core.WikiUtil;
 import jwiki.fs.IFile;
 
 /**
- * HistoryWikilet
+ * HistoryContext
  * @author kazuhiko arase
  */
-public class HistoryWikilet extends SimpleWikilet {
+public class HistoryContext extends SimpleDecorator {
 
 	public String pattern() {
 		return "^\\[\\[history\\]\\]$";

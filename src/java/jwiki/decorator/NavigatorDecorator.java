@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -12,10 +12,10 @@ import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
 /**
- * NavigatorWikilet
+ * NavigatorDecorator
  * @author kazuhiko arase
  */
-public class NavigatorWikilet extends SimpleWikilet {
+public class NavigatorDecorator extends SimpleDecorator {
 
 	public String pattern() {
 		return "^\\[\\[navigator\\]\\]$";

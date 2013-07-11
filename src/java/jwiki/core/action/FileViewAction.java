@@ -8,13 +8,13 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import jwiki.core.ILine;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiPage;
 import jwiki.core.IWikiRendererWorker;
-import jwiki.core.IWikilet;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
-import jwiki.core.wikilet.AttachedFileWikilet;
+import jwiki.decorator.AttachedFileDecorator;
 import jwiki.fs.IContent;
 import jwiki.fs.IFile;
 import jwiki.util.Base64;
@@ -57,9 +57,9 @@ public class FileViewAction extends WikiAction {
 
 		IWikiRendererWorker worker = new IWikiRendererWorker() {
 			public void render(IWikiContext context,
-					IWikilet wikilet, List<ILine<String[]>> groupList) throws Exception {
-				if (wikilet instanceof AttachedFileWikilet) {
-					AttachedFileWikilet attached = (AttachedFileWikilet)wikilet;
+					IParagraphDecorator decorator, List<ILine<String[]>> groupList) throws Exception {
+				if (decorator instanceof AttachedFileDecorator) {
+					AttachedFileDecorator attached = (AttachedFileDecorator)decorator;
 					if (data[0] == null) {
 						data[0] = attached.getContents(context, groupList);
 					}

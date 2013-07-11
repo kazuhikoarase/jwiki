@@ -7,6 +7,6 @@ import java.util.List;
  * @author kazuhiko arase
  */
 public interface IWikiRendererWorker {
-	void render(IWikiContext context, IWikilet wikilet,
+	void render(IWikiContext context, IParagraphDecorator decorators,
 		List<ILine<String[]>> groupList) throws Exception;
 }

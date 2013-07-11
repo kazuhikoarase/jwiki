@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
-import jwiki.core.IWikilet;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.Util;
 
 /**
@@ -19,7 +19,7 @@ import jwiki.core.Util;
  */
 public class WikiRenderer {
 
-	private IWikilet lastWikilet = null;
+	private IParagraphDecorator lastDecorator = null;
 	private List<ILine<String[]>> groupList = null;
 
 	public WikiRenderer() {
@@ -52,9 +52,9 @@ public class WikiRenderer {
 		IWikiContext context,
 		IWikiRendererWorker worker
 	) throws Exception {
-		if (lastWikilet != null) {
-			worker.render(context, lastWikilet, groupList);
-			lastWikilet = null;
+		if (lastDecorator != null) {
+			worker.render(context, lastDecorator, groupList);
+			lastDecorator = null;
 			groupList = null;
 		}
 	}
@@ -69,13 +69,13 @@ public class WikiRenderer {
 			return;
 		}
 
-		for (IWikilet wikilet : context.getWikilets() ) {
-			Pattern pat = Pattern.compile(wikilet.pattern() );
+		for (IParagraphDecorator decorator : context.getDecorators() ) {
+			Pattern pat = Pattern.compile(decorator.pattern() );
 			Matcher mat = pat.matcher(line.get());
 			if (mat.find() ) {
-				if (lastWikilet == null || lastWikilet != wikilet) {
+				if (lastDecorator == null || lastDecorator != decorator) {
 					flush(context, worker);
-					lastWikilet = wikilet;
+					lastDecorator = decorator;
 					groupList = new ArrayList<ILine<String[]>>();
 				}
 				groupList.add(new Line<String[]>(
@@ -85,7 +85,7 @@ public class WikiRenderer {
 		}
 		
 		// ありえない条件
-		throw new IllegalStateException("no wikilet matches.");
+		throw new IllegalStateException("no decorator matches.");
 	}
 	
 	private boolean endPatternFound(
@@ -94,11 +94,11 @@ public class WikiRenderer {
 		ILine<String> line
 	) throws Exception {
 
-		if (lastWikilet == null) {
+		if (lastDecorator == null) {
 			return false;
 		}
 		
-		String endPattern = lastWikilet.endPattern(groupList.get(0) );
+		String endPattern = lastDecorator.endPattern(groupList.get(0) );
 		if (endPattern == null) {
 			return false;
 		}

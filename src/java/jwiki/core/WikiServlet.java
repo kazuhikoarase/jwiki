@@ -18,19 +18,19 @@ import jwiki.core.action.FileEditAction;
 import jwiki.core.action.FileViewAction;
 import jwiki.core.i18n.WikiResource;
 import jwiki.core.impl.WikiContext;
-import jwiki.core.wikilet.AttachedFileWikilet;
-import jwiki.core.wikilet.BlankWikilet;
-import jwiki.core.wikilet.CodeWikilet;
-import jwiki.core.wikilet.DefaultWikilet;
-import jwiki.core.wikilet.DiffWikilet;
-import jwiki.core.wikilet.DocumentWikilet;
-import jwiki.core.wikilet.HeaderWikilet;
-import jwiki.core.wikilet.HistoryWikilet;
-import jwiki.core.wikilet.HrWikilet;
-import jwiki.core.wikilet.IndexWikilet;
-import jwiki.core.wikilet.ListWikilet;
-import jwiki.core.wikilet.NavigatorWikilet;
-import jwiki.core.wikilet.TableWikilet;
+import jwiki.decorator.AttachedFileDecorator;
+import jwiki.decorator.BlankDecorator;
+import jwiki.decorator.CodeBlockDecorator;
+import jwiki.decorator.DefaultDecorator;
+import jwiki.decorator.DiffDecorator;
+import jwiki.decorator.DocumentDecorator;
+import jwiki.decorator.HeaderDecorator;
+import jwiki.decorator.HistoryContext;
+import jwiki.decorator.HrDecorator;
+import jwiki.decorator.IndexDecorator;
+import jwiki.decorator.ListDecorator;
+import jwiki.decorator.NavigatorDecorator;
+import jwiki.decorator.TableDecorator;
 import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
 import jwiki.fs.IUserInfo;
@@ -85,8 +85,8 @@ public class WikiServlet extends HttpServlet {
 	 * 文法を拡張するためには、このメソッドをオーバーライドします。
 	 * @return
 	 */
-	protected Collection<IWikilet> getWikilets() {
-		return DEFAULT_WIKILETS;
+	protected Collection<IParagraphDecorator> getDecorators() {
+		return DEFAULT_DECORATORS;
 	}
 	
 	protected IFileSystem createFileSystem(HttpServletRequest request)
@@ -180,7 +180,7 @@ public class WikiServlet extends HttpServlet {
 		}
 
 		WikiContext context = new WikiContext();
-		context.setWikilets(getWikilets() );
+		context.setDecorators(getDecorators() );
 		context.setFs(createFileSystem(request) );
 		context.setPathPrefix(getPathPrefix(request) );
 		context.setPath(getPath(request) );
@@ -195,25 +195,25 @@ public class WikiServlet extends HttpServlet {
 		action.execute();
 	}
 	
-	private static Collection<IWikilet> createWikilets() {
-		List<IWikilet> wikilets = new ArrayList<IWikilet>();
-		wikilets.add(new HeaderWikilet() );
-		wikilets.add(new IndexWikilet() );
-		wikilets.add(new NavigatorWikilet() );
-		wikilets.add(new HistoryWikilet() );
-		wikilets.add(new DiffWikilet() );
-		wikilets.add(new TableWikilet() );
-		wikilets.add(new DocumentWikilet() );
-		wikilets.add(new ListWikilet() );
-		wikilets.add(new HrWikilet() );
-		wikilets.add(new CodeWikilet() );
-		wikilets.add(new AttachedFileWikilet() );
+	private static Collection<IParagraphDecorator> createDecorators() {
+		List<IParagraphDecorator> decorators = new ArrayList<IParagraphDecorator>();
+		decorators.add(new HeaderDecorator() );
+		decorators.add(new IndexDecorator() );
+		decorators.add(new NavigatorDecorator() );
+		decorators.add(new HistoryContext() );
+		decorators.add(new DiffDecorator() );
+		decorators.add(new TableDecorator() );
+		decorators.add(new DocumentDecorator() );
+		decorators.add(new ListDecorator() );
+		decorators.add(new HrDecorator() );
+		decorators.add(new CodeBlockDecorator() );
+		decorators.add(new AttachedFileDecorator() );
 		// 以下の２つは固定
-		wikilets.add(new BlankWikilet() );
-		wikilets.add(new DefaultWikilet() );
-		return wikilets;
+		decorators.add(new BlankDecorator() );
+		decorators.add(new DefaultDecorator() );
+		return decorators;
 	}
 
-	private static final Collection<IWikilet> DEFAULT_WIKILETS =
-		createWikilets();
+	private static final Collection<IParagraphDecorator> DEFAULT_DECORATORS =
+		createDecorators();
 }

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
-import jwiki.core.IWikilet;
+import jwiki.core.IParagraphDecorator;
 import jwiki.fs.IContent;
 import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
@@ -25,7 +25,7 @@ public class WikiContext implements IWikiContext {
 
 	private int idCount = 0;
 
-	private Collection<IWikilet> wikilets = null;
+	private Collection<IParagraphDecorator> decorators = null;
 	private String pathPrefix = "";
 	private String path = "";
 	private ResourceBundle resource;
@@ -41,12 +41,12 @@ public class WikiContext implements IWikiContext {
 	public WikiContext() {
 	}
 
-	public Collection<IWikilet> getWikilets() {
-		return wikilets;
+	public Collection<IParagraphDecorator> getDecorators() {
+		return decorators;
 	}
 
-	public void setWikilets(Collection<IWikilet> wikilets) {
-		this.wikilets = wikilets;
+	public void setDecorators(Collection<IParagraphDecorator> decorators) {
+		this.decorators = decorators;
 	}
 
 	public Map<String, Object> getPageScope() {

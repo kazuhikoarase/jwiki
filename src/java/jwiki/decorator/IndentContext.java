@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.Stack;

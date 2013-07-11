@@ -1,21 +1,20 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IWikilet;
-import jwiki.core.WikiUtil;
+import jwiki.core.IParagraphDecorator;
 
 /**
- * DefaultWikilet
+ * BlankDecorator
  * @author kazuhiko arase
  */
-public class DefaultWikilet implements IWikilet {
+public class BlankDecorator implements IParagraphDecorator {
 
 	public String pattern() {
-		return "^(.+)$";
+		return "^$";
 	}
 	
 	public String endPattern(ILine<String[]> startGroup) {
@@ -27,15 +26,5 @@ public class DefaultWikilet implements IWikilet {
 		List<ILine<String[]>> groupList,
 		Writer out
 	) throws Exception {
-
-		out.write("<p>");
-
-		for (ILine<String[]> group : groupList) {
-			WikiUtil.writeStyled(out, context, group.get()[1]);
-			out.write("<br/>");
-		}
-		
-		out.write("</p>");
 	}
 }
-

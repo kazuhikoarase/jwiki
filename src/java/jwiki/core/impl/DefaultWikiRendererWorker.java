@@ -6,7 +6,7 @@ import java.util.List;
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
-import jwiki.core.IWikilet;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.WikiUtil;
 
 /**
@@ -24,12 +24,12 @@ implements IWikiRendererWorker {
 
 	public void render(
 		IWikiContext context,
-		IWikilet wikilet,
+		IParagraphDecorator decorator,
 		List<ILine<String[]>> groupList
 	) throws Exception {
 		
 		try {
-			wikilet.render(context, groupList, out);
+			decorator.render(context, groupList, out);
 		} catch(Exception e) {
 
 			e.printStackTrace();

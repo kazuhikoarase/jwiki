@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 
@@ -6,10 +6,10 @@ import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 
 /**
- * HrWikilet
+ * HrDecorator
  * @author kazuhiko arase
  */
-public class HrWikilet extends SimpleWikilet {
+public class HrDecorator extends SimpleDecorator {
 
 	public String pattern() {
 		return "^\\-{2,}$";

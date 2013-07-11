@@ -4,10 +4,10 @@ import java.io.Writer;
 import java.util.List;
 
 /**
- * IWikilet
+ * IParagraphDecorator
  * @author kazuhiko arase
  */
-public interface IWikilet {
+public interface IParagraphDecorator {
 
 	/**
 	 * @return グループ化のパターン。

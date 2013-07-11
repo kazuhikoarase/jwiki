@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -16,10 +16,10 @@ import jwiki.util.diff.IPathTracer;
 import jwiki.util.diff.ListDiffComparable;
 
 /**
- * DiffWikilet
+ * DiffDecorator
  * @author kazuhiko arase
  */
-public class DiffWikilet extends SimpleWikilet {
+public class DiffDecorator extends SimpleDecorator {
 
 	public String pattern() {
 		return "^\\[\\[diff\\((.+),(.+),(.+),(.+)\\)\\]\\]$";

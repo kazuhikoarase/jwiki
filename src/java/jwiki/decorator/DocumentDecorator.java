@@ -1,18 +1,18 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IWikilet;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.Util;
 
 /**
- * DocumentWikilet
+ * DocumentDecorator
  * @author kazuhiko arase
  */
-public class DocumentWikilet implements IWikilet {
+public class DocumentDecorator implements IParagraphDecorator {
 
 	public String pattern() {
 		return "^\\s*(\\|+)\\s*([0-9\\-]*\\))?(.*)$";

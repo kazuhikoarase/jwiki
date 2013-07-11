@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 
@@ -7,10 +7,10 @@ import jwiki.core.IWikiContext;
 import jwiki.core.WikiUtil;
 
 /**
- * HeaderWikilet
+ * HeaderDecorator
  * @author kazuhiko arase
  */
-public class HeaderWikilet extends SimpleWikilet {
+public class HeaderDecorator extends SimpleDecorator {
 	
 	public String pattern() {
 		return "^(#{1,6})(.+)$";

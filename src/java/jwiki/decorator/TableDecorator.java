@@ -1,4 +1,4 @@
-package jwiki.core.wikilet;
+package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.ArrayList;
@@ -8,15 +8,15 @@ import java.util.regex.Pattern;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IWikilet;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
 /**
- * TableWikilet
+ * TableDecorator
  * @author kazuhiko arase
  */
-public class TableWikilet implements IWikilet {
+public class TableDecorator implements IParagraphDecorator {
 
 	public String pattern() {
 		return "^\\s*\\|\\|(.+)\\|\\|$";
