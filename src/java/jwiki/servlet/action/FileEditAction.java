@@ -1,7 +1,5 @@
 package jwiki.servlet.action;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.io.Writer;
 import java.util.List;
 
@@ -115,14 +113,14 @@ public class FileEditAction extends WikiAction {
 		}
 
 		setParameter("pageName", fi.getName() );
-		setParameter("data", trimData(buf.toString() ) );
+		setParameter("data", normalizeData(buf.toString() ) );
 	}
 
 	private boolean save() throws Exception {
 
 		String pageName = Util.trim(getParameter("pageName") );
 		String revision = getParameter("revision");
-		String data = trimData(getParameter("data") );
+		String data = normalizeData(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 		
 		String parent = PathUtil.getParent(context.getPath() );
@@ -193,7 +191,7 @@ public class FileEditAction extends WikiAction {
 
 		String pageName = Util.trim(getParameter("pageName") );
 		String revision = getParameter("revision");
-		String data = trimData(getParameter("data") );
+		String data = normalizeData(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 
 		String lockOwner = (String)context.getRequestScope().get("locked");
@@ -300,21 +298,5 @@ public class FileEditAction extends WikiAction {
 		out.write(method);
 		out.write("';return true;\" />");
 		
-	}
-	
-	private String trimData(String data) throws Exception {
-		BufferedReader in = new BufferedReader(
-				new StringReader(Util.rtrim(data) ) );
-		try {
-			StringBuilder buf = new StringBuilder();
-			String line;
-			while ( (line = in.readLine() ) != null) {
-				buf.append(Util.rtrim(line) );
-				buf.append('\n');
-			}
-			return buf.toString();
-		} finally {
-			in.close();
-		}
 	}
 }

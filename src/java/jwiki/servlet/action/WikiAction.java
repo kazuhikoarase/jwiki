@@ -1,5 +1,7 @@
 package jwiki.servlet.action;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
@@ -116,11 +118,26 @@ extends Action implements IWikiPage {
 	}
 	
 	protected String dataToString(byte[] data) throws Exception {
-		return new String(data, DATA_ENCODING);
+		return normalizeData(new String(data, DATA_ENCODING) );
 	}
 	
 	protected byte[] stringToData(String s) throws Exception {
-		return s.getBytes(DATA_ENCODING);
+		return normalizeData(s).getBytes(DATA_ENCODING);
 	}
-
+	
+	protected String normalizeData(String data) throws Exception {
+		BufferedReader in = new BufferedReader(
+				new StringReader(Util.rtrim(data) ) );
+		try {
+			StringBuilder buf = new StringBuilder();
+			String line;
+			while ( (line = in.readLine() ) != null) {
+				buf.append(Util.rtrim(line) );
+				buf.append('\n');
+			}
+			return buf.toString();
+		} finally {
+			in.close();
+		}
+	}
 }
