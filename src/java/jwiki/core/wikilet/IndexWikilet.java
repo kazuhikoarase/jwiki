@@ -25,7 +25,7 @@ public class IndexWikilet extends SimpleWikilet {
 		Writer out
 	) throws Exception {
 
-		// ƒfƒBƒŒƒNƒgƒŠ‚Ìê‡’¼ÚA‚»‚êˆÈŠO‚Ìê‡AeƒfƒBƒŒƒNƒgƒŠB
+		// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å ´åˆç›´æ¥ã€ãã‚Œä»¥å¤–ã®å ´åˆã€è¦ªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã€‚
 		String dir = context.getFile(context.getPath(), -1).isDirectory()?
 			context.getPath() :
 			PathUtil.getParent(context.getPath() );

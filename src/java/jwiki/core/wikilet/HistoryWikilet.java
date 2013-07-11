@@ -26,7 +26,7 @@ public class HistoryWikilet extends SimpleWikilet {
 	) throws Exception {
 		
 		if (context.getFile(context.getPath(), -1).isDirectory() ) {
-			// ƒfƒBƒŒƒNƒgƒŠ‚Ì—š—ğ‚Í”ñ‘Î‰
+			// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å±¥æ­´ã¯éå¯¾å¿œ
 			return;
 		}
 

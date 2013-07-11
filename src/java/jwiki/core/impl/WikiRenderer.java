@@ -96,7 +96,7 @@ public class WikiRenderer {
 			}
 		}
 		
-		// ‚ ‚è‚¦‚È‚¢ğŒ
+		// ã‚ã‚Šãˆãªã„æ¡ä»¶
 		throw new IllegalStateException("no wikilet matches.");
 	}
 	

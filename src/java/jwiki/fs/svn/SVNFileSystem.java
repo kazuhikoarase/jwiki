@@ -71,7 +71,7 @@ public class SVNFileSystem implements IFileSystem {
 			oldContent = get(repo, path, revision);
 
 			if (Arrays.equals(oldContent.getData(), data) ) {
-				// ‘Šˆá‚ª–³‚¢
+				// ç›¸é•ãŒç„¡ã„
 				return;
 			}
 		}

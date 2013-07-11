@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project basedir="../" default="dist">
+
 	<property name="src" location="src"/>
 	<property name="build" location="build"/>
 	<property name="dist" location="dist"/>
 	<property name="WebContent" location="WebContent"/>
+
 	<target name="dist">
+	
 		<mkdir dir="${dist}"/>
+		
 		<jar destfile="${dist}/jwiki.jar">
 			<zipfileset dir="${build}/java">
 				<include name="**/*"/>
@@ -13,5 +17,17 @@
 				<exclude name="**/*Test*"/>
 			</zipfileset>
 		</jar>
+		
+		<war destfile="${dist}/jwiki.war" webxml="${WebContent}/WEB-INF/web.xml">
+			<zipfileset dir="${WebContent}">
+				<include name="**/*" />
+				<exclude name="WEB-INF/web.xml" />
+			</zipfileset>
+			<zipfileset dir="${dist}" prefix="WEB-INF/lib">
+				<include name="jwiki.jar" />
+			</zipfileset>
+		</war>
+
 	</target>
+
 </project>

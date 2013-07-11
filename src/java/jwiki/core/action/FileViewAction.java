@@ -74,11 +74,11 @@ public class FileViewAction extends WikiAction {
 			return;
 		}
 
-        // ƒLƒƒƒbƒVƒ…‚ğ—LŒø‰»‚·‚éB
+        // ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’æœ‰åŠ¹åŒ–ã™ã‚‹ã€‚
 		response.reset();
         response.setContentType("application/octet-stream");
 
-        // ¦IE‚Ìd—l‚É‚æ‚èA“ú–{Œêƒtƒ@ƒCƒ‹–¼‚Í MS932 ‚ÉŒÅ’è
+        // â€»IEã®ä»•æ§˜ã«ã‚ˆã‚Šã€æ—¥æœ¬èªãƒ•ã‚¡ã‚¤ãƒ«åã¯ MS932 ã«å›ºå®š
         // http://support.microsoft.com/default.aspx?scid=kb;ja;436616
         // ftp://ftp.rfc-editor.org/in-notes/rfc2231.txt
         String filenameEncoded  = new String(
@@ -156,14 +156,14 @@ public class FileViewAction extends WikiAction {
 					writeFileInfo(out, file);
 
 				} else {
-					// ‘¶İ‚µ‚È‚¢ê‡
+					// å­˜åœ¨ã—ãªã„å ´åˆ
 					writeLinkButton(out,
 							context.createPathUrlEncoded(context.getPath() ) + "?v=e",
 							context.getString("label.edit") );
 				}
 
 			} else {
-				// —š—ğ
+				// å±¥æ­´
 				writeLinkButton(out,
 					context.createPathUrlEncoded(context.getPath() ) + "?v=h",
 					context.getString("label.back") );

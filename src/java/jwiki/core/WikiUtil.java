@@ -219,10 +219,10 @@ public class WikiUtil {
 	private static String toCanonicalPath(IWikiContext context, String path)
 	throws Exception {
 		if (path.startsWith("/") ) {
-			// '/' ‚ÅŠJn‚·‚éê‡Aâ‘ÎƒpƒX
+			// '/' ã§é–‹å§‹ã™ã‚‹å ´åˆã€çµ¶å¯¾ãƒ‘ã‚¹
 			return PathUtil.trim(path);
 		} else {
-			// '/' ˆÈŠO‚ÅŠJn‚·‚éê‡A‘Š‘ÎƒpƒX‚Æ‚µ‚Ä‰ğß
+			// '/' ä»¥å¤–ã§é–‹å§‹ã™ã‚‹å ´åˆã€ç›¸å¯¾ãƒ‘ã‚¹ã¨ã—ã¦è§£é‡ˆ
 			return PathUtil.buildPath(
 				PathUtil.getParent(context.getPath() ), path);
 		}

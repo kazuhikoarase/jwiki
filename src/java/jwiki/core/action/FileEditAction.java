@@ -1,5 +1,7 @@
 package jwiki.core.action;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class FileEditAction extends WikiAction {
 		String owner = lock(file, force);
 		if (owner != null) {
 			if (force) {
-				// ‹­§ƒƒbƒN¸”s
+				// å¼·åˆ¶ãƒ­ãƒƒã‚¯å¤±æ•—
 				throw new Exception("fail to force lock");
 			}
 			context.getRequestScope().put("locked", owner);
@@ -69,7 +71,7 @@ public class FileEditAction extends WikiAction {
 
 		String owner = context.getLockOwner(file.getPath() );
 		if (owner != null && !owner.equals(context.getUsername() ) ) {
-			// Š—LÒ‚ªŒ»İ‚Ìƒ†[ƒU‚ÆˆÙ‚È‚é
+			// æ‰€æœ‰è€…ãŒç¾åœ¨ã®ãƒ¦ãƒ¼ã‚¶ã¨ç•°ãªã‚‹
 			if (!force) {
 				return owner;
 			}
@@ -82,14 +84,14 @@ public class FileEditAction extends WikiAction {
 
 		FileItem fi = getFileItem("attached");
 		
-		// data ‚É’Ç‰Á‚µ‚Äã‘‚«
+		// data ã«è¿½åŠ ã—ã¦ä¸Šæ›¸ã
 		final StringBuilder buf = new StringBuilder();
 
 		IWikiRendererWorker worker = new IWikiRendererWorker() {
 			public void render(IWikiContext context,
 					IWikilet wikilet, List<ILine<String[]>> groupList) throws Exception {
 				if (wikilet instanceof AttachedFileWikilet) {
-					// Šù‘¶‚Ì“Y•tƒtƒ@ƒCƒ‹‚ÍÁ‚·B
+					// æ—¢å­˜ã®æ·»ä»˜ãƒ•ã‚¡ã‚¤ãƒ«ã¯æ¶ˆã™ã€‚
 					return;
 				}
 				for (ILine<String[]> group : groupList) {
@@ -113,21 +115,21 @@ public class FileEditAction extends WikiAction {
 		}
 
 		setParameter("pageName", fi.getName() );
-		setParameter("data", buf.toString() );
+		setParameter("data", trimData(buf.toString() ) );
 	}
 
 	private boolean save() throws Exception {
 
 		String pageName = Util.trim(getParameter("pageName") );
 		String revision = getParameter("revision");
-		String data = Util.rtrim(getParameter("data") );
+		String data = trimData(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 		
 		String parent = PathUtil.getParent(context.getPath() );
 		String path = PathUtil.buildPath(parent, pageName);
 
 		if (!PathUtil.isValidPath(pageName) ) {
-			// ƒy[ƒW–¼•s³
+			// ãƒšãƒ¼ã‚¸åä¸æ­£
 			context.getRequestScope().put("errorMessage",
 					context.getString("message.bad_page_name") );
 			return false;
@@ -138,14 +140,14 @@ public class FileEditAction extends WikiAction {
 
 		if (data.length() > 0) {
 
-			// ’Ç‰ÁEXV
+			// è¿½åŠ ãƒ»æ›´æ–°
 			context.put(path,
 				Long.valueOf(revision),
 				stringToData(data),
 				null,
 				message);
 
-			// ƒƒbƒN‰ğœ
+			// ãƒ­ãƒƒã‚¯è§£é™¤
 			context.unlock(path);
 			
 			response.sendRedirect(response.encodeRedirectURL(
@@ -153,10 +155,10 @@ public class FileEditAction extends WikiAction {
 
 		} else {
 
-			// íœ
+			// å‰Šé™¤
 			context.remove(path, message);
 
-			// ƒuƒ‰ƒ“ƒN‚ÌeƒtƒHƒ‹ƒ_‚ğ˜A½‚µ‚ÄÁ‚·B
+			// ãƒ–ãƒ©ãƒ³ã‚¯ã®è¦ªãƒ•ã‚©ãƒ«ãƒ€ã‚’é€£é–ã—ã¦æ¶ˆã™ã€‚
 			while (parent.length() > 0 &&
 					context.listFiles(parent).size() == 0) {
 				context.remove(parent, message);
@@ -179,7 +181,7 @@ public class FileEditAction extends WikiAction {
 				context.createPathUrlEncoded(context.getPath() ),
 				context.getString("label.back") );
 		} else {
-			// ‘¶İ‚µ‚È‚¢ê‡AeƒfƒBƒŒƒNƒgƒŠ
+			// å­˜åœ¨ã—ãªã„å ´åˆã€è¦ªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 			writeLinkButton(out,
 				context.createPathUrlEncoded(
 				PathUtil.getParent(context.getPath() ) ),
@@ -191,12 +193,12 @@ public class FileEditAction extends WikiAction {
 
 		String pageName = Util.trim(getParameter("pageName") );
 		String revision = getParameter("revision");
-		String data = Util.rtrim(getParameter("data") );
+		String data = trimData(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 
 		String lockOwner = (String)context.getRequestScope().get("locked");
 		if (lockOwner != null) {
-			// ƒƒbƒN‚³‚ê‚Ä‚¢‚é
+			// ãƒ­ãƒƒã‚¯ã•ã‚Œã¦ã„ã‚‹
 			out.write("<div class=\"jwiki-error-message\">");
 			WikiUtil.writeEscaped(out, lockOwner);
 			out.write(' ');
@@ -263,7 +265,7 @@ public class FileEditAction extends WikiAction {
 
 		out.write("<br/>");
 		
-		// ƒ{ƒ^ƒ“
+		// ãƒœã‚¿ãƒ³
 		outputSubmitButton(out, context.getString("label.preview"), "p");
 		outputSubmitButton(out, context.getString("label.compare"), "c");
 		outputSubmitButton(out, context.getString("label.save"), "s");
@@ -285,7 +287,7 @@ public class FileEditAction extends WikiAction {
 			context.render(out, text);
 			
 		} else if (!Util.isEmpty(method) ) {
-			// ƒvƒŒƒrƒ…[•\¦
+			// ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼è¡¨ç¤º
 			context.render(out, data);
 		}
 	}
@@ -298,5 +300,21 @@ public class FileEditAction extends WikiAction {
 		out.write(method);
 		out.write("';return true;\" />");
 		
+	}
+	
+	private String trimData(String data) throws Exception {
+		BufferedReader in = new BufferedReader(
+				new StringReader(Util.rtrim(data) ) );
+		try {
+			StringBuilder buf = new StringBuilder();
+			String line;
+			while ( (line = in.readLine() ) != null) {
+				buf.append(Util.rtrim(line) );
+				buf.append('\n');
+			}
+			return buf.toString();
+		} finally {
+			in.close();
+		}
 	}
 }

@@ -3,6 +3,8 @@ package jwiki.core.wikilet;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
@@ -29,6 +31,7 @@ public class TableWikilet implements IWikilet {
 		List<ILine<String[]>> groupList,
 		Writer out
 	) throws Exception {
+		
 		List<List<String>> table = new ArrayList<List<String>>();
 		for (ILine<String[]> group : groupList) {
 			table.add(Util.strictSplit(group.get()[1], "||") );
@@ -37,6 +40,9 @@ public class TableWikilet implements IWikilet {
 		for (List<String> row : table) {
 			maxCols = Math.max(maxCols, row.size() );
 		}
+
+		Pattern spcPattern = Pattern.compile("^(\\s*).+?(\\s*)$");
+		
 		out.write("<table class=\"jwiki-solid\">");
 		for (List<String> row : table) {
 			out.write("<tr>");
@@ -47,14 +53,21 @@ public class TableWikilet implements IWikilet {
 					String tag = header? "th" : "td";
 					out.write("<");
 					out.write(tag);
-					out.write(" style=\"text-align:");
-					if (item.matches("^\\s+.+\\s+$") ) {
-						out.write("center");
-					} else if (item.matches("^\\s+.+$") ) {
-						out.write("right");
-					} else {
-						out.write("left");
+					
+					Matcher mat = spcPattern.matcher(item);
+					if (mat.find() ) {
+						out.write(" style=\"text-align:");
+						int leftSpc = mat.group(1).length();
+						int rightSpc = mat.group(2).length();
+						if (leftSpc < rightSpc) {
+							out.write("left");
+						} else if (leftSpc > rightSpc) {
+							out.write("right");
+						} else {
+							out.write("center");
+						}
 					}
+
 					out.write(";\">");
 					WikiUtil.writeStyled(out, context, item);
 					out.write("</");

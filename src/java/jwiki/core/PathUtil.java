@@ -32,7 +32,7 @@ public class PathUtil {
 	}
 
 	public static String trim(String path) {
-		// ‘OŒã‚ÌƒXƒ‰ƒbƒVƒ…‚ğœ‹A˜A‘±‚·‚éƒXƒ‰ƒbƒVƒ…‚ğ‚Ğ‚Æ‚Â‚ÉB
+		// å‰å¾Œã®ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚’é™¤å»ã€é€£ç¶šã™ã‚‹ã‚¹ãƒ©ãƒƒã‚·ãƒ¥ã‚’ã²ã¨ã¤ã«ã€‚
 		return path.
 			replaceAll("/+", "/").
 			replaceAll("^/+|/+$", "");

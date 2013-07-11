@@ -1,5 +1,8 @@
 package jwiki.core;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,5 +66,25 @@ public class Util {
 	public static String formatDate(Date date) {
 		if (date == null) return "";
 		return new SimpleDateFormat("yyyy/MM/dd HH:mm").format(date);
+	}
+	
+	public static byte[] getResource(String path) throws Exception {
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		try {
+			InputStream in = new BufferedInputStream(
+					Util.class.getResourceAsStream(path) );
+			try {
+				byte[] buf = new byte[4096];
+				int len;
+				while ( (len = in.read(buf) ) != -1) {
+					bout.write(buf, 0, len);
+				}
+			} finally {
+				in.close();
+			}
+		} finally {
+			bout.close();
+		}
+		return bout.toByteArray();
 	}
 }

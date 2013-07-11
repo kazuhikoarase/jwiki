@@ -72,10 +72,22 @@ public class WikiServlet extends HttpServlet {
 		File dir = getLocalRepositoryDir(request);
 	    if (!dir.exists() ) {
 	    	dir.mkdirs();
-		    SVNRepositoryFactory.createLocalRepository(
+	    	SVNURL url = SVNRepositoryFactory.createLocalRepository(
 		    		dir, true, false);
+	    	putDefaultPages(request, url);
 		}
 	    return SVNURL.fromFile(dir);
+	}
+	
+	protected void putDefaultPages(
+		HttpServletRequest request, SVNURL url
+	) throws Exception {
+    	String[] defaultPages = {"index", "syntax", "cat.jpg"};
+    	SVNFileSystem fs = new SVNFileSystem(url);
+    	for (String path : defaultPages) {
+    		byte[] data = Util.getResource("/jwiki/assets/" + path);
+	    	fs.put(getUserInfo(request), path, -1, data, null, "");
+    	}
 	}
 	
 	protected File getLocalRepositoryDir(HttpServletRequest request) throws Exception {
@@ -180,7 +192,7 @@ public class WikiServlet extends HttpServlet {
 		wikilets.add(new HrWikilet() );
 		wikilets.add(new CodeWikilet() );
 		wikilets.add(new AttachedFileWikilet() );
-		// �ȉ��̂Q�͌Œ�
+		// 以下の２つは固定
 		wikilets.add(new BlankWikilet() );
 		wikilets.add(new DefaultWikilet() );
 		return wikilets;
