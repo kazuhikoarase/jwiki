@@ -60,6 +60,35 @@ public class WikiServlet extends HttpServlet {
 		templatePage = config.getInitParameter("template-page");
 	}
 
+	/**
+	 * ローカルリポジトリのディレクトリをカスタマイズするためには、このメソッドをオーバーライドします。
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	protected File getLocalRepositoryDir(HttpServletRequest request) throws Exception {
+		return new File(getServletContext().
+				getRealPath("/WEB-INF/jwiki/svn/repo") );
+	}
+
+	/**
+	 * ユーザー認証をカスタマイズするためには、このメソッドをオーバーライドします。
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	protected IUserInfo getUserInfo(HttpServletRequest request) throws Exception {
+		return (IUserInfo)request.getAttribute(Constants.JWIKI_USER);
+	}
+
+	/**
+	 * 文法を拡張するためには、このメソッドをオーバーライドします。
+	 * @return
+	 */
+	protected Collection<IWikilet> getWikilets() {
+		return DEFAULT_WIKILETS;
+	}
+	
 	protected IFileSystem createFileSystem(HttpServletRequest request)
 	throws Exception {
 		if (!Util.isEmpty(svnUrl) ) {
@@ -68,12 +97,12 @@ public class WikiServlet extends HttpServlet {
 		return new SVNFileSystem(getLocalRepository(request) );
 	}
 	
-	protected SVNURL getLocalRepository(HttpServletRequest request) throws Exception {
+	private SVNURL getLocalRepository(HttpServletRequest request) throws Exception {
 		File dir = getLocalRepositoryDir(request);
 	    if (!dir.exists() ) {
 	    	dir.mkdirs();
-	    	SVNURL url = SVNRepositoryFactory.createLocalRepository(
-		    		dir, true, false);
+	    	SVNURL url = SVNRepositoryFactory.
+	    			createLocalRepository(dir, true, false);
 	    	putDefaultPages(request, url);
 		}
 	    return SVNURL.fromFile(dir);
@@ -89,12 +118,7 @@ public class WikiServlet extends HttpServlet {
 	    	fs.put(getUserInfo(request), path, -1, data, null, "");
     	}
 	}
-	
-	protected File getLocalRepositoryDir(HttpServletRequest request) throws Exception {
-		return new File(getServletContext().
-				getRealPath("/WEB-INF/jwiki/svn/repo") );
-	}
-	
+
 	protected String getPathPrefix(HttpServletRequest request) throws Exception {
 		return request.getContextPath() + request.getServletPath();
 	}
@@ -105,14 +129,6 @@ public class WikiServlet extends HttpServlet {
 		return PathUtil.trim(path);
 	}
 
-	protected IUserInfo getUserInfo(HttpServletRequest request) throws Exception {
-		return (IUserInfo)request.getAttribute(Constants.JWIKI_USER);
-	}
-	
-	protected Collection<IWikilet> getWikilets() {
-		return DEFAULT_WIKILETS;
-	}
-	
 	protected IAction createAction(
 		HttpServletRequest request,
 		HttpServletResponse response,
