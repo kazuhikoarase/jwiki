@@ -18,7 +18,7 @@ public class DocumentWikilet implements IWikilet {
 		return "^\\s*(\\|+)\\s*([0-9\\-]*\\))?(.*)$";
 	}
 	
-	public String endPattern() {
+	public String endPattern(ILine<String[]> startGroup) {
 		return null;
 	}
 	

@@ -15,11 +15,15 @@ import jwiki.core.WikiUtil;
 public class CodeWikilet implements IWikilet {
 
 	public String pattern() {
-		return "^```$";
+		return "^```|\\{\\{\\{$";
 	}
 	
-	public String endPattern() {
-		return pattern();
+	public String endPattern(ILine<String[]> startGroup) {
+		if (startGroup.get()[0].equals("{{{") ) {
+			return "^\\}\\}\\}$";
+		} else {
+			return "^```$";
+		}
 	}
 	
 	public void render(
@@ -29,9 +33,10 @@ public class CodeWikilet implements IWikilet {
 	) throws Exception {
 
 		out.write("<p class=\"jwiki-code-block jwiki-code\">");
+		ILine<String[]> startGroup = groupList.get(0);
 		for (int i = 1; i < groupList.size(); i += 1) {
 			ILine<String[]> group = groupList.get(i);
-			if (group.get()[0].matches(endPattern() ) ) {
+			if (group.get()[0].matches(endPattern(startGroup) ) ) {
 				break;
 			}
 			WikiUtil.writeEscaped(out, group.get()[0], true);

@@ -22,7 +22,7 @@ public class TableWikilet implements IWikilet {
 		return "^\\s*\\|\\|(.+)\\|\\|$";
 	}
 	
-	public String endPattern() {
+	public String endPattern(ILine<String[]> startGroup) {
 		return null;
 	}
 	

@@ -15,10 +15,11 @@ public interface IWikilet {
 	String pattern();
 
 	/**
+	 * @param startGroup グループ化開始のマッチグループ
 	 * @return グループ化終了のパターン。 通常は null を返します。 
 	 * null 以外の値を返す場合、パターンが一致するまでグループ化されます。
 	 */
-	String endPattern();
+	String endPattern(ILine<String[]> startGroup);
 	
 	void render(IWikiContext context, List<ILine<String[]>> groupList,
 			Writer out) throws Exception;

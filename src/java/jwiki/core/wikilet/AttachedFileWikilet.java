@@ -20,7 +20,7 @@ public class AttachedFileWikilet implements IWikilet {
 		return "^\\[\\[attached\\]\\]$";
 	}
 	
-	public String endPattern() {
+	public String endPattern(ILine<String[]> startGroup) {
 		return "^$";
 	}
 	

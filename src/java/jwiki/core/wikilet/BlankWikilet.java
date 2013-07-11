@@ -17,7 +17,7 @@ public class BlankWikilet implements IWikilet {
 		return "^$";
 	}
 	
-	public String endPattern() {
+	public String endPattern(ILine<String[]> startGroup) {
 		return null;
 	}
 	

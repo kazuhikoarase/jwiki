@@ -64,20 +64,8 @@ public class WikiRenderer {
 		IWikiRendererWorker worker,
 		ILine<String> line
 	) throws Exception {
-		
-		if (lastWikilet != null && lastWikilet.endPattern() != null) {
-			Pattern pat = Pattern.compile(lastWikilet.endPattern() );
-			Matcher mat = pat.matcher(line.get() );
-			if (mat.find() ) {
-				// end.
-				groupList.add(new Line<String[]>(
-						line.getLineNumber(), group(mat) ) );
-				flush(context, worker);
-			} else {
-				// not end.
-				groupList.add(new Line<String[]>(
-						line.getLineNumber(), new String[]{line.get()}) );
-			}
+
+		if (endPatternFound(context, worker, line) ) {
 			return;
 		}
 
@@ -98,6 +86,36 @@ public class WikiRenderer {
 		
 		// ありえない条件
 		throw new IllegalStateException("no wikilet matches.");
+	}
+	
+	private boolean endPatternFound(
+		IWikiContext context,
+		IWikiRendererWorker worker,
+		ILine<String> line
+	) throws Exception {
+
+		if (lastWikilet == null) {
+			return false;
+		}
+		
+		String endPattern = lastWikilet.endPattern(groupList.get(0) );
+		if (endPattern == null) {
+			return false;
+		}
+
+		Pattern pat = Pattern.compile(endPattern);
+		Matcher mat = pat.matcher(line.get() );
+		if (mat.find() ) {
+			// end.
+			groupList.add(new Line<String[]>(
+					line.getLineNumber(), group(mat) ) );
+			flush(context, worker);
+		} else {
+			// not end.
+			groupList.add(new Line<String[]>(
+					line.getLineNumber(), new String[]{line.get()}) );
+		}
+		return true;
 	}
 	
 	private String[] group(Matcher mat) {

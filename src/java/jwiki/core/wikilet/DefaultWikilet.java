@@ -18,7 +18,7 @@ public class DefaultWikilet implements IWikilet {
 		return "^(.+)$";
 	}
 	
-	public String endPattern() {
+	public String endPattern(ILine<String[]> startGroup) {
 		return null;
 	}
 	

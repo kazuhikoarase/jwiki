@@ -19,7 +19,7 @@ public class ListWikilet implements IWikilet {
 		return "^(\\s+)(\\*|[0-9]+\\.)\\s+(.+)$";
 	}
 	
-	public String endPattern() {
+	public String endPattern(ILine<String[]> startGroup) {
 		return null;
 	}
 	
