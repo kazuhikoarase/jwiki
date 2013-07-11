@@ -1,4 +1,4 @@
-package jwiki.core.action;
+package jwiki.servlet.action;
 
 import java.io.Writer;
 import java.util.HashMap;
@@ -7,10 +7,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import jwiki.core.Constants;
 import jwiki.core.IWikiPage;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
+import jwiki.servlet.Constants;
 
 import org.apache.commons.fileupload.DefaultFileItemFactory;
 import org.apache.commons.fileupload.FileItem;

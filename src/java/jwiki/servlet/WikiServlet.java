@@ -1,4 +1,4 @@
-package jwiki.core;
+package jwiki.servlet;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import jwiki.core.action.DirectoryViewAction;
-import jwiki.core.action.FileEditAction;
-import jwiki.core.action.FileViewAction;
-import jwiki.core.i18n.WikiResource;
+import jwiki.core.IParagraphDecorator;
+import jwiki.core.IWikiContext;
+import jwiki.core.PathUtil;
+import jwiki.core.Util;
 import jwiki.core.impl.WikiContext;
 import jwiki.decorator.AttachedFileDecorator;
 import jwiki.decorator.BlankDecorator;
@@ -35,6 +35,10 @@ import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
 import jwiki.fs.IUserInfo;
 import jwiki.fs.svn.SVNFileSystem;
+import jwiki.servlet.action.DirectoryViewAction;
+import jwiki.servlet.action.FileEditAction;
+import jwiki.servlet.action.FileViewAction;
+import jwiki.servlet.i18n.WikiResource;
 
 import org.tmatesoft.svn.core.SVNURL;
 import org.tmatesoft.svn.core.io.SVNRepositoryFactory;

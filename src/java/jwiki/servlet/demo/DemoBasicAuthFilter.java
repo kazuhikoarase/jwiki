@@ -1,10 +1,10 @@
-package jwiki.demo;
+package jwiki.servlet.demo;
 
 import javax.servlet.http.HttpServletRequest;
 
-import jwiki.core.Constants;
 import jwiki.fs.IUserInfo;
-import jwiki.util.BasicAuthFilter;
+import jwiki.servlet.Constants;
+import jwiki.servlet.auth.BasicAuthFilter;
 
 /**
  * DemoBasicAuthFilter

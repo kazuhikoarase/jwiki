@@ -1,4 +1,4 @@
-package jwiki.core.action;
+package jwiki.servlet.action;
 
 import java.io.BufferedReader;
 import java.io.StringReader;

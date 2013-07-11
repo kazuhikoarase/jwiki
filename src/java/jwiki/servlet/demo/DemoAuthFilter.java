@@ -1,4 +1,4 @@
-package jwiki.demo;
+package jwiki.servlet.demo;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import jwiki.core.Constants;
 import jwiki.fs.IUserInfo;
+import jwiki.servlet.Constants;
 
 /**
  * DemoAuthFilter

@@ -1,4 +1,4 @@
-package jwiki.core.i18n;
+package jwiki.servlet.i18n;
 
 import java.util.ListResourceBundle;
 

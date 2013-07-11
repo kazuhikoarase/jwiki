@@ -1,8 +1,10 @@
-package jwiki.util;
+package jwiki.servlet.auth;
 
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+
+import jwiki.util.Base64;
 
 /**
  * BasicAuth

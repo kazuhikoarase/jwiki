@@ -1,8 +1,10 @@
-package jwiki.core;
+package jwiki.servlet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import jwiki.core.IWikiContext;
 
 /**
  * IAction

@@ -1,4 +1,4 @@
-package jwiki.core;
+package jwiki.servlet;
 
 /**
  * Constants

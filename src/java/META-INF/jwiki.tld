@@ -13,21 +13,21 @@
   <tag>
     <description>page</description>
     <name>page</name>
-    <tag-class>jwiki.core.tag.PageTag</tag-class>
+    <tag-class>jwiki.servlet.tag.PageTag</tag-class>
     <body-content>empty</body-content>
   </tag>
 
   <tag>
     <description>controls</description>
     <name>controls</name>
-    <tag-class>jwiki.core.tag.ControlsTag</tag-class>
+    <tag-class>jwiki.servlet.tag.ControlsTag</tag-class>
     <body-content>empty</body-content>
   </tag>
 
   <tag>
     <description>render</description>
     <name>render</name>
-    <tag-class>jwiki.core.tag.RenderTag</tag-class>
+    <tag-class>jwiki.servlet.tag.RenderTag</tag-class>
     <body-content>JSP</body-content>
   </tag>
 

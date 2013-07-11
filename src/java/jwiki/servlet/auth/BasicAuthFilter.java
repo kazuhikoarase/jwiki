@@ -1,4 +1,4 @@
-package jwiki.util;
+package jwiki.servlet.auth;
 
 import java.io.IOException;
 

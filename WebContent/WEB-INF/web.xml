@@ -6,7 +6,7 @@
 
 	<filter>
 	   <filter-name>demo-auth</filter-name>
-	   <filter-class>jwiki.demo.DemoBasicAuthFilter</filter-class>
+	   <filter-class>jwiki.servlet.demo.DemoBasicAuthFilter</filter-class>
 	</filter>
 
 	<filter-mapping>
@@ -16,7 +16,7 @@
 
 	<servlet>
 	   <servlet-name>jwiki</servlet-name>
-	   <servlet-class>jwiki.core.WikiServlet</servlet-class>
+	   <servlet-class>jwiki.servlet.WikiServlet</servlet-class>
 	   <init-param>
 		   <param-name>template-page</param-name>
 		   <param-value>/WEB-INF/pages/jwiki-template.jspx</param-value>

@@ -1,10 +1,10 @@
-package jwiki.core.tag;
+package jwiki.servlet.tag;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-import jwiki.core.Constants;
 import jwiki.core.IWikiPage;
+import jwiki.servlet.Constants;
 
 /**
  * ControlsTag
