@@ -2,7 +2,11 @@ package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
@@ -25,9 +29,12 @@ public class DocumentDecorator extends AbstractDecorator {
 		IndentContext ic = new IndentContext();
 		int lastIndent = -1;
 		
-		List<String> list = new ArrayList<String>();
-
+		XrefManager xm = new XrefManager();
+		
+		List<List<Object>> lazyLines = new ArrayList<List<Object>>();
+		
 		for (ILine<String[]> group : groupList) {
+			
 			final String leading = group.get()[1];
 			final int indent = leading.length(); 
 			final String header = group.get()[2]; 
@@ -43,9 +50,9 @@ public class DocumentDecorator extends AbstractDecorator {
 				}
 			}
 
-			StringBuilder buf = new StringBuilder();
-			buf.append(leading);
-			buf.append(' ');
+			List<Object> buf = new ArrayList<Object>();
+
+			buf.add(leading + ' ');
 
 			if (header != null) {
 				
@@ -56,30 +63,84 @@ public class DocumentDecorator extends AbstractDecorator {
 				id = Integer.valueOf(id.intValue() + 1);
 				ic.peek().setAttribute("id", id);
 
-				for (int i = 0; i < ic.size(); i += 1) {
-					if (i > 0) {
-						buf.append('-');
-					}
-					Integer currId = 
-							(Integer)ic.get(i).getAttribute("id");
-					if (currId != null) {
-						buf.append(currId);
-					} else {
-						buf.append('?');
-					}
-				}
-				buf.append(')');
+				buf.add(xm.getAnchor(header, buildHeader(ic) ) );
 //				buf.append(header);
 			}
-			buf.append(desc);
-			list.add(buf.toString() );
+			
+			//M
+			Matcher mat = Pattern.
+					compile("(\\[xref\\:)(.*)(\\])").
+					matcher(desc);
+			int start = 0;
+			
+			while (mat.find(start) ) {
+				buf.add(desc.substring(start, mat.start() ) );
+				buf.add(mat.group(1) );
+				buf.add(xm.getRef(Util.trim(mat.group(2) ) ) );
+				buf.add(mat.group(3) );
+				start = mat.end();
+			}
+			buf.add(desc.substring(start) );
+			
+			lazyLines.add(buf);
 			
 			lastIndent = indent;
 		}
 
+		List<String> list = new ArrayList<String>();
+		for (List<Object> lazy : lazyLines) {
+			list.add(concat(lazy) );
+		}
 		return list;
 	}
+	
+	public String concat(List<Object> list) {
+		StringBuilder buf = new StringBuilder();
+		for (Object o : list) {
+			buf.append(o);
+		}
+		return buf.toString();
+	}
 
+	public static class XrefManager {
+		private Map<String,String> xref = new HashMap<String, String>(); 
+		public Object getAnchor(String curValue, String newValue) {
+			xref.put(curValue, newValue);
+			return new Lazy(curValue);
+		}
+		public Object getRef(String curValue) {
+			return new Lazy(curValue);
+		}
+		private class Lazy {
+			private final String curValue;
+			public Lazy(String curValue) {
+				this.curValue = curValue;
+			}
+			public String toString() {
+				String newValue = xref.get(curValue);
+				return Util.coalesce(newValue, curValue);
+			}
+		}
+	}
+	
+	public String buildHeader(IndentContext ic) {
+		StringBuilder buf = new StringBuilder();
+		for (int i = 0; i < ic.size(); i += 1) {
+			if (i > 0) {
+				buf.append('-');
+			}
+			Integer currId = 
+					(Integer)ic.get(i).getAttribute("id");
+			if (currId != null) {
+				buf.append(currId);
+			} else {
+				buf.append('?');
+			}
+		}
+		buf.append(')');
+		return buf.toString();
+	}
+	
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,
@@ -109,7 +170,7 @@ public class DocumentDecorator extends AbstractDecorator {
 
 			if (lastIndent == indent) {
 			} else if (lastIndent < indent) {
-				ic.push(indent, out, tag, attrs);
+				ic.push(indent, tag, attrs, out);
 			} else {
 				while (lastIndent > indent && ic.size() > 1) {
 					ic.pop(out);
@@ -124,7 +185,7 @@ public class DocumentDecorator extends AbstractDecorator {
 						buf = new StringBuilder();
 					}
 					ic.pop(out);
-					ic.push(indent, out, tag, attrs);
+					ic.push(indent, tag, attrs, out);
 				}
 				buf.append("**");
 				buf.append(Util.rtrim(header) );

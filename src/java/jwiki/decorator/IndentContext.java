@@ -9,7 +9,7 @@ public class IndentContext extends Stack<IndentInfo> {
 	public IndentContext() {
 	}
 
-	public void push(int indent, Writer out, String tag, String attrs) throws Exception {
+	public void push(int indent, String tag, String attrs, Writer out) throws Exception {
 		push(new IndentInfo(indent, tag) );
 		if (out != null) {
 			out.write('<');

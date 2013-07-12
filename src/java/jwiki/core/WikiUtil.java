@@ -158,9 +158,6 @@ public class WikiUtil {
 			label = Util.trim(url.substring(index + 1) );
 			url = Util.trim(url.substring(0, index) );
 		}
-		if (Util.isEmpty(label) ) {
-			label = url;
-		}
 
 		// [scheme:path]
 		Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?(.+)$");
@@ -172,6 +169,10 @@ public class WikiUtil {
 		
 		String scheme = Util.coalesce(mat.group(1), "");
 		String path = mat.group(2);
+
+		if (Util.isEmpty(label) ) {
+			label = path;
+		}
 
 		ILink link = new Link(path, label);
 		for (ILinkDecorator decorator : context.getLinkDecorators() ) {

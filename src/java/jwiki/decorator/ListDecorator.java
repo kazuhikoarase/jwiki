@@ -36,7 +36,7 @@ public class ListDecorator extends AbstractDecorator {
 			if (lastIndent == indent) {
 			} else if (lastIndent < indent) {
 				String tag = symbol.equals("*") ? "ul" : "ol";
-				ic.push(indent, out, tag , null);
+				ic.push(indent, tag , null, out);
 			} else {
 				while (lastIndent > indent && ic.size() > 1) {
 					ic.pop(out);

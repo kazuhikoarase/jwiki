@@ -34,6 +34,7 @@ import jwiki.decorator.NavigatorDecorator;
 import jwiki.decorator.TableDecorator;
 import jwiki.decorator.link.DefaultLinkDecorator;
 import jwiki.decorator.link.ImageLinkDecorator;
+import jwiki.decorator.link.XrefDecorator;
 import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
 import jwiki.fs.IUserInfo;
@@ -215,6 +216,7 @@ public class WikiServlet extends HttpServlet {
 		List<ILinkDecorator> decorators = new ArrayList<ILinkDecorator>();
 		decorators.add(new DefaultLinkDecorator() );
 		decorators.add(new ImageLinkDecorator() );
+		decorators.add(new XrefDecorator() );
 		return decorators;
 	}
 	
