@@ -23,8 +23,10 @@ public class XrefDecorator extends AbstractLinkDecorator {
 		WikiUtil.writeEscaped(out, link.getPath() );
 		out.write("\">");
 		WikiUtil.writeEscaped(out, link.getPath() );
-		out.write(' ');
-		WikiUtil.writeEscaped(out, link.getLabel() );
+		if (!link.getPath().equals(link.getLabel() ) ) {
+			out.write(' ');
+			WikiUtil.writeEscaped(out, link.getLabel() );
+		}
 		out.write("</a>");
 	}
 }
