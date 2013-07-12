@@ -30,7 +30,6 @@ public class WikiResource extends ListResourceBundle {
 			{"label.editing", "Editing"},
 			{"label.tilda", "~"},
 			
-			{"message.no_message", "<no message>"},
 			{"message.bad_page_name", "bad page name."},
 			{"message.select_compare_targets",
 				"select compare targets."},

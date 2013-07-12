@@ -25,7 +25,7 @@ import jwiki.decorator.DefaultDecorator;
 import jwiki.decorator.DiffDecorator;
 import jwiki.decorator.DocumentDecorator;
 import jwiki.decorator.HeaderDecorator;
-import jwiki.decorator.HistoryContext;
+import jwiki.decorator.HistoryDecorator;
 import jwiki.decorator.HrDecorator;
 import jwiki.decorator.IndexDecorator;
 import jwiki.decorator.ListDecorator;
@@ -204,7 +204,7 @@ public class WikiServlet extends HttpServlet {
 		decorators.add(new HeaderDecorator() );
 		decorators.add(new IndexDecorator() );
 		decorators.add(new NavigatorDecorator() );
-		decorators.add(new HistoryContext() );
+		decorators.add(new HistoryDecorator() );
 		decorators.add(new DiffDecorator() );
 		decorators.add(new TableDecorator() );
 		decorators.add(new DocumentDecorator() );

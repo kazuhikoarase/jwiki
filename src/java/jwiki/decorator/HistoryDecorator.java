@@ -10,10 +10,10 @@ import jwiki.core.WikiUtil;
 import jwiki.fs.IFile;
 
 /**
- * HistoryContext
+ * HistoryDecorator
  * @author kazuhiko arase
  */
-public class HistoryContext extends SimpleDecorator {
+public class HistoryDecorator extends SimpleDecorator {
 
 	public String pattern() {
 		return "^\\[\\[history\\]\\]$";

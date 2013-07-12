@@ -30,7 +30,6 @@ public class WikiResource_ja extends ListResourceBundle {
 			{"label.editing", "編集中"},
 			{"label.tilda", "\u301c"},
 			
-			{"message.no_message", "<no message>"},
 			{"message.bad_page_name", "ページ名に使用できない文字が含まれています。"},
 			{"message.select_compare_targets",
 				"比較対象を選択して下さい。"},

@@ -133,9 +133,6 @@ public class FileEditAction extends WikiAction {
 			return false;
 		}
 
-		message = Util.coalesce(message,
-			context.getString("message.no_message") );
-
 		if (data.length() > 0) {
 
 			// 追加・更新

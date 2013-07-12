@@ -28,8 +28,8 @@ public class DocumentDecorator implements IParagraphDecorator {
 		Writer out
 	) throws Exception {
 
-		String tag = "div";
-		String attrs = " class=\"jwiki-doc\"";
+		final String tag = "div";
+		final String attrs = " class=\"jwiki-doc\"";
 
 		IndentContext ic = new IndentContext();
 		int indent = -1;

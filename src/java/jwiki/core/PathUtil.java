@@ -39,11 +39,11 @@ public class PathUtil {
 	}
 	
 	public static boolean isValidPath(String path) {
-		List<String> pathList = Util.strictSplit(path, "/");
-		if (pathList.size() == 0) {
+		List<String> names = Util.strictSplit(path, "/");
+		if (names.size() == 0) {
 			return false;
 		}
-		for (String name : pathList) {
+		for (String name : names) {
 			if (Util.isEmpty(name) ) {
 				return false;
 			} else if (name.startsWith(".") || name.endsWith(".") ) {
