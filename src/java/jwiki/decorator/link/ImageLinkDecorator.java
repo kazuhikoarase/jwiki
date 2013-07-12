@@ -6,6 +6,10 @@ import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
 import jwiki.core.WikiUtil;
 
+/**
+ * ImageLinkDecorator
+ * @author kazuhiko arase
+ */
 public class ImageLinkDecorator extends AbstractLinkDecorator {
 
 	public String getScheme() {

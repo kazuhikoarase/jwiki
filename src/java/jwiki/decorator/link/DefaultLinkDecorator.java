@@ -7,6 +7,10 @@ import jwiki.core.IWikiContext;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
+/**
+ * DefaultLinkDecorator
+ * @author kazuhiko arase
+ */
 public class DefaultLinkDecorator extends AbstractLinkDecorator {
 	
 	public String getScheme() {
@@ -16,12 +20,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 	public void render(IWikiContext context, ILink link,
 			Writer out) throws Exception {
 		
-		String path = toCanonicalPath(context, link.getPath() );
-
-		if (!context.getFile(path, -1).exists() ) {
-			writeUnknownLink(context, path, link.getLabel(), out);
-			return;
-		}
+		String path = link.getPath();
 		
 		String query = null;
 		int index = path.indexOf('?');
@@ -29,6 +28,14 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 			query = path.substring(index);
 			path = path.substring(0, index);
 		}
+
+		path = toCanonicalPath(context, path);
+
+		if (!context.getFile(path, -1).exists() ) {
+			writeUnknownLink(context, path, link.getLabel(), out);
+			return;
+		}
+		
 		
 		out.write("<a href=\"");
 		out.write(context.createPathUrlEncoded(path) );

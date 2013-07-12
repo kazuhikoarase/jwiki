@@ -2,6 +2,10 @@ package jwiki.core.impl;
 
 import jwiki.core.ILink;
 
+/**
+ * Link
+ * @author kazuhiko arase
+ */
 public class Link implements ILink {
 	private final String path;
 	private final String label;

@@ -7,6 +7,10 @@ import jwiki.core.IWikiContext;
 import jwiki.core.PathUtil;
 import jwiki.core.WikiUtil;
 
+/**
+ * AbstractLinkDecorator
+ * @author kazuhiko arase
+ */
 public abstract class AbstractLinkDecorator implements ILinkDecorator {
 
 	protected void writeUnknownLink(
