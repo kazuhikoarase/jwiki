@@ -1,7 +1,5 @@
 package jwiki.servlet.action;
 
-import java.io.BufferedReader;
-import java.io.StringReader;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +14,6 @@ import jwiki.core.IWikiPage;
 import jwiki.core.IWikiRendererWorker;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
-import jwiki.decorator.AttachedFileDecorator;
 import jwiki.servlet.Constants;
 
 import org.apache.commons.fileupload.DefaultFileItemFactory;

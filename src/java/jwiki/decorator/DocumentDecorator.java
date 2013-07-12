@@ -42,23 +42,31 @@ public class DocumentDecorator extends AbstractDecorator {
 					lastIndent = ic.peek().getIndent(); 
 				}
 			}
-			
-			Integer id = (Integer)ic.peek().getAttribute("id");
-			if (id == null) {
-				id = Integer.valueOf(0);
-			}
-			id = Integer.valueOf(id.intValue() + 1);
-			ic.peek().setAttribute("id", id);
-			
+
 			StringBuilder buf = new StringBuilder();
 			buf.append(leading);
 			buf.append(' ');
+
 			if (header != null) {
+				
+				Integer id = (Integer)ic.peek().getAttribute("id");
+				if (id == null) {
+					id = Integer.valueOf(0);
+				}
+				id = Integer.valueOf(id.intValue() + 1);
+				ic.peek().setAttribute("id", id);
+
 				for (int i = 0; i < ic.size(); i += 1) {
 					if (i > 0) {
 						buf.append('-');
 					}
-					buf.append(ic.get(i).getAttribute("id") );
+					Integer currId = 
+							(Integer)ic.get(i).getAttribute("id");
+					if (currId != null) {
+						buf.append(currId);
+					} else {
+						buf.append('?');
+					}
 				}
 				buf.append(')');
 //				buf.append(header);

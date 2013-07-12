@@ -35,8 +35,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 			writeUnknownLink(context, path, link.getLabel(), out);
 			return;
 		}
-		
-		
+
 		out.write("<a href=\"");
 		out.write(context.createPathUrlEncoded(path) );
 		if (!Util.isEmpty(query) ) {

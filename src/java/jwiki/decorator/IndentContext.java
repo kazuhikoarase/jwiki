@@ -1,10 +1,9 @@
 package jwiki.decorator;
 
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Stack;
 
+@SuppressWarnings("serial")
 public class IndentContext extends Stack<IndentInfo> {
 
 	public IndentContext() {
