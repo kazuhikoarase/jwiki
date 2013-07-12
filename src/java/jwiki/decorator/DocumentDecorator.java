@@ -61,7 +61,8 @@ public class DocumentDecorator extends AbstractDecorator {
 				id = Integer.valueOf(id.intValue() + 1);
 				ic.peek().setAttribute("id", id);
 
-				buf.add(xm.getAnchor(header, desc, buildHeader(ic) ) );
+				buf.add(xm.getAnchor(
+						header, Util.trim(desc), buildHeader(ic) ) );
 			}
 
 			Matcher mat = Pattern.compile("(\\[xref\\:)(\\S+)(.*)(\\])").
