@@ -170,9 +170,9 @@ public class WikiUtil {
 			return;
 		}
 		
-		String scheme = mat.group(1);
+		String scheme = Util.coalesce(mat.group(1), "");
 		String path = mat.group(2);
-		String query = mat.group(3);
+		String query = Util.coalesce(mat.group(3), "");
 
 		ILink link = new Link(path, query, label);
 		for (ILinkDecorator decorator : context.getLinkDecorators() ) {
