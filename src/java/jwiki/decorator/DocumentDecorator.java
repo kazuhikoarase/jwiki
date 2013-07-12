@@ -2,9 +2,7 @@ package jwiki.decorator;
 
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,13 +61,10 @@ public class DocumentDecorator extends AbstractDecorator {
 				id = Integer.valueOf(id.intValue() + 1);
 				ic.peek().setAttribute("id", id);
 
-				buf.add(xm.getAnchor(header, buildHeader(ic) ) );
-//				buf.append(header);
+				buf.add(xm.getAnchor(header, desc, buildHeader(ic) ) );
 			}
-			
-			//M
-			Matcher mat = Pattern.
-					compile("(\\[xref\\:)(.*)(\\])").
+
+			Matcher mat = Pattern.compile("(\\[xref\\:)(.*)(\\])").
 					matcher(desc);
 			int start = 0;
 			
@@ -102,26 +97,6 @@ public class DocumentDecorator extends AbstractDecorator {
 		return buf.toString();
 	}
 
-	public static class XrefManager {
-		private Map<String,String> xref = new HashMap<String, String>(); 
-		public Object getAnchor(String curValue, String newValue) {
-			xref.put(curValue, newValue);
-			return new Lazy(curValue);
-		}
-		public Object getRef(String curValue) {
-			return new Lazy(curValue);
-		}
-		private class Lazy {
-			private final String curValue;
-			public Lazy(String curValue) {
-				this.curValue = curValue;
-			}
-			public String toString() {
-				String newValue = xref.get(curValue);
-				return Util.coalesce(newValue, curValue);
-			}
-		}
-	}
 	
 	public String buildHeader(IndentContext ic) {
 		StringBuilder buf = new StringBuilder();
