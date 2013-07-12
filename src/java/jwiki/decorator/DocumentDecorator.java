@@ -5,23 +5,18 @@ import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IParagraphDecorator;
 import jwiki.core.Util;
 
 /**
  * DocumentDecorator
  * @author kazuhiko arase
  */
-public class DocumentDecorator implements IParagraphDecorator {
+public class DocumentDecorator extends AbstractDecorator {
 
 	public String pattern() {
 		return "^\\s*(\\|+)\\s*([0-9\\-]*\\))?(.*)$";
 	}
-	
-	public String endPattern(ILine<String[]> startGroup) {
-		return null;
-	}
-	
+
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,

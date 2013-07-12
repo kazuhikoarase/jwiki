@@ -6,7 +6,6 @@ import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IParagraphDecorator;
 import jwiki.core.PathUtil;
 import jwiki.core.WikiUtil;
 
@@ -14,7 +13,7 @@ import jwiki.core.WikiUtil;
  * AttachedFileDecorator
  * @author kazuhiko arase
  */
-public class AttachedFileDecorator implements IParagraphDecorator {
+public class AttachedFileDecorator extends AbstractDecorator {
 
 	public String pattern() {
 		return "^\\[\\[attached\\]\\]$";

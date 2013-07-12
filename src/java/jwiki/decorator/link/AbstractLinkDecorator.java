@@ -13,6 +13,9 @@ import jwiki.core.WikiUtil;
  */
 public abstract class AbstractLinkDecorator implements ILinkDecorator {
 
+	protected AbstractLinkDecorator() {
+	}
+
 	protected void writeUnknownLink(
 		IWikiContext context,
 		String path,

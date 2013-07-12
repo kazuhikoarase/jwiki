@@ -5,19 +5,14 @@ import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IParagraphDecorator;
 
 /**
  * SimpleDecorator
  * @author kazuhiko arase
  */
-public abstract class SimpleDecorator implements IParagraphDecorator {
+public abstract class SimpleDecorator extends AbstractDecorator {
 
 	protected SimpleDecorator() {
-	}
-	
-	public String endPattern(ILine<String[]> startGroup) {
-		return null;
 	}
 
 	public void render(

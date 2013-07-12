@@ -5,14 +5,13 @@ import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IParagraphDecorator;
 import jwiki.core.WikiUtil;
 
 /**
  * CodeBlockDecorator
  * @author kazuhiko arase
  */
-public class CodeBlockDecorator implements IParagraphDecorator {
+public class CodeBlockDecorator extends AbstractDecorator {
 
 	public String pattern() {
 		return "^```|\\{\\{\\{$";

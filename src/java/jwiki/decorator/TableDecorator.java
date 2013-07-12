@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
-import jwiki.core.IParagraphDecorator;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
@@ -16,16 +15,12 @@ import jwiki.core.WikiUtil;
  * TableDecorator
  * @author kazuhiko arase
  */
-public class TableDecorator implements IParagraphDecorator {
+public class TableDecorator extends AbstractDecorator {
 
 	public String pattern() {
 		return "^\\s*\\|\\|(.+)\\|\\|$";
 	}
-	
-	public String endPattern(ILine<String[]> startGroup) {
-		return null;
-	}
-	
+
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,
