@@ -20,7 +20,7 @@ public class XrefDecorator extends AbstractLinkDecorator {
 			Writer out) throws Exception {
 
 		out.write("<a href=\"#");
-		out.write(link.getPath() );
+		WikiUtil.writeEscaped(out, link.getPath() );
 		out.write("\">");
 		WikiUtil.writeEscaped(out, link.getPath() );
 		out.write(' ');

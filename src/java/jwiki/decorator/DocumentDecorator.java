@@ -64,15 +64,15 @@ public class DocumentDecorator extends AbstractDecorator {
 				buf.add(xm.getAnchor(header, desc, buildHeader(ic) ) );
 			}
 
-			Matcher mat = Pattern.compile("(\\[xref\\:)(.*)(\\])").
+			Matcher mat = Pattern.compile("(\\[xref\\:)(\\S+)(.*)(\\])").
 					matcher(desc);
 			int start = 0;
-			
+
 			while (mat.find(start) ) {
 				buf.add(desc.substring(start, mat.start() ) );
 				buf.add(mat.group(1) );
 				buf.add(xm.getRef(Util.trim(mat.group(2) ) ) );
-				buf.add(mat.group(3) );
+				buf.add(mat.group(4) );
 				start = mat.end();
 			}
 			buf.add(desc.substring(start) );
