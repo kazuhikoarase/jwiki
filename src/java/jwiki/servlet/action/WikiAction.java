@@ -9,9 +9,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import jwiki.core.ILine;
+import jwiki.core.IParagraphDecorator;
+import jwiki.core.IWikiContext;
 import jwiki.core.IWikiPage;
+import jwiki.core.IWikiRendererWorker;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
+import jwiki.decorator.AttachedFileDecorator;
 import jwiki.servlet.Constants;
 
 import org.apache.commons.fileupload.DefaultFileItemFactory;
@@ -126,18 +131,18 @@ extends Action implements IWikiPage {
 	}
 	
 	protected String normalizeData(String data) throws Exception {
-		BufferedReader in = new BufferedReader(
-				new StringReader(Util.rtrim(data) ) );
-		try {
-			StringBuilder buf = new StringBuilder();
-			String line;
-			while ( (line = in.readLine() ) != null) {
-				buf.append(Util.rtrim(line) );
-				buf.append('\n');
+		final StringBuilder buf = new StringBuilder();
+		IWikiRendererWorker worker = new IWikiRendererWorker() {
+			public void render(IWikiContext context,
+					IParagraphDecorator decorator,
+					List<ILine<String[]>> groupList) throws Exception {
+				for (String line : decorator.normalize(context, groupList) ) {
+					buf.append(line);
+					buf.append("\n");
+				}
 			}
-			return buf.toString();
-		} finally {
-			in.close();
-		}
+		};
+		context.render(worker, data);		
+		return buf.toString();
 	}
 }

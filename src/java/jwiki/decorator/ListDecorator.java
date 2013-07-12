@@ -25,21 +25,22 @@ public class ListDecorator extends AbstractDecorator {
 	) throws Exception {
 
 		IndentContext ic = new IndentContext();
-		int indent = -1;
+		int lastIndent = -1;
 
 		for (ILine<String[]> group : groupList) {
 			
-			final int newIndent = group.get()[1].length(); 
+			final int indent = group.get()[1].length(); 
 			final String symbol = group.get()[2];
 			final String desc = group.get()[3];
 			
-			if (indent == newIndent) {
-			} else if (indent < newIndent) {
+			if (lastIndent == indent) {
+			} else if (lastIndent < indent) {
 				String tag = symbol.equals("*") ? "ul" : "ol";
-				ic.push(out, newIndent, tag , null);
+				ic.push(indent, out, tag , null);
 			} else {
-				while (indent > newIndent && ic.size() > 1) {
-					indent = ic.pop(out);
+				while (lastIndent > indent && ic.size() > 1) {
+					ic.pop(out);
+					lastIndent = ic.peek().getIndent(); 
 				}
 			}
 			
@@ -47,8 +48,9 @@ public class ListDecorator extends AbstractDecorator {
 			WikiUtil.writeStyled(out, context, Util.trim(desc) );
 			out.write("</li>");
 
-			indent = newIndent;
+			lastIndent = indent;
 		}
+
 		while (ic.size() > 0) {
 			ic.pop(out);
 		}

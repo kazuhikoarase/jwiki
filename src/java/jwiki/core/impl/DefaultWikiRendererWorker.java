@@ -13,7 +13,7 @@ import jwiki.core.WikiUtil;
  * DefaultWikiRendererWorker
  * @author kazuhiko arase
  */
-public class DefaultWikiRendererWorker
+class DefaultWikiRendererWorker
 implements IWikiRendererWorker {
 	
 	private final Writer out;

@@ -20,6 +20,9 @@ public interface IParagraphDecorator {
 	 * null 以外の値を返す場合、パターンが一致するまでグループ化されます。
 	 */
 	String endPattern(ILine<String[]> startGroup);
+
+	List<String> normalize(IWikiContext context,
+			List<ILine<String[]>> groupList) throws Exception;
 	
 	void render(IWikiContext context, List<ILine<String[]>> groupList,
 			Writer out) throws Exception;
