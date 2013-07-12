@@ -22,6 +22,7 @@ public interface IWikiContext {
 	String generateUniqueId();
 	
 	Collection<IParagraphDecorator> getDecorators();
+	Collection<ILinkDecorator> getLinkDecorators();
 	
 	Map<String,Object> getRequestScope();
 	Map<String,Object> getPageScope();

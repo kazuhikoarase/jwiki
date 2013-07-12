@@ -6,6 +6,8 @@ import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jwiki.core.impl.Link;
+
 /**
  * WikiUtil
  * @author kazuhiko arase
@@ -149,6 +151,7 @@ public class WikiUtil {
 		IWikiContext context,
 		String url
 	) throws Exception {
+
 		int index = url.indexOf('\u0020');
 		String label = "";
 		if (index != -1) {
@@ -159,7 +162,7 @@ public class WikiUtil {
 			label = url;
 		}
 
-		//[(prot:)(path)]
+		//[(scheme:)(path)]
 		Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?([^\\:\\?]+)(\\?.+)?$");
 		Matcher mat = pat.matcher(url);
 		if (!mat.find() ) {
@@ -167,64 +170,19 @@ public class WikiUtil {
 			return;
 		}
 		
-		String prot = mat.group(1);
-		String path = toCanonicalPath(context, mat.group(2) );
+		String scheme = mat.group(1);
+		String path = mat.group(2);
 		String query = mat.group(3);
-		boolean exists = context.getFile(path, -1).exists();
-		
-		if (Util.isEmpty(prot) ) {
 
-			if (!exists) {
-				writeUnknownLink(out, context, path, label);
+		ILink link = new Link(path, query, label);
+		for (ILinkDecorator decorator : context.getLinkDecorators() ) {
+			if (decorator.getScheme().equals(scheme) ) {
+				decorator.render(context, link, out);
 				return;
 			}
-
-			out.write("<a href=\"");
-			out.write(context.createPathUrlEncoded(path) );
-			if (!Util.isEmpty(query) ) {
-				out.write(query);
-			}
-			out.write("\">");
-			writeEscaped(out, label);
-			out.write("</a>");
-
-		} else if ("image:".equals(prot) ) {
-
-			if (!exists) {
-				writeUnknownLink(out, context, path, label);
-				return;
-			}
-
-			out.write("<img src=\"");
-			out.write(context.createPathUrlEncoded(path) );
-			out.write("?raw\" alt=\"");
-			writeEscaped(out, label);
-			out.write("\" />");
-
-		} else {
-			writeEscaped(out, url);
 		}
-	}
-	
-	private static void writeUnknownLink(
-		Writer out, IWikiContext context,
-		String path, String label
-	) throws Exception {
-		writeEscaped(out, label);
-		out.write("<a href=\"");
-		out.write(context.createPathUrlEncoded(path) );
-		out.write("?v=e\">?</a>");
-	}
-	
-	private static String toCanonicalPath(IWikiContext context, String path)
-	throws Exception {
-		if (path.startsWith("/") ) {
-			// '/' で開始する場合、絶対パス
-			return PathUtil.trim(path);
-		} else {
-			// '/' 以外で開始する場合、相対パスとして解釈
-			return PathUtil.buildPath(
-				PathUtil.getParent(context.getPath() ), path);
-		}
+
+		// not found.
+		writeEscaped(out, url);
 	}
 }

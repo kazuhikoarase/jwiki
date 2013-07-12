@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import jwiki.core.ILinkDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IParagraphDecorator;
@@ -25,7 +26,9 @@ public class WikiContext implements IWikiContext {
 
 	private int idCount = 0;
 
+	private Collection<ILinkDecorator> linkDecorators = null;
 	private Collection<IParagraphDecorator> decorators = null;
+
 	private String pathPrefix = "";
 	private String path = "";
 	private ResourceBundle resource;
@@ -44,9 +47,14 @@ public class WikiContext implements IWikiContext {
 	public Collection<IParagraphDecorator> getDecorators() {
 		return decorators;
 	}
-
 	public void setDecorators(Collection<IParagraphDecorator> decorators) {
 		this.decorators = decorators;
+	}
+	public Collection<ILinkDecorator> getLinkDecorators() {
+		return linkDecorators;
+	}
+	public void setLinkDecorators(Collection<ILinkDecorator> linkDecorators) {
+		this.linkDecorators = linkDecorators;
 	}
 
 	public Map<String, Object> getPageScope() {

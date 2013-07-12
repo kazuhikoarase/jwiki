@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import jwiki.core.ILinkDecorator;
 import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.PathUtil;
@@ -31,6 +32,8 @@ import jwiki.decorator.IndexDecorator;
 import jwiki.decorator.ListDecorator;
 import jwiki.decorator.NavigatorDecorator;
 import jwiki.decorator.TableDecorator;
+import jwiki.decorator.link.DefaultLinkDecorator;
+import jwiki.decorator.link.ImageLinkDecorator;
 import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
 import jwiki.fs.IUserInfo;
@@ -83,6 +86,14 @@ public class WikiServlet extends HttpServlet {
 	 */
 	protected IUserInfo getUserInfo(HttpServletRequest request) throws Exception {
 		return (IUserInfo)request.getAttribute(Constants.JWIKI_USER);
+	}
+
+	/**
+	 * 文法を拡張するためには、このメソッドをオーバーライドします。
+	 * @return
+	 */
+	protected Collection<ILinkDecorator> getLinkDecorators() {
+		return DEFAULT_LINK_DECORATORS;
 	}
 
 	/**
@@ -184,6 +195,7 @@ public class WikiServlet extends HttpServlet {
 		}
 
 		WikiContext context = new WikiContext();
+		context.setLinkDecorators(getLinkDecorators() );
 		context.setDecorators(getDecorators() );
 		context.setFs(createFileSystem(request) );
 		context.setPathPrefix(getPathPrefix(request) );
@@ -197,6 +209,13 @@ public class WikiServlet extends HttpServlet {
 		action.init(getServletContext(),
 				request, response, context);
 		action.execute();
+	}
+	
+	private static Collection<ILinkDecorator> createLinkDecorators() {
+		List<ILinkDecorator> decorators = new ArrayList<ILinkDecorator>();
+		decorators.add(new DefaultLinkDecorator() );
+		decorators.add(new ImageLinkDecorator() );
+		return decorators;
 	}
 	
 	private static Collection<IParagraphDecorator> createDecorators() {
@@ -218,6 +237,8 @@ public class WikiServlet extends HttpServlet {
 		return decorators;
 	}
 
+	private static final Collection<ILinkDecorator> DEFAULT_LINK_DECORATORS =
+			createLinkDecorators();
 	private static final Collection<IParagraphDecorator> DEFAULT_DECORATORS =
-		createDecorators();
+			createDecorators();
 }
