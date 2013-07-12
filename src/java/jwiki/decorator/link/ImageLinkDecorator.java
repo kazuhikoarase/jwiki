@@ -17,6 +17,8 @@ public class ImageLinkDecorator extends AbstractLinkDecorator {
 		
 		String path = toCanonicalPath(context, link.getPath() );
 
+		path = path.replaceAll("\\?.*$", "");
+		
 		out.write("<img src=\"");
 		out.write(context.createPathUrlEncoded(path) );
 		out.write("?raw\" alt=\"");

@@ -6,6 +6,5 @@ package jwiki.core;
  */
 public interface ILink {
 	String getPath();
-	String getQuery();
 	String getLabel();
 }

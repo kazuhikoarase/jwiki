@@ -162,8 +162,8 @@ public class WikiUtil {
 			label = url;
 		}
 
-		//[(scheme:)(path)]
-		Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?([^\\:\\?]+)(\\?.+)?$");
+		// [scheme:path]
+		Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?(.+)$");
 		Matcher mat = pat.matcher(url);
 		if (!mat.find() ) {
 			writeEscaped(out, url);
@@ -172,9 +172,8 @@ public class WikiUtil {
 		
 		String scheme = Util.coalesce(mat.group(1), "");
 		String path = mat.group(2);
-		String query = Util.coalesce(mat.group(3), "");
 
-		ILink link = new Link(path, query, label);
+		ILink link = new Link(path, label);
 		for (ILinkDecorator decorator : context.getLinkDecorators() ) {
 			if (decorator.getScheme().equals(scheme) ) {
 				decorator.render(context, link, out);

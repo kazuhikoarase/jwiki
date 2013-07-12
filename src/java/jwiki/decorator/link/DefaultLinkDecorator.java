@@ -19,14 +19,21 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 		String path = toCanonicalPath(context, link.getPath() );
 
 		if (!context.getFile(path, -1).exists() ) {
-			writeUnknownLink(out, context, path, link.getLabel() );
+			writeUnknownLink(context, path, link.getLabel(), out);
 			return;
 		}
-
+		
+		String query = null;
+		int index = path.indexOf('?');
+		if (index != -1) {
+			query = path.substring(index);
+			path = path.substring(0, index);
+		}
+		
 		out.write("<a href=\"");
 		out.write(context.createPathUrlEncoded(path) );
-		if (!Util.isEmpty(link.getQuery() ) ) {
-			out.write(link.getQuery() );
+		if (!Util.isEmpty(query) ) {
+			out.write(query);
 		}
 		out.write("\">");
 		WikiUtil.writeEscaped(out, link.getLabel() );

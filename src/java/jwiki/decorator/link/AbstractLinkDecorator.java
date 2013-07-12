@@ -10,8 +10,10 @@ import jwiki.core.WikiUtil;
 public abstract class AbstractLinkDecorator implements ILinkDecorator {
 
 	protected void writeUnknownLink(
-		Writer out, IWikiContext context,
-		String path, String label
+		IWikiContext context,
+		String path,
+		String label,
+		Writer out
 	) throws Exception {
 		WikiUtil.writeEscaped(out, label);
 		out.write("<a href=\"");
@@ -19,8 +21,10 @@ public abstract class AbstractLinkDecorator implements ILinkDecorator {
 		out.write("?v=e\">?</a>");
 	}
 	
-	protected String toCanonicalPath(IWikiContext context, String path)
-	throws Exception {
+	protected String toCanonicalPath(
+		IWikiContext context,
+		String path
+	) throws Exception {
 		if (path.startsWith("/") ) {
 			// '/' で開始する場合、絶対パス
 			return PathUtil.trim(path);
