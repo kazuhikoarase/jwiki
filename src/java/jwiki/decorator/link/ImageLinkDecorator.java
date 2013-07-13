@@ -4,6 +4,7 @@ import java.io.Writer;
 
 import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
+import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
 /**
@@ -20,13 +21,14 @@ public class ImageLinkDecorator extends AbstractLinkDecorator {
 			Writer out) throws Exception {
 		
 		String path = toCanonicalPath(context, link.getPath() );
+		String label = Util.coalesce(link.getLabel(), link.getPath() );
 
 		path = path.replaceAll("\\?.*$", "");
 		
 		out.write("<img src=\"");
 		out.write(context.createPathUrlEncoded(path) );
 		out.write("?raw\" alt=\"");
-		WikiUtil.writeEscaped(out, link.getLabel() );
+		WikiUtil.writeEscaped(out, label);
 		out.write("\" />");
 	}
 }

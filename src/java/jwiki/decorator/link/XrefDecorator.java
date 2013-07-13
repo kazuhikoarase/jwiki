@@ -4,6 +4,7 @@ import java.io.Writer;
 
 import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
+import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
 /**
@@ -23,7 +24,7 @@ public class XrefDecorator extends AbstractLinkDecorator {
 		WikiUtil.writeEscaped(out, link.getPath() );
 		out.write("\">");
 		WikiUtil.writeEscaped(out, link.getPath() );
-		if (!link.getPath().equals(link.getLabel() ) ) {
+		if (!Util.isEmpty(link.getLabel() ) ) {
 			out.write(' ');
 			WikiUtil.writeEscaped(out, link.getLabel() );
 		}

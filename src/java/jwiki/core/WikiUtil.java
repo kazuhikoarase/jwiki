@@ -170,10 +170,6 @@ public class WikiUtil {
 		String scheme = Util.coalesce(mat.group(1), "");
 		String path = mat.group(2);
 
-		if (Util.isEmpty(label) ) {
-			label = path;
-		}
-
 		ILink link = new Link(path, label);
 		for (ILinkDecorator decorator : context.getLinkDecorators() ) {
 			if (decorator.getScheme().equals(scheme) ) {

@@ -21,6 +21,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 			Writer out) throws Exception {
 		
 		String path = link.getPath();
+		String label = Util.coalesce(link.getLabel(), link.getPath() );
 		
 		String query = null;
 		int index = path.indexOf('?');
@@ -32,7 +33,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 		path = toCanonicalPath(context, path);
 
 		if (!context.getFile(path, -1).exists() ) {
-			writeUnknownLink(context, path, link.getLabel(), out);
+			writeUnknownLink(context, path, label, out);
 			return;
 		}
 
@@ -42,7 +43,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 			out.write(query);
 		}
 		out.write("\">");
-		WikiUtil.writeEscaped(out, link.getLabel() );
+		WikiUtil.writeEscaped(out, label);
 		out.write("</a>");
 	}
 }
