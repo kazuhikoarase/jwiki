@@ -16,6 +16,8 @@ import jwiki.core.Util;
  */
 public class DocumentDecorator extends AbstractDecorator {
 
+	private static final String KEY_ID = "id";
+	
 	public String pattern() {
 		return "^(\\>+)\\s*([0-9\\-]*\\))?(.*)$";
 	}
@@ -48,21 +50,22 @@ public class DocumentDecorator extends AbstractDecorator {
 				}
 			}
 
-			List<Object> buf = new ArrayList<Object>();
+			List<Object> lazyLine = new ArrayList<Object>();
 
-			buf.add(leading + ' ');
+			lazyLine.add(leading + ' ');
 
 			if (header != null) {
 				
-				Integer id = (Integer)ic.peek().getAttribute("id");
+				Integer id = (Integer)ic.peek().getAttribute(KEY_ID);
 				if (id == null) {
 					id = Integer.valueOf(0);
 				}
 				id = Integer.valueOf(id.intValue() + 1);
-				ic.peek().setAttribute("id", id);
+				ic.peek().setAttribute(KEY_ID, id);
 
-				buf.add(xm.getAnchor(
-						header, Util.trim(desc), buildHeader(ic) ) );
+				String newHeader = buildHeader(ic);
+				xm.putRef(header, Util.trim(desc), newHeader);
+				lazyLine.add(newHeader);
 			}
 
 			Matcher mat = Pattern.compile("(\\[xref\\:)(\\S+)(.*)(\\])").
@@ -70,15 +73,15 @@ public class DocumentDecorator extends AbstractDecorator {
 			int start = 0;
 
 			while (mat.find(start) ) {
-				buf.add(desc.substring(start, mat.start() ) );
-				buf.add(mat.group(1) );
-				buf.add(xm.getRef(Util.trim(mat.group(2) ) ) );
-				buf.add(mat.group(4) );
+				lazyLine.add(desc.substring(start, mat.start() ) );
+				lazyLine.add(mat.group(1) );
+				lazyLine.add(xm.getRef(Util.trim(mat.group(2) ) ) );
+				lazyLine.add(mat.group(4) );
 				start = mat.end();
 			}
-			buf.add(desc.substring(start) );
+			lazyLine.add(desc.substring(start) );
 			
-			lazyLines.add(buf);
+			lazyLines.add(lazyLine);
 			
 			lastIndent = indent;
 		}
@@ -90,7 +93,7 @@ public class DocumentDecorator extends AbstractDecorator {
 		return list;
 	}
 	
-	public String concat(List<Object> list) {
+	public static String concat(List<Object> list) {
 		StringBuilder buf = new StringBuilder();
 		for (Object o : list) {
 			buf.append(o);
@@ -99,14 +102,14 @@ public class DocumentDecorator extends AbstractDecorator {
 	}
 
 	
-	public String buildHeader(IndentContext ic) {
+	public static String buildHeader(IndentContext ic) {
 		StringBuilder buf = new StringBuilder();
 		for (int i = 0; i < ic.size(); i += 1) {
 			if (i > 0) {
 				buf.append('-');
 			}
 			Integer currId = 
-					(Integer)ic.get(i).getAttribute("id");
+					(Integer)ic.get(i).getAttribute(KEY_ID);
 			if (currId != null) {
 				buf.append(currId);
 			} else {

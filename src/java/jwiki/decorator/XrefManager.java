@@ -7,9 +7,8 @@ public class XrefManager {
 
 	private Map<String,Info> xref = new HashMap<String,Info>(); 
 	
-	public Object getAnchor(String curValue, String label, String newValue) {
+	public void putRef(String curValue, String label, String newValue) {
 		xref.put(curValue, new Info(label, newValue) );
-		return new LazyAnchor(curValue);
 	}
 	
 	public Object getRef(String curValue) {
@@ -28,17 +27,6 @@ public class XrefManager {
 		}
 		public String getValue() {
 			return value;
-		}
-	}
-	
-	private class LazyAnchor {
-		private final String curValue;
-		public LazyAnchor(String curValue) {
-			this.curValue = curValue;
-		}
-		public String toString() {
-			Info info = xref.get(curValue);
-			return info != null? info.getValue() : curValue;
 		}
 	}
 
