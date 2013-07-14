@@ -37,40 +37,59 @@ public class TableDecorator extends AbstractDecorator {
 		}
 
 		Pattern spcPattern = Pattern.compile("^(\\s*).+?(\\s*)$");
+		String[] styleClasses = new String[maxCols];
 		
 		out.write("<table class=\"jwiki-solid\">");
 		for (List<String> row : table) {
+			
 			out.write("<tr>");
-			for (int i = 0; i < maxCols; i += 1) {
-				if (i < row.size() ) {
-					String item = row.get(i);
-					boolean header = item.matches("^\\s*\\*.*\\*\\s*$");
-					String tag = header? "th" : "td";
-					out.write("<");
-					out.write(tag);
-					
-					Matcher mat = spcPattern.matcher(item);
-					if (mat.find() ) {
-						out.write(" style=\"text-align:");
-						int leftSpc = mat.group(1).length();
-						int rightSpc = mat.group(2).length();
-						if (leftSpc < rightSpc) {
-							out.write("left");
-						} else if (leftSpc > rightSpc) {
-							out.write("right");
-						} else {
-							out.write("center");
-						}
-					}
 
-					out.write(";\">");
-					WikiUtil.writeStyled(out, context, item);
-					out.write("</");
-					out.write(tag);
-					out.write(">");
-				} else {
-					out.write("<td></td>");
+			String tag = "td";
+			
+			for (int c = 0; c < maxCols; c += 1) {
+				
+				String item = "";
+
+				if (c < row.size() ) {
+					item = row.get(c);
 				}
+				if (item.startsWith("|") ) {
+					if (c == 0) {
+						tag = "th";
+					} else {
+						styleClasses[c] = "jwiki-thick";
+					}
+					item = item.substring(1);
+				}
+
+				out.write("<");
+				out.write(tag);
+				
+				if (!Util.isEmpty(styleClasses[c]) ) {
+					out.write(" class=\"");
+					out.write(styleClasses[c]);
+					out.write("\"");
+				}
+				
+				Matcher mat = spcPattern.matcher(item);
+				if (mat.find() ) {
+					out.write(" style=\"text-align:");
+					int leftSpc = mat.group(1).length();
+					int rightSpc = mat.group(2).length();
+					if (leftSpc < rightSpc) {
+						out.write("left");
+					} else if (leftSpc > rightSpc) {
+						out.write("right");
+					} else {
+						out.write("center");
+					}
+				}
+
+				out.write(";\">");
+				WikiUtil.writeStyled(out, context, item);
+				out.write("</");
+				out.write(tag);
+				out.write(">");
 			}
 			out.write("</tr>");
 		}

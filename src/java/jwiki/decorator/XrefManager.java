@@ -8,6 +8,10 @@ public class XrefManager {
 	private Map<String,Info> xref = new HashMap<String,Info>(); 
 	
 	public void putRef(String curValue, String label, String newValue) {
+		if (xref.containsKey(curValue) ) {
+			// 先勝ち
+			return;
+		}
 		xref.put(curValue, new Info(label, newValue) );
 	}
 	

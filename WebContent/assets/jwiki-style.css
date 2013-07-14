@@ -13,7 +13,7 @@ TABLE.jwiki-index, TABLE.jwiki-index TH, TABLE.jwiki-index TD {
 }
 
 TABLE.jwiki-index TH {
-	background-color: #f0f0f0;
+	background-color: #ddddff;
 	font-weight: bold;
 	text-align: middle;
 }
@@ -33,9 +33,13 @@ TABLE.jwiki-solid, TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
 }
 
 TABLE.jwiki-solid TH {
-    background-color: #f0f0f0;
+    background-color: #ddddff;
     font-weight: bold;
     text-align: middle;
+}
+
+TABLE.jwiki-solid .jwiki-thick {
+	border-left-width: 2px;
 }
 
 TABLE.diff {
