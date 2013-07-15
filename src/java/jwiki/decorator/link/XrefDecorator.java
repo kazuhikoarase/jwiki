@@ -18,23 +18,23 @@ public class XrefDecorator extends AbstractLinkDecorator {
 		return "xref:";
 	}
 	
-	public void render(IWikiContext context, ILink link,
-			Writer out) throws Exception {
-		StringBuilder name = new StringBuilder();
-		name.append(link.getPath() );
+	private String buildLabel(ILink link) {
+		StringBuilder buf = new StringBuilder();
+		buf.append(link.getPath() );
 		if (!Util.isEmpty(link.getLabel() ) ) {
-			name.append(' ');
-			name.append(link.getLabel() );
+			buf.append(' ');
+			buf.append(link.getLabel() );
 		}
-		
+		return buf.toString();
+	}
+	
+	public void render(IWikiContext context,
+			ILink link, Writer out) throws Exception {
+		String label = buildLabel(link);
 		out.write("<a href=\"#");
-		out.write(URLEncoder.encode(name.toString(), "UTF-8") );
+		out.write(URLEncoder.encode(label, "UTF-8") );
 		out.write("\">");
-		WikiUtil.writeEscaped(out, link.getPath() );
-		if (!Util.isEmpty(link.getLabel() ) ) {
-			out.write(' ');
-			WikiUtil.writeEscaped(out, link.getLabel() );
-		}
+		WikiUtil.writeEscaped(out, label);
 		out.write("</a>");
 	}
 }
