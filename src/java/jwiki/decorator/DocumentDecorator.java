@@ -140,12 +140,15 @@ public class DocumentDecorator extends AbstractDecorator {
 					ic.pop(out);
 					ic.push(indent, tag, attrs, out);
 				}
-				buf.append("### ");
-				buf.append(Util.rtrim(header) );
+				buf.append("###");
+				buf.append(Util.trim(header) );
 				buf.append('\u0020');
+				buf.append(Util.trim(desc) );
+				buf.append('\n');
+			} else {
+				buf.append(desc);
+				buf.append('\n');
 			}
-			buf.append(Util.rtrim(desc) );
-			buf.append('\n');
 
 			lastIndent = indent;
 		}

@@ -1,6 +1,7 @@
 package jwiki.decorator.link;
 
 import java.io.Writer;
+import java.net.URLEncoder;
 
 import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
@@ -19,13 +20,15 @@ public class XrefDecorator extends AbstractLinkDecorator {
 	
 	public void render(IWikiContext context, ILink link,
 			Writer out) throws Exception {
-
-		out.write("<a href=\"#");
-		WikiUtil.writeEscaped(out, link.getPath() );
+		StringBuilder name = new StringBuilder();
+		name.append(link.getPath() );
 		if (!Util.isEmpty(link.getLabel() ) ) {
-			out.write(' ');
-			WikiUtil.writeEscaped(out, link.getLabel() );
+			name.append(' ');
+			name.append(link.getLabel() );
 		}
+		
+		out.write("<a href=\"#");
+		out.write(URLEncoder.encode(name.toString(), "UTF-8") );
 		out.write("\">");
 		WikiUtil.writeEscaped(out, link.getPath() );
 		if (!Util.isEmpty(link.getLabel() ) ) {

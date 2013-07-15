@@ -31,7 +31,7 @@ public class HeaderDecorator extends SimpleDecorator {
 		}
 
 		out.write("<a name=\"");
-		WikiUtil.writeEscaped(out, text);
+		out.write(URLEncoder.encode(Util.trim(text), "UTF-8") );
 		out.write("\"></a>");
 
 		String tag = "h" + header.length();
