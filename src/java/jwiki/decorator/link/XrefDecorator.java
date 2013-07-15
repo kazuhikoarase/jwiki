@@ -22,6 +22,10 @@ public class XrefDecorator extends AbstractLinkDecorator {
 
 		out.write("<a href=\"#");
 		WikiUtil.writeEscaped(out, link.getPath() );
+		if (!Util.isEmpty(link.getLabel() ) ) {
+			out.write(' ');
+			WikiUtil.writeEscaped(out, link.getLabel() );
+		}
 		out.write("\">");
 		WikiUtil.writeEscaped(out, link.getPath() );
 		if (!Util.isEmpty(link.getLabel() ) ) {
