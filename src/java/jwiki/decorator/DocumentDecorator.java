@@ -93,33 +93,6 @@ public class DocumentDecorator extends AbstractDecorator {
 		return list;
 	}
 	
-	public static String concat(List<Object> list) {
-		StringBuilder buf = new StringBuilder();
-		for (Object o : list) {
-			buf.append(o);
-		}
-		return buf.toString();
-	}
-
-	
-	public static String buildHeader(IndentContext ic) {
-		StringBuilder buf = new StringBuilder();
-		for (int i = 0; i < ic.size(); i += 1) {
-			if (i > 0) {
-				buf.append('-');
-			}
-			Integer currId = 
-					(Integer)ic.get(i).getAttribute(KEY_ID);
-			if (currId != null) {
-				buf.append(currId);
-			} else {
-				buf.append('?');
-			}
-		}
-		buf.append(')');
-		return buf.toString();
-	}
-	
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,
@@ -136,7 +109,8 @@ public class DocumentDecorator extends AbstractDecorator {
 		
 		for (ILine<String[]> group : groupList) {
 
-			final int indent = group.get()[1].length(); 
+			final String leading = group.get()[1];
+			final int indent = leading.length(); 
 			final String header = group.get()[2]; 
 			final String desc = group.get()[3]; 
 
@@ -166,9 +140,8 @@ public class DocumentDecorator extends AbstractDecorator {
 					ic.pop(out);
 					ic.push(indent, tag, attrs, out);
 				}
-				buf.append("**");
+				buf.append("### ");
 				buf.append(Util.rtrim(header) );
-				buf.append("**");
 				buf.append('\u0020');
 			}
 			buf.append(Util.rtrim(desc) );
@@ -184,6 +157,32 @@ public class DocumentDecorator extends AbstractDecorator {
 		while (ic.size() > 0) {
 			ic.pop(out);
 		}
+	}
+	
+	public static String concat(List<Object> list) {
+		StringBuilder buf = new StringBuilder();
+		for (Object o : list) {
+			buf.append(o);
+		}
+		return buf.toString();
+	}
+
+	public static String buildHeader(IndentContext ic) {
+		StringBuilder buf = new StringBuilder();
+		for (int i = 0; i < ic.size(); i += 1) {
+			if (i > 0) {
+				buf.append('-');
+			}
+			Integer currId = 
+					(Integer)ic.get(i).getAttribute(KEY_ID);
+			if (currId != null) {
+				buf.append(currId);
+			} else {
+				buf.append('?');
+			}
+		}
+		buf.append(')');
+		return buf.toString();
 	}
 }
 

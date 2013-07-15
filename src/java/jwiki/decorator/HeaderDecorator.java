@@ -1,9 +1,11 @@
 package jwiki.decorator;
 
 import java.io.Writer;
+import java.net.URLEncoder;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
 /**
@@ -27,6 +29,12 @@ public class HeaderDecorator extends SimpleDecorator {
 		if (text.endsWith(header) ) {
 			text = text.substring(0, text.length() - header.length() );
 		}
+		
+		text = Util.trim(text);
+		
+		out.write("<a name=\"");
+		out.write(URLEncoder.encode(text, "UTF-8") );
+		out.write("\"></a>");
 
 		String tag = "h" + header.length();
 		out.write("<");

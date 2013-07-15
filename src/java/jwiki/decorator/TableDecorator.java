@@ -46,18 +46,18 @@ public class TableDecorator extends AbstractDecorator {
 
 			String tag = "td";
 			
-			for (int c = 0; c < maxCols; c += 1) {
+			for (int i = 0; i < maxCols; i += 1) {
 				
 				String item = "";
 
-				if (c < row.size() ) {
-					item = row.get(c);
+				if (i < row.size() ) {
+					item = row.get(i);
 				}
 				if (item.startsWith("|") ) {
-					if (c == 0) {
+					if (i == 0) {
 						tag = "th";
 					} else {
-						styleClasses[c] = "jwiki-thick";
+						styleClasses[i] = "jwiki-thick";
 					}
 					item = item.substring(1);
 				}
@@ -65,9 +65,9 @@ public class TableDecorator extends AbstractDecorator {
 				out.write("<");
 				out.write(tag);
 				
-				if (!Util.isEmpty(styleClasses[c]) ) {
+				if (!Util.isEmpty(styleClasses[i]) ) {
 					out.write(" class=\"");
-					out.write(styleClasses[c]);
+					out.write(styleClasses[i]);
 					out.write("\"");
 				}
 				

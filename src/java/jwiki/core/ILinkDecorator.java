@@ -1,4 +1,4 @@
-ackage jwiki.core;
+package jwiki.core;
 
 import java.io.Writer;
 
