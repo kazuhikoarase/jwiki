@@ -42,7 +42,8 @@ public class XrefManager {
 		public String toString() {
 			Info info = xref.get(curValue);
 			return info != null? 
-				info.getValue() + ' ' + info.getLabel() : curValue;
+				info.getValue() + '\u0020' + info.getLabel() :
+				curValue;
 		}
 	}
 }

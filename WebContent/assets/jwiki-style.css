@@ -54,11 +54,11 @@ TABLE.diff TH { text-align: left; padding: 0px 0px 0px 8px; }
   border-width: 0px 1px 0px 0px;
 }
 
-.diff-left-only-even { background-color: #fff0f0; }
-.diff-left-only-odd  { background-color: #ffe0e0; }
+.diff-left-only-even { background-color: #ffe0e0; }
+.diff-left-only-odd  { background-color: #ffc0c0; }
 
-.diff-right-only-even { background-color: #f0fff0; }
-.diff-right-only-odd  { background-color: #e0ffe0; }
+.diff-right-only-even { background-color: #e0ffe0; }
+.diff-right-only-odd  { background-color: #c0ffc0; }
 
 .diff-line-no {
 	min-width: 20px;

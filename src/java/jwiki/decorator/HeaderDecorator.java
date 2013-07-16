@@ -29,9 +29,10 @@ public class HeaderDecorator extends SimpleDecorator {
 		if (text.endsWith(header) ) {
 			text = text.substring(0, text.length() - header.length() );
 		}
+		text = Util.trim(text);
 
 		out.write("<a name=\"");
-		out.write(URLEncoder.encode(Util.trim(text), "UTF-8") );
+		out.write(URLEncoder.encode(text, "UTF-8") );
 		out.write("\"></a>");
 
 		String tag = "h" + header.length();
