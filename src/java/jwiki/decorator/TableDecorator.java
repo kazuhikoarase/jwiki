@@ -47,28 +47,28 @@ public class TableDecorator extends AbstractDecorator {
 
 			String tag = "td";
 			
-			for (int i = 0; i < maxCols; i += 1) {
+			for (int col = 0; col < maxCols; col += 1) {
 				
 				String item = "";
 
-				if (i < row.size() ) {
-					item = row.get(i);
+				if (col < row.size() ) {
+					item = row.get(col);
 				}
 				if (item.startsWith("|") ) {
-					if (i == 0) {
+					item = item.substring(1);
+					if (col == 0) {
 						tag = "th";
 					} else {
-						styleClasses[i] = "jwiki-thick";
+						styleClasses[col] = "jwiki-thick";
 					}
-					item = item.substring(1);
 				}
 
 				out.write("<");
 				out.write(tag);
 				
-				if (!Util.isEmpty(styleClasses[i]) ) {
+				if (!Util.isEmpty(styleClasses[col]) ) {
 					out.write(" class=\"");
-					out.write(styleClasses[i]);
+					out.write(styleClasses[col]);
 					out.write("\"");
 				}
 				
