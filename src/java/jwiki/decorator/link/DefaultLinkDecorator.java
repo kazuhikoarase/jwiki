@@ -38,7 +38,6 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 			query = path.substring(index);
 			path = path.substring(0, index);
 		}
-		
 
 		path = toCanonicalPath(context, path);
 

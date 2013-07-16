@@ -29,6 +29,6 @@ public class ImageLinkDecorator extends AbstractLinkDecorator {
 		out.write(context.createPathUrlEncoded(path) );
 		out.write("?raw\" alt=\"");
 		WikiUtil.writeEscaped(out, label);
-		out.write("\" />");
+		out.write("\"/>");
 	}
 }

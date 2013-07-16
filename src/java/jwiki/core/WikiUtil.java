@@ -178,11 +178,16 @@ public class WikiUtil {
 	) throws Exception {
 
 		final int index = url.indexOf('\u0020');
+		
 		String label = "";
+		
 		if (index != -1) {
-			label = Util.trim(url.substring(index + 1) );
-			url = Util.trim(url.substring(0, index) );
+			label = url.substring(index + 1);
+			url = url.substring(0, index);
 		}
+
+		label = Util.trim(label);
+		url = Util.trim(url);
 
 		// scheme:path
 		final Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?(.+)$");

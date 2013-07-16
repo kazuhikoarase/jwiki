@@ -22,7 +22,7 @@ public class XrefDecorator extends AbstractLinkDecorator {
 		StringBuilder buf = new StringBuilder();
 		buf.append(link.getPath() );
 		if (!Util.isEmpty(link.getLabel() ) ) {
-			buf.append(' ');
+			buf.append('\u0020');
 			buf.append(link.getLabel() );
 		}
 		return buf.toString();
