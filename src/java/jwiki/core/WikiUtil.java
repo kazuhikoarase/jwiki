@@ -24,12 +24,17 @@ public class WikiUtil {
 	private static final String NBSP = "&#160;";
 	
 	public static void writeEscaped(
-			Writer out, char c) throws IOException {
+		final Writer out,
+		final char c
+	) throws IOException {
 		writeEscaped(out, c, false);
 	}
 	
 	public static void writeEscaped(
-			Writer out, char c, boolean pre) throws IOException {
+		final Writer out,
+		final char c,
+		final boolean pre
+	) throws IOException {
 
 		if (pre && preformat(out, c) ) {
 			// preformat
@@ -50,7 +55,9 @@ public class WikiUtil {
 	}
 	
 	private static boolean preformat(
-			Writer out, char c) throws IOException {
+		final Writer out,
+		final char c
+	) throws IOException {
 		if (c == HT) {
 			out.write(NBSP);
 			out.write(NBSP);
@@ -68,18 +75,27 @@ public class WikiUtil {
 	}
 
 	public static void writeEscaped(
-			Writer out, String s) throws IOException {
+		final Writer out,
+		final String s
+	) throws IOException {
 		writeEscaped(out, s, false);
 	}
 	
 	public static void writeEscaped(
-			Writer out, String s, boolean pre) throws IOException {
+		final Writer out,
+		final String s,
+		final boolean pre
+	) throws IOException {
 		for (int i = 0; i < s.length(); i += 1) {
 			writeEscaped(out, s.charAt(i), pre);
 		}
 	}
 
-	private static boolean startsWith(String s, int index, String c) {
+	private static boolean startsWith(
+		final String s,
+		final String c,
+		final int index
+	) {
 		return index + c.length() <= s.length() &&
 			s.substring(index, index + c.length() ).equals(c);
 	}
@@ -87,14 +103,17 @@ public class WikiUtil {
 	private static final String BOLD = "**";
 	private static final String STRIKE = "--";
 	private static final String UNDERLINE = "__";
-	
+
+	private static final String OPEN_TAG = "[";
+	private static final String CLOSE_TAG = "]";
+
 	public static void writeStyled(
-		Writer out,
-		IWikiContext context,
-		String s
+		final Writer out,
+		final IWikiContext context,
+		final String s
 	) throws Exception {
 
-		Stack<String> stack = new Stack<String>();
+		final Stack<String> stack = new Stack<String>();
 		int index = 0;
 		
 		while (index < s.length() ) {
@@ -102,44 +121,50 @@ public class WikiUtil {
 			if (s.charAt(index) == '\\' && index + 1 < s.length() ) {
 				writeEscaped(out, s.charAt(index + 1) );
 				index += 2;
-			} else if (stack.size() > 0 && startsWith(s, index, stack.peek() ) ) {
+			} else if (stack.size() > 0 &&
+					startsWith(s, stack.peek(), index) ) {
 				index += stack.pop().length();
 				out.write("</span>");
-			} else if (startsWith(s, index, BOLD) ) {
+			} else if (startsWith(s, BOLD, index) ) {
 				stack.push(BOLD);
 				out.write("<span class=\"jwiki-bold\">");
 				index += BOLD.length();
-			} else if (startsWith(s, index, STRIKE) ) {
+			} else if (startsWith(s, STRIKE, index) ) {
 				stack.push(STRIKE);
 				out.write("<span class=\"jwiki-strike\">");
 				index += STRIKE.length();
-			} else if (startsWith(s, index, UNDERLINE) ) {
+			} else if (startsWith(s, UNDERLINE, index) ) {
 				stack.push(UNDERLINE);
 				out.write("<span class=\"jwiki-underline\">");
 				index += UNDERLINE.length();
-			} else if (s.charAt(index) == '[') {
-				int start = index + 1;
+			} else if (startsWith(s, OPEN_TAG, index) ) {
+				
+				final int start = index + OPEN_TAG.length();
 				int end = start;
 				String url = null;
+				
 				while (end < s.length() ) {
-					if (s.charAt(end) == ']') {
+					if (startsWith(s, CLOSE_TAG, end) ) {
 						url = Util.trim(s.substring(start, end) );
 						break;
 					}
 					end += 1;
 				}
+
 				if (!Util.isEmpty(url) ) {
 					writeLink(out, context, url);
-					index = end + 1;
+					index = end + CLOSE_TAG.length();
 				} else {
 					writeEscaped(out, s.charAt(index) );
 					index += 1;
 				}
+
 			} else {	
 				writeEscaped(out, s.charAt(index) );
 				index += 1;
 			}
 		}
+
 		while (stack.size() > 0) {
 			stack.pop();
 			out.write("</span>");
@@ -147,12 +172,12 @@ public class WikiUtil {
 	}
 
 	public static void writeLink(
-		Writer out,
-		IWikiContext context,
+		final Writer out,
+		final IWikiContext context,
 		String url
 	) throws Exception {
 
-		int index = url.indexOf('\u0020');
+		final int index = url.indexOf('\u0020');
 		String label = "";
 		if (index != -1) {
 			label = Util.trim(url.substring(index + 1) );
@@ -160,18 +185,19 @@ public class WikiUtil {
 		}
 
 		// [scheme:path]
-		Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?(.+)$");
-		Matcher mat = pat.matcher(url);
+		final Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?(.+)$");
+		final Matcher mat = pat.matcher(url);
 		if (!mat.find() ) {
 			writeEscaped(out, url);
 			return;
 		}
 		
-		String scheme = Util.coalesce(mat.group(1), "");
-		String path = mat.group(2);
+		final String scheme = Util.coalesce(mat.group(1), "");
+		final String path = mat.group(2);
 
-		ILink link = new Link(path, label);
-		for (ILinkDecorator decorator : context.getLinkDecorators() ) {
+		final ILink link = new Link(path, label);
+		for (final ILinkDecorator decorator :
+				context.getLinkDecorators() ) {
 			if (decorator.getScheme().equals(scheme) ) {
 				decorator.render(context, link, out);
 				return;

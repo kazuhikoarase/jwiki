@@ -17,6 +17,8 @@ import jwiki.core.WikiUtil;
  */
 public class TableDecorator extends AbstractDecorator {
 
+	private Pattern spcPattern = Pattern.compile("^(\\s*).+?(\\s*)$");
+
 	public String pattern() {
 		return "^\\s*\\|\\|(.+)\\|\\|$";
 	}
@@ -36,7 +38,6 @@ public class TableDecorator extends AbstractDecorator {
 			maxCols = Math.max(maxCols, row.size() );
 		}
 
-		Pattern spcPattern = Pattern.compile("^(\\s*).+?(\\s*)$");
 		String[] styleClasses = new String[maxCols];
 		
 		out.write("<table class=\"jwiki-solid\">");
@@ -74,19 +75,14 @@ public class TableDecorator extends AbstractDecorator {
 				Matcher mat = spcPattern.matcher(item);
 				if (mat.find() ) {
 					out.write(" style=\"text-align:");
-					int leftSpc = mat.group(1).length();
-					int rightSpc = mat.group(2).length();
-					if (leftSpc < rightSpc) {
-						out.write("left");
-					} else if (leftSpc > rightSpc) {
-						out.write("right");
-					} else {
-						out.write("center");
-					}
+					out.write(getTextAlign(mat) );
+					out.write(";\"");
 				}
 
-				out.write(";\">");
+				out.write(">");
+				
 				WikiUtil.writeStyled(out, context, item);
+
 				out.write("</");
 				out.write(tag);
 				out.write(">");
@@ -94,6 +90,18 @@ public class TableDecorator extends AbstractDecorator {
 			out.write("</tr>");
 		}
 		out.write("</table>");
+	}
+	
+	private String getTextAlign(Matcher mat) {
+		int leftSpc = mat.group(1).length();
+		int rightSpc = mat.group(2).length();
+		if (leftSpc < rightSpc) {
+			return "left";
+		} else if (leftSpc > rightSpc) {
+			return "right";
+		} else {
+			return "center";
+		}
 	}
 }
 
