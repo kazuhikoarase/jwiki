@@ -36,14 +36,27 @@ public class XrefManager {
 
 	private class LazyRef {
 		private final String curValue;
+		private String cache = null;
 		public LazyRef(String curValue) {
 			this.curValue = curValue;
 		}
+		@Override
 		public String toString() {
+			if (cache == null) {
+				cache = toStringImpl();
+			}
+			return cache;
+		}
+		private String toStringImpl() {
+			if (!xref.containsKey(curValue) ) {
+				return curValue;
+			}
 			Info info = xref.get(curValue);
-			return info != null? 
-				info.getValue() + '\u0020' + info.getLabel() :
-				curValue;
+			StringBuilder buf = new StringBuilder();
+			buf.append(info.getValue() );
+			buf.append('\u0020');
+			buf.append(info.getLabel() );
+			return buf.toString();
 		}
 	}
 }
