@@ -19,7 +19,7 @@ public class DocumentDecorator extends AbstractDecorator {
 	private static final String KEY_ID = "id";
 	
 	public String pattern() {
-		return "^(\\>+)\\s*([0-9\\-]*\\))?(.*)$";
+		return "^(\\>+)(\\s*)([0-9\\-]*\\))?(.*)$";
 	}
 
 	@Override
@@ -37,8 +37,9 @@ public class DocumentDecorator extends AbstractDecorator {
 			
 			final String leading = group.get()[1];
 			final int indent = leading.length(); 
-			final String header = group.get()[2]; 
-			final String desc = group.get()[3]; 
+			final String spc = group.get()[2]; 
+			final String header = group.get()[3]; 
+			final String desc = group.get()[4]; 
 
 			if (lastIndent == indent) {
 			} else if (lastIndent < indent) {
@@ -52,7 +53,8 @@ public class DocumentDecorator extends AbstractDecorator {
 
 			List<Object> lazyLine = new ArrayList<Object>();
 
-			lazyLine.add(leading + ' ');
+			lazyLine.add(leading);
+			lazyLine.add(spc);
 
 			if (header != null) {
 				
@@ -112,8 +114,9 @@ public class DocumentDecorator extends AbstractDecorator {
 
 			final String leading = group.get()[1];
 			final int indent = leading.length(); 
-			final String header = group.get()[2]; 
-			final String desc = group.get()[3]; 
+			final String spc = group.get()[2]; 
+			final String header = group.get()[3]; 
+			final String desc = group.get()[4]; 
 
 			if (lastIndent != indent) {
 				if (!Util.isEmpty(buf) ) {
@@ -147,6 +150,7 @@ public class DocumentDecorator extends AbstractDecorator {
 				buf.append(Util.trim(desc) );
 				buf.append('\n');
 			} else {
+				buf.append(spc);
 				buf.append(desc);
 				buf.append('\n');
 			}
