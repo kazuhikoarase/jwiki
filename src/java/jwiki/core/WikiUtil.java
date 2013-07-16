@@ -104,8 +104,8 @@ public class WikiUtil {
 	private static final String STRIKE = "--";
 	private static final String UNDERLINE = "__";
 
-	private static final String OPEN_TAG = "[";
-	private static final String CLOSE_TAG = "]";
+	private static final String OPEN_TAG = "[[";
+	private static final String CLOSE_TAG = "]]";
 
 	public static void writeStyled(
 		final Writer out,
@@ -184,7 +184,7 @@ public class WikiUtil {
 			url = Util.trim(url.substring(0, index) );
 		}
 
-		// [scheme:path]
+		// scheme:path
 		final Pattern pat = Pattern.compile("^([A-Za-z]+\\:)?(.+)$");
 		final Matcher mat = pat.matcher(url);
 		if (!mat.find() ) {

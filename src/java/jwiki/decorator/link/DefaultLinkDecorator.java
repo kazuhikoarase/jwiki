@@ -23,12 +23,22 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 		String path = link.getPath();
 		String label = Util.coalesce(link.getLabel(), link.getPath() );
 		
+		int index;
+
+		String hash = null;
+		index = path.indexOf('#');
+		if (index != -1) {
+			hash = path.substring(index);
+			path = path.substring(0, index);
+		}
+
 		String query = null;
-		int index = path.indexOf('?');
+		index = path.indexOf('?');
 		if (index != -1) {
 			query = path.substring(index);
 			path = path.substring(0, index);
 		}
+		
 
 		path = toCanonicalPath(context, path);
 
@@ -41,6 +51,9 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 		out.write(context.createPathUrlEncoded(path) );
 		if (!Util.isEmpty(query) ) {
 			out.write(query);
+		}
+		if (!Util.isEmpty(hash) ) {
+			out.write(hash);
 		}
 		out.write("\">");
 		WikiUtil.writeEscaped(out, label);

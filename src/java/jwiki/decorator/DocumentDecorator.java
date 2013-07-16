@@ -68,7 +68,8 @@ public class DocumentDecorator extends AbstractDecorator {
 				lazyLine.add(newHeader);
 			}
 
-			Matcher mat = Pattern.compile("(\\[xref\\:)(\\S+)(.*)(\\])").
+			Matcher mat = Pattern.
+					compile("(\\[\\[xref\\:)(\\S+)(.*)(\\]\\])").
 					matcher(desc);
 			int start = 0;
 
