@@ -52,11 +52,11 @@ public class XrefManager {
 				return curValue;
 			}
 			Info info = xref.get(curValue);
-			StringBuilder buf = new StringBuilder();
-			buf.append(info.getValue() );
-			buf.append('\u0020');
-			buf.append(info.getLabel() );
-			return buf.toString();
+			return new StringBuilder().
+				append(info.getValue() ).
+				append('\u0020').
+				append(info.getLabel() ).
+				toString();
 		}
 	}
 }
