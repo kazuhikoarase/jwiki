@@ -7,13 +7,20 @@
 .jwiki-current { background-color: #ffeecc; }
 .jwiki-error-message { color: #ff0000; }
 
-TABLE.jwiki-index, TABLE.jwiki-index TH, TABLE.jwiki-index TD {
+TABLE.jwiki-index {
 	border-collapse: collapse;
+}
+
+TABLE.jwiki-index, TABLE.jwiki-index TH, TABLE.jwiki-index TD {
 	border: 1px solid #000000;
 }
 
+TABLE.jwiki-index TH, TABLE.jwiki-index TD {
+	padding: 2px 4px 2px 4px;	
+}
+
 TABLE.jwiki-index TH {
-	background-color: #ddddff;
+	background-color: #dddddd;
 	font-weight: bold;
 	text-align: middle;
 }
@@ -27,13 +34,20 @@ TABLE.jwiki-index TH {
     border: 1px solid #666666;
 }
 
-TABLE.jwiki-solid, TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
+TABLE.jwiki-solid {
     border-collapse: collapse;
+}
+
+TABLE.jwiki-solid, TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
     border: 1px solid #000000;
 }
 
+TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
+	padding: 2px 4px 2px 4px;	
+}
+
 TABLE.jwiki-solid TH {
-    background-color: #ddddff;
+    background-color: #dddddd;
     font-weight: bold;
     text-align: middle;
 }
@@ -73,6 +87,6 @@ TABLE.diff TH { text-align: left; padding: 0px 0px 0px 8px; }
 	padding: 4px 8px 4px 8px;
 	border-width: 1px 1px 1px 4px;
 	border-style: solid;
-	border-color: #666666;
+	border-color: #6666cc;
 	background-color: #f9f9f9;
 }
