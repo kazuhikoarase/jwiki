@@ -3,7 +3,7 @@
 .jwiki-strike { text-decoration: line-through; color: #ff0000; }
 .jwiki-underline { text-decoration: underline; color: #000099; }
 
-.jwiki-spacer { padding: 0px 4px 0px 4px; }
+.jwiki-spacer { padding: 0pt 4pt 0pt 4pt; }
 .jwiki-current { background-color: #ffeecc; }
 .jwiki-error-message { color: #ff0000; }
 
@@ -12,11 +12,11 @@ TABLE.jwiki-index {
 }
 
 TABLE.jwiki-index, TABLE.jwiki-index TH, TABLE.jwiki-index TD {
-	border: 1px solid #000000;
+	border: 1pt solid #000000;
 }
 
 TABLE.jwiki-index TH, TABLE.jwiki-index TD {
-	padding: 2px 4px 2px 4px;	
+	padding: 2pt 4pt 2pt 4pt;	
 }
 
 TABLE.jwiki-index TH {
@@ -28,10 +28,10 @@ TABLE.jwiki-index TH {
 .jwiki-code { font-family: 'Source Code Pro', monospace; }
 
 .jwiki-code-block {
-	margin: 8px 0px 8px 0px;
-	padding: 4px;
+	margin: 8pt 0pt 8pt 0pt;
+	padding: 4pt;
 	background-color: #f0f0f0;
-    border: 1px solid #666666;
+    border: 1pt solid #666666;
 }
 
 TABLE.jwiki-solid {
@@ -39,11 +39,11 @@ TABLE.jwiki-solid {
 }
 
 TABLE.jwiki-solid, TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
-    border: 1px solid #000000;
+    border: 1pt solid #000000;
 }
 
 TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
-	padding: 2px 4px 2px 4px;	
+	padding: 2pt 4pt 2pt 4pt;	
 }
 
 TABLE.jwiki-solid TH {
@@ -53,19 +53,19 @@ TABLE.jwiki-solid TH {
 }
 
 TABLE.jwiki-solid .jwiki-thick {
-	border-left-width: 2px;
+	border-left-width: 2pt;
 }
 
 TABLE.diff {
     border-collapse: collapse;
 }
 
-TABLE.diff TH { text-align: left; padding: 0px 0px 0px 8px; }
+TABLE.diff TH { text-align: left; padding: 0pt 0pt 0pt 8pt; }
 	
 .diff-rdiv {
   border-style: solid;
   border-color: #cccccc;
-  border-width: 0px 1px 0px 0px;
+  border-width: 0pt 1pt 0pt 0pt;
 }
 
 .diff-left-only-even { background-color: #ffe0e0; }
@@ -75,17 +75,17 @@ TABLE.diff TH { text-align: left; padding: 0px 0px 0px 8px; }
 .diff-right-only-odd  { background-color: #c0ffc0; }
 
 .diff-line-no {
-	min-width: 20px;
+	min-width: 20pt;
 	text-align: right;
 	border-style: solid;
-	border-width: 0px 2px 0px 0px;
+	border-width: 0pt 2pt 0pt 0pt;
 	border-color: #999999;
 }
 
 .jwiki-doc {
-	margin: 8px 0px 8px 0px;
-	padding: 4px 8px 4px 8px;
-	border-width: 1px 1px 1px 4px;
+	margin: 8pt 0pt 8pt 0pt;
+	padding: 4pt 8pt 4pt 8pt;
+	border-width: 1pt 1pt 1pt 4pt;
 	border-style: solid;
 	border-color: #6666cc;
 	background-color: #f9f9f9;
