@@ -2,8 +2,6 @@ package jwiki.core.impl;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,17 +18,18 @@ import jwiki.core.Util;
  */
 public class WikiWriter implements IWikiWriter {
 
-	private List<Object> buffer = new ArrayList<Object>();
-
-	public WikiWriter() {
+	private final Writer out;
+	
+	public WikiWriter(final Writer out) {
+		this.out = out;
 	}
 
 	public void write(char c) throws IOException {
-		buffer.add(Character.valueOf(c) );
+		out.write(Character.valueOf(c) );
 	}
 
-	public void write(Object o) throws IOException {
-		buffer.add(o);
+	public void write(String s) throws IOException {
+		out.write(s);
 	}
 	
 	private static final char HT = 0x09;
@@ -220,11 +219,5 @@ public class WikiWriter implements IWikiWriter {
 
 		// not found.
 		writeEscaped(url);
-	}
-	
-	public void writeTo(Writer out) throws IOException {
-		for (Object o : buffer) {
-			out.write(o.toString() );
-		}
 	}
 }

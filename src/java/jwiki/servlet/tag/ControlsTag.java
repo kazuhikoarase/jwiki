@@ -19,9 +19,7 @@ public class ControlsTag extends TagSupport {
 		IWikiPage wikiPage = (IWikiPage)pageContext.
 				getRequest().getAttribute(Constants.JWIKI_PAGE);
 		try {
-			WikiWriter out = new WikiWriter();
-			wikiPage.writeControls(out);
-			out.writeTo(pageContext.getOut() );
+			wikiPage.writeControls(new WikiWriter(pageContext.getOut() ) );
 		} catch(Exception e) {
 			throw new JspException(e);
 		}

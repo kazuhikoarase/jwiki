@@ -19,9 +19,7 @@ public class PageTag extends TagSupport {
 		IWikiPage wikiPage = (IWikiPage)pageContext.
 				getRequest().getAttribute(Constants.JWIKI_PAGE);
 		try {
-			WikiWriter out = new WikiWriter();
-			wikiPage.writeWikiPage(out);
-			out.writeTo(pageContext.getOut() );
+			wikiPage.writeWikiPage(new WikiWriter(pageContext.getOut() ) );
 		} catch(Exception e) {
 			throw new JspException(e);
 		}

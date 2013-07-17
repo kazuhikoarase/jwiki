@@ -19,9 +19,8 @@ public class RenderTag extends BodyTagSupport {
 		IWikiPage wikiPage = (IWikiPage)pageContext.
 				getRequest().getAttribute(Constants.JWIKI_PAGE);
 		try {
-			WikiWriter out = new WikiWriter();
-			wikiPage.render(out, getBodyContent().getString() );
-			out.writeTo(pageContext.getOut() );
+			wikiPage.render(new WikiWriter(pageContext.getOut() ) ,
+					getBodyContent().getString() );
 		} catch(Exception e) {
 			throw new JspException(e);
 		}
