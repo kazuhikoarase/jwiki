@@ -1,7 +1,6 @@
 package jwiki.servlet.action;
 
-import java.io.Writer;
-
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.fs.IContent;
 
@@ -11,7 +10,7 @@ import jwiki.fs.IContent;
  */
 public class DirectoryViewAction extends WikiAction {
 
-	public void writeControls(Writer out) throws Exception {
+	public void writeControls(IWikiWriter out) throws Exception {
 		
 		// index
 		String indexPath = PathUtil.buildPath(context.getPath(), "index");
@@ -29,7 +28,7 @@ public class DirectoryViewAction extends WikiAction {
         			context.getString("label.new_page") );
 	}
 
-	public void writeWikiPage(Writer out) throws Exception {
+	public void writeWikiPage(IWikiWriter out) throws Exception {
 
 		// index
 		String indexPath = PathUtil.buildPath(context.getPath(), "index");

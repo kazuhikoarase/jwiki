@@ -1,6 +1,5 @@
 package jwiki.core;
 
-import java.io.Writer;
 
 /**
  * ILinkDecorator
@@ -9,5 +8,5 @@ import java.io.Writer;
 public interface ILinkDecorator {
 	String getScheme();
 	void render(IWikiContext context, ILink link,
-			Writer out) throws Exception;
+			IWikiWriter out) throws Exception;
 }

@@ -1,6 +1,5 @@
 package jwiki.servlet.action;
 
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +11,7 @@ import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiPage;
 import jwiki.core.IWikiRendererWorker;
+import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 import jwiki.servlet.Constants;
@@ -70,7 +70,7 @@ extends Action implements IWikiPage {
 			forward(request, response);
 	}
 
-	public void render(Writer out, String plainText) throws Exception {
+	public void render(IWikiWriter out, String plainText) throws Exception {
 		context.render(out, plainText);
 	}
 	
@@ -78,7 +78,7 @@ extends Action implements IWikiPage {
 		return context.getPath();
 	}
 
-	protected void writeLinkButton(Writer out, String href, String label) 
+	protected void writeLinkButton(IWikiWriter out, String href, String label) 
 	throws Exception {
 		out.write("<a href=\"");
 		out.write(href);

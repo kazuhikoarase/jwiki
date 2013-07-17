@@ -2,13 +2,13 @@ package jwiki.decorator;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.WikiUtil;
 import jwiki.util.diff.CharSequenceDiffComparable;
 import jwiki.util.diff.Diff;
@@ -28,7 +28,7 @@ public class DiffDecorator extends SimpleDecorator {
 	public void render(
 		IWikiContext context,
 		ILine<String[]> group,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		String lLabel = group.get()[1];
@@ -134,7 +134,7 @@ public class DiffDecorator extends SimpleDecorator {
 		return list;
 	}
 
-	private void outputConflictRow(Writer out, DiffContext dc) throws Exception {
+	private void outputConflictRow(IWikiWriter out, DiffContext dc) throws Exception {
 
 		List<String[]> list = diff(dc.getLText(), dc.getRText() );
 
@@ -168,7 +168,7 @@ public class DiffDecorator extends SimpleDecorator {
 		dc.increment(true, true);
 	}	
 
-	private void outputLeftOnlyRow(Writer out, DiffContext dc) throws Exception {
+	private void outputLeftOnlyRow(IWikiWriter out, DiffContext dc) throws Exception {
 		out.write("<tr>");
 		out.write("<td class=\"diff-line-no\">");
 		out.write(String.valueOf(dc.getLIndex() + 1) );
@@ -183,7 +183,7 @@ public class DiffDecorator extends SimpleDecorator {
 		dc.increment(true, false);
 	}	
 
-	private void outputRightOnlyRow(Writer out, DiffContext dc) throws Exception {
+	private void outputRightOnlyRow(IWikiWriter out, DiffContext dc) throws Exception {
 		out.write("<tr>");
 		out.write("<td class=\"diff-line-no\"></td>");
 		out.write("<td class=\"diff-line-no\">");
@@ -199,7 +199,7 @@ public class DiffDecorator extends SimpleDecorator {
 
 	}	
 	
-	private void outputMatchRow(Writer out, DiffContext dc) throws Exception {
+	private void outputMatchRow(IWikiWriter out, DiffContext dc) throws Exception {
 		out.write("<tr class=\"src");
 		out.write(getClassSuffix(dc.getIndex() ) );
 		out.write("\">");

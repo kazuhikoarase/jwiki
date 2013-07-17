@@ -1,6 +1,5 @@
 package jwiki.core;
 
-import java.io.Writer;
 
 /**
  * IWikiPage
@@ -8,7 +7,7 @@ import java.io.Writer;
  */
 public interface IWikiPage {
 	String getPath();
-	void render(Writer out, String plainText) throws Exception;
-	void writeControls(Writer out) throws Exception;
-	void writeWikiPage(Writer out) throws Exception;
+	void render(IWikiWriter out, String plainText) throws Exception;
+	void writeControls(IWikiWriter out) throws Exception;
+	void writeWikiPage(IWikiWriter out) throws Exception;
 }

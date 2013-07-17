@@ -1,7 +1,8 @@
 package jwiki.decorator;
 
-import java.io.Writer;
 import java.util.Stack;
+
+import jwiki.core.IWikiWriter;
 
 @SuppressWarnings("serial")
 public class IndentContext extends Stack<IndentInfo> {
@@ -9,7 +10,7 @@ public class IndentContext extends Stack<IndentInfo> {
 	public IndentContext() {
 	}
 
-	public void push(int indent, String tag, String attrs, Writer out) throws Exception {
+	public void push(int indent, String tag, String attrs, IWikiWriter out) throws Exception {
 		push(new IndentInfo(indent, tag) );
 		if (out != null) {
 			out.write('<');
@@ -22,7 +23,7 @@ public class IndentContext extends Stack<IndentInfo> {
 		}
 	}
 
-	public IndentInfo pop(Writer out) throws Exception {
+	public IndentInfo pop(IWikiWriter out) throws Exception {
 		IndentInfo indexInfo = pop();
 		if (out != null) {
 			out.write('<');

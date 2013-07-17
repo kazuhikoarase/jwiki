@@ -1,7 +1,6 @@
 package jwiki.core;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,14 +23,14 @@ public class WikiUtil {
 	private static final String NBSP = "&#160;";
 	
 	public static void writeEscaped(
-		final Writer out,
+		final IWikiWriter out,
 		final char c
 	) throws IOException {
 		writeEscaped(out, c, false);
 	}
 	
 	public static void writeEscaped(
-		final Writer out,
+		final IWikiWriter out,
 		final char c,
 		final boolean pre
 	) throws IOException {
@@ -55,7 +54,7 @@ public class WikiUtil {
 	}
 	
 	private static boolean preformat(
-		final Writer out,
+		final IWikiWriter out,
 		final char c
 	) throws IOException {
 		if (c == HT) {
@@ -75,14 +74,14 @@ public class WikiUtil {
 	}
 
 	public static void writeEscaped(
-		final Writer out,
+		final IWikiWriter out,
 		final String s
 	) throws IOException {
 		writeEscaped(out, s, false);
 	}
 	
 	public static void writeEscaped(
-		final Writer out,
+		final IWikiWriter out,
 		final String s,
 		final boolean pre
 	) throws IOException {
@@ -108,7 +107,7 @@ public class WikiUtil {
 	private static final String CLOSE_TAG = "]]";
 
 	public static void writeStyled(
-		final Writer out,
+		final IWikiWriter out,
 		final IWikiContext context,
 		final String s
 	) throws Exception {
@@ -172,7 +171,7 @@ public class WikiUtil {
 	}
 
 	public static void writeLink(
-		final Writer out,
+		final IWikiWriter out,
 		final IWikiContext context,
 		String url
 	) throws Exception {

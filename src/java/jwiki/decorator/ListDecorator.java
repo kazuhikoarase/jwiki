@@ -1,10 +1,10 @@
 package jwiki.decorator;
 
-import java.io.Writer;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
@@ -21,7 +21,7 @@ public class ListDecorator extends AbstractDecorator {
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		IndentContext ic = new IndentContext();

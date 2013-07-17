@@ -1,6 +1,5 @@
 package jwiki.decorator;
 
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,6 +7,7 @@ import java.util.regex.Pattern;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
 
 /**
@@ -99,7 +99,7 @@ public class DocumentDecorator extends AbstractDecorator {
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		final String tag = "div";

@@ -1,12 +1,12 @@
 package jwiki.decorator;
 
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
@@ -24,7 +24,7 @@ public class NavigatorDecorator extends SimpleDecorator {
 	public void render(
 		IWikiContext context,
 		ILine<String[]> group,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		List<String> pathList = new ArrayList<String>();

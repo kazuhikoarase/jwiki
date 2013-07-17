@@ -1,9 +1,8 @@
 package jwiki.decorator;
 
-import java.io.Writer;
-
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
@@ -22,7 +21,7 @@ public class IndexDecorator extends SimpleDecorator {
 	public void render(
 		IWikiContext context,
 		ILine<String[]> group,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		// ディレクトリの場合直接、それ以外の場合、親ディレクトリ。

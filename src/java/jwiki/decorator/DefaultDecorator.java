@@ -1,10 +1,10 @@
 package jwiki.decorator;
 
-import java.io.Writer;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.WikiUtil;
 
 /**
@@ -20,7 +20,7 @@ public class DefaultDecorator extends AbstractDecorator {
 	public void render(
 		IWikiContext context,
 		List<ILine<String[]>> groupList,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		out.write("<p>");

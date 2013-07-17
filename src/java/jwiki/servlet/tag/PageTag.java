@@ -4,6 +4,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import jwiki.core.IWikiPage;
+import jwiki.core.impl.WikiWriter;
 import jwiki.servlet.Constants;
 
 /**
@@ -18,7 +19,9 @@ public class PageTag extends TagSupport {
 		IWikiPage wikiPage = (IWikiPage)pageContext.
 				getRequest().getAttribute(Constants.JWIKI_PAGE);
 		try {
-			wikiPage.writeWikiPage(pageContext.getOut() );
+			WikiWriter out = new WikiWriter();
+			wikiPage.writeWikiPage(out);
+			out.writeTo(pageContext.getOut() );
 		} catch(Exception e) {
 			throw new JspException(e);
 		}

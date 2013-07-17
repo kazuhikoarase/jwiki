@@ -1,6 +1,5 @@
 package jwiki.core;
 
-import java.io.Writer;
 import java.util.List;
 
 /**
@@ -25,5 +24,5 @@ public interface IParagraphDecorator {
 			List<ILine<String[]>> groupList) throws Exception;
 	
 	void render(IWikiContext context, List<ILine<String[]>> groupList,
-			Writer out) throws Exception;
+			IWikiWriter out) throws Exception;
 }

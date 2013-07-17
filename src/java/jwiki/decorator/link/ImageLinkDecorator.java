@@ -1,9 +1,8 @@
 package jwiki.decorator.link;
 
-import java.io.Writer;
-
 import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
@@ -19,7 +18,7 @@ public class ImageLinkDecorator extends AbstractLinkDecorator {
 	
 	@SuppressWarnings("unused")
 	public void render(IWikiContext context, ILink link,
-			Writer out) throws Exception {
+			IWikiWriter out) throws Exception {
 		
 		String path = link.getPath();
 		String label = Util.coalesce(link.getLabel(), link.getPath() );

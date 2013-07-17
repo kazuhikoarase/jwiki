@@ -1,6 +1,5 @@
 package jwiki.core;
 
-import java.io.Writer;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -40,5 +39,5 @@ public interface IWikiContext {
 	String getLockOwner(String path) throws Exception;
 
 	void render(IWikiRendererWorker worker, String plainText) throws Exception;
-	void render(Writer out, String plainText) throws Exception;
+	void render(IWikiWriter out, String plainText) throws Exception;
 }

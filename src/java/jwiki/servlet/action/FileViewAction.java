@@ -2,7 +2,6 @@ package jwiki.servlet.action;
 
 import java.io.BufferedOutputStream;
 import java.io.OutputStream;
-import java.io.Writer;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +11,7 @@ import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiPage;
 import jwiki.core.IWikiRendererWorker;
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
 import jwiki.decorator.AttachedFileDecorator;
@@ -97,11 +97,11 @@ public class FileViewAction extends WikiAction {
 		}
 	}
 
-	public void writeControls(Writer out) throws Exception {
+	public void writeControls(IWikiWriter out) throws Exception {
 		delegate.writeControls(out);
 	}
 
-	public void writeWikiPage(Writer out) throws Exception {
+	public void writeWikiPage(IWikiWriter out) throws Exception {
 		delegate.writeWikiPage(out);
 	}
 	
@@ -113,7 +113,7 @@ public class FileViewAction extends WikiAction {
 		return -1;
 	}
 	
-	private void writeFileInfo(Writer out, IFile file) throws Exception {
+	private void writeFileInfo(IWikiWriter out, IFile file) throws Exception {
 
 		out.write(' ');
 		out.write('r');
@@ -137,7 +137,7 @@ public class FileViewAction extends WikiAction {
 	}
 
 	private class DefaultPage extends Delegate {
-		public void writeControls(Writer out) throws Exception {
+		public void writeControls(IWikiWriter out) throws Exception {
 			final long revision = getRevision();
 			final IFile file = context.getFile(	context.getPath(), revision);
 			
@@ -170,7 +170,7 @@ public class FileViewAction extends WikiAction {
 				writeFileInfo(out, file);
 			}
 		}
-		public void writeWikiPage(Writer out) throws Exception {
+		public void writeWikiPage(IWikiWriter out) throws Exception {
 			final long revision = getRevision();
 			final IContent content = context.get(context.getPath(), revision);
 			context.render(out, dataToString(content.getData() ) );
@@ -178,23 +178,23 @@ public class FileViewAction extends WikiAction {
 	}
 	
 	private class HistoryPage extends Delegate {
-		public void writeControls(Writer out) throws Exception {
+		public void writeControls(IWikiWriter out) throws Exception {
 			writeLinkButton(out,
 					context.createPathUrlEncoded(context.getPath() ),
 					context.getString("label.back") );
 		}
-		public void writeWikiPage(Writer out) throws Exception {
+		public void writeWikiPage(IWikiWriter out) throws Exception {
 			context.render(out, "[[history]]");
 		}
 	}
 
 	private class DiffPage extends Delegate {
-		public void writeControls(Writer out) throws Exception {
+		public void writeControls(IWikiWriter out) throws Exception {
 			writeLinkButton(out,
 					context.createPathUrlEncoded(context.getPath() ) + "?v=h",
 					context.getString("label.back") );
 		}
-		public void writeWikiPage(Writer out) throws Exception {
+		public void writeWikiPage(IWikiWriter out) throws Exception {
 			long lRev = Long.valueOf(Util.coalesce(request.getParameter("lRev"), "-1") );
 			long rRev = Long.valueOf(Util.coalesce(request.getParameter("rRev"), "-1") );
 			String lText = dataToString(context.get(context.getPath(), lRev).getData() );
@@ -212,7 +212,7 @@ public class FileViewAction extends WikiAction {
 		public String getPath() {
 			throw new RuntimeException("not implemented.");
 		}
-		public void render(Writer out, String plainText) throws Exception {
+		public void render(IWikiWriter out, String plainText) throws Exception {
 			throw new RuntimeException("not implemented.");
 		}
 	}

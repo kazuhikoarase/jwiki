@@ -1,10 +1,10 @@
 package jwiki.decorator.link;
 
-import java.io.Writer;
 import java.net.URLEncoder;
 
 import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
@@ -29,7 +29,7 @@ public class XrefDecorator extends AbstractLinkDecorator {
 	}
 	
 	public void render(IWikiContext context,
-			ILink link, Writer out) throws Exception {
+			ILink link, IWikiWriter out) throws Exception {
 		String label = buildLabel(link);
 		out.write("<a href=\"#");
 		out.write(URLEncoder.encode(label, "UTF-8") );

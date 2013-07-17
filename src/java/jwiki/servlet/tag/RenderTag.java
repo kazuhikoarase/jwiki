@@ -4,6 +4,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import jwiki.core.IWikiPage;
+import jwiki.core.impl.WikiWriter;
 import jwiki.servlet.Constants;
 
 /**
@@ -18,8 +19,9 @@ public class RenderTag extends BodyTagSupport {
 		IWikiPage wikiPage = (IWikiPage)pageContext.
 				getRequest().getAttribute(Constants.JWIKI_PAGE);
 		try {
-			wikiPage.render(pageContext.getOut(), 
-				getBodyContent().getString() );
+			WikiWriter out = new WikiWriter();
+			wikiPage.render(out, getBodyContent().getString() );
+			out.writeTo(pageContext.getOut() );
 		} catch(Exception e) {
 			throw new JspException(e);
 		}

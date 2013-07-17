@@ -1,10 +1,10 @@
 package jwiki.decorator;
 
-import java.io.Writer;
 import java.net.URLEncoder;
 
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
 
@@ -21,7 +21,7 @@ public class HeaderDecorator extends SimpleDecorator {
 	public void render(
 		IWikiContext context,
 		ILine<String[]> group,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 
 		String header = group.get()[1];

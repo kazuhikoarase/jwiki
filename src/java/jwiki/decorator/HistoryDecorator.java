@@ -1,9 +1,8 @@
 package jwiki.decorator;
 
-import java.io.Writer;
-
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
@@ -22,7 +21,7 @@ public class HistoryDecorator extends SimpleDecorator {
 	public void render(
 		IWikiContext context,
 		ILine<String[]> group,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 		
 		if (context.getFile(context.getPath(), -1).isDirectory() ) {

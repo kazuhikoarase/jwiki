@@ -1,7 +1,6 @@
 package jwiki.core.impl;
 
 import java.io.UnsupportedEncodingException;
-import java.io.Writer;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,9 +9,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import jwiki.core.ILinkDecorator;
+import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
-import jwiki.core.IParagraphDecorator;
+import jwiki.core.IWikiWriter;
 import jwiki.fs.IContent;
 import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
@@ -181,7 +181,7 @@ public class WikiContext implements IWikiContext {
 		renderer.render(this, worker, plainText);
 	}
 	
-	public void render(Writer out, String plainText) throws Exception {
+	public void render(IWikiWriter out, String plainText) throws Exception {
 		render(new DefaultWikiRendererWorker(out), plainText);
 	}
 }

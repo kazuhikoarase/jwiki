@@ -1,9 +1,8 @@
 package jwiki.decorator.link;
 
-import java.io.Writer;
-
 import jwiki.core.ILinkDecorator;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.WikiUtil;
 
@@ -20,7 +19,7 @@ public abstract class AbstractLinkDecorator implements ILinkDecorator {
 		IWikiContext context,
 		String path,
 		String label,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 		WikiUtil.writeEscaped(out, label);
 		out.write("<a href=\"");

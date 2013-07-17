@@ -1,12 +1,12 @@
 package jwiki.servlet.action;
 
-import java.io.Writer;
 import java.util.List;
 
 import jwiki.core.ILine;
 import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
+import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
 import jwiki.core.WikiUtil;
@@ -167,7 +167,7 @@ public class FileEditAction extends WikiAction {
 		return true;
 	}
 
-	public void writeControls(Writer out) throws Exception {
+	public void writeControls(IWikiWriter out) throws Exception {
 
 		IFile file = context.getFile(context.getPath(), -1);
 
@@ -184,7 +184,7 @@ public class FileEditAction extends WikiAction {
 		}
 	}
 
-	public void writeWikiPage(Writer out) throws Exception {
+	public void writeWikiPage(IWikiWriter out) throws Exception {
 
 		String pageName = Util.trim(getParameter("pageName") );
 		String revision = getParameter("revision");
@@ -288,7 +288,7 @@ public class FileEditAction extends WikiAction {
 	}
 	
 	private void outputSubmitButton(
-			Writer out, String label, String method) throws Exception {
+			IWikiWriter out, String label, String method) throws Exception {
 		out.write("<input type=\"submit\" value=\"");
 		WikiUtil.writeEscaped(out, label);
 		out.write("\" onclick=\"form.m.value='");

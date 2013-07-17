@@ -1,9 +1,8 @@
 package jwiki.decorator;
 
-import java.io.Writer;
-
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
+import jwiki.core.IWikiWriter;
 
 /**
  * HrDecorator
@@ -18,7 +17,7 @@ public class HrDecorator extends SimpleDecorator {
 	public void render(
 		IWikiContext context,
 		ILine<String[]> group,
-		Writer out
+		IWikiWriter out
 	) throws Exception {
 		out.write("<hr/>");
 	}
