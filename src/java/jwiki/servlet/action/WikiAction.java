@@ -13,7 +13,6 @@ import jwiki.core.IWikiPage;
 import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 import jwiki.servlet.Constants;
 
 import org.apache.commons.fileupload.DefaultFileItemFactory;
@@ -83,7 +82,7 @@ extends Action implements IWikiPage {
 		out.write("<a href=\"");
 		out.write(href);
 		out.write("\">");
-		WikiUtil.writeEscaped(out, label);
+		out.writeEscaped(label);
 		out.write("</a>");
 	}
 

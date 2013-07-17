@@ -6,7 +6,6 @@ import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * ListDecorator
@@ -45,7 +44,7 @@ public class ListDecorator extends AbstractDecorator {
 			}
 			
 			out.write("<li>");
-			WikiUtil.writeStyled(out, context, Util.trim(desc) );
+			out.writeStyled(context, Util.trim(desc) );
 			out.write("</li>");
 
 			lastIndent = indent;

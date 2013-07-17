@@ -6,7 +6,6 @@ import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * HeaderDecorator
@@ -39,7 +38,7 @@ public class HeaderDecorator extends SimpleDecorator {
 		out.write("<");
 		out.write(tag);
 		out.write(">");
-		WikiUtil.writeEscaped(out, text);
+		out.writeEscaped(text);
 		out.write("</");
 		out.write(tag);
 		out.write(">");

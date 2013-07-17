@@ -4,7 +4,6 @@ import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * DefaultLinkDecorator
@@ -54,7 +53,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 			out.write(hash);
 		}
 		out.write("\">");
-		WikiUtil.writeEscaped(out, label);
+		out.writeEscaped(label);
 		out.write("</a>");
 	}
 }

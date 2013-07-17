@@ -7,7 +7,6 @@ import jwiki.core.IParagraphDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IWikiWriter;
-import jwiki.core.WikiUtil;
 
 /**
  * DefaultWikiRendererWorker
@@ -35,7 +34,7 @@ implements IWikiRendererWorker {
 			e.printStackTrace();
 
 			for (ILine<String[]> group : groupList) {
-				WikiUtil.writeEscaped(out, group.get()[0]);
+				out.writeEscaped(group.get()[0]);
 			}
 		}
 	}

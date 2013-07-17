@@ -6,7 +6,6 @@ import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * XrefDecorator
@@ -34,7 +33,7 @@ public class XrefDecorator extends AbstractLinkDecorator {
 		out.write("<a href=\"#");
 		out.write(URLEncoder.encode(label, "UTF-8") );
 		out.write("\">");
-		WikiUtil.writeEscaped(out, label);
+		out.writeEscaped(label);
 		out.write("</a>");
 	}
 }

@@ -9,7 +9,6 @@ import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * NavigatorDecorator
@@ -51,13 +50,13 @@ public class NavigatorDecorator extends SimpleDecorator {
 
 			if (i == pathList.size() - 1) {
 				out.write("<span class=\"jwiki-current\">");
-				WikiUtil.writeEscaped(out, label);
+				out.writeEscaped(label);
 				out.write("</span>");
 			} else {
 				out.write("<a href=\"");
 				out.write(context.createPathUrlEncoded(dir) );
 				out.write("\">");
-				WikiUtil.writeEscaped(out, label);
+				out.writeEscaped(label);
 				out.write("</a>");
 			}
 		}

@@ -4,7 +4,6 @@ import jwiki.core.ILinkDecorator;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
-import jwiki.core.WikiUtil;
 
 /**
  * AbstractLinkDecorator
@@ -21,7 +20,7 @@ public abstract class AbstractLinkDecorator implements ILinkDecorator {
 		String label,
 		IWikiWriter out
 	) throws Exception {
-		WikiUtil.writeEscaped(out, label);
+		out.writeEscaped(label);
 		out.write("<a href=\"");
 		out.write(context.createPathUrlEncoded(path) );
 		out.write("?v=e\">?</a>");

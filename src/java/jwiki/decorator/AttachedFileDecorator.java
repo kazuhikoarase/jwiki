@@ -7,7 +7,6 @@ import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
-import jwiki.core.WikiUtil;
 
 /**
  * AttachedFileDecorator
@@ -34,7 +33,7 @@ public class AttachedFileDecorator extends AbstractDecorator {
 		out.write("<a href=\"");
 		out.write(context.createPathUrlEncoded(context.getPath() ) + "?raw");
 		out.write("\">");
-		WikiUtil.writeEscaped(out, PathUtil.getName(context.getPath() ) );
+		out.writeEscaped(PathUtil.getName(context.getPath() ) );
 		out.write("</a>");
 		out.write("</p>");
 	}

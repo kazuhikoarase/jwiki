@@ -9,7 +9,6 @@ import jwiki.core.IWikiRendererWorker;
 import jwiki.core.IWikiWriter;
 import jwiki.core.PathUtil;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 import jwiki.decorator.AttachedFileDecorator;
 import jwiki.fs.IContent;
 import jwiki.fs.IFile;
@@ -195,13 +194,13 @@ public class FileEditAction extends WikiAction {
 		if (lockOwner != null) {
 			// ロックされている
 			out.write("<div class=\"jwiki-error-message\">");
-			WikiUtil.writeEscaped(out, lockOwner);
+			out.writeEscaped(lockOwner);
 			out.write(' ');
-			WikiUtil.writeEscaped(out, context.getString("message.locked") );
+			out.writeEscaped(context.getString("message.locked") );
 			out.write("</div>");
 			out.write("<div>");
 			out.write("<a href=\"?v=e&f=t\">");
-			WikiUtil.writeEscaped(out, context.getString("label.edit_anyway") );
+			out.writeEscaped(context.getString("label.edit_anyway") );
 			out.write("</a>");
 			out.write("</div>");
 
@@ -213,21 +212,21 @@ public class FileEditAction extends WikiAction {
 		out.write("<input type=\"hidden\" name=\"m\" value=\"\" />");
 
 		out.write("<input type=\"hidden\" name=\"revision\" value=\"");
-		WikiUtil.writeEscaped(out, revision);
+		out.writeEscaped(revision);
 		out.write("\" />");
 
 		String errorMessage = 
 			(String)context.getRequestScope().get("errorMessage");
 		if (errorMessage != null) {
 			out.write("<div class=\"jwiki-error-message\">");
-			WikiUtil.writeEscaped(out, errorMessage);
+			out.writeEscaped(errorMessage);
 			out.write("</div>");
 		}
 		
 		out.write("<input type=\"text\"");
 		out.write(" style=\"width:720px;\"");
 		out.write(" name=\"pageName\" value=\"");
-		WikiUtil.writeEscaped(out, pageName);
+		out.writeEscaped(pageName);
 		out.write("\" />");
 		
 		out.write("<br/>");
@@ -236,24 +235,24 @@ public class FileEditAction extends WikiAction {
 		out.write(" class=\"jwiki-code\"");
 		out.write(" style=\"width:720px;height:200px;\">");
 
-		WikiUtil.writeEscaped(out, data);
+		out.writeEscaped(data);
 
 		out.write("</textarea>");
 
 		out.write("<br/>");
 
-		WikiUtil.writeEscaped(out, context.getString("label.attached_file") );
+		out.writeEscaped(context.getString("label.attached_file") );
 		out.write(": ");
 		out.write("<input type=\"file\" name=\"attached\"");
 		out.write(" onchange=\"form.m.value='a';form.submit();\" />");
 
 		out.write("<br/>");
 
-		WikiUtil.writeEscaped(out, context.getString("label.message") );
+		out.writeEscaped(context.getString("label.message") );
 		out.write(": ");
 		out.write("<input type=\"text\" name=\"message\"");
 		out.write(" value=\"");
-		WikiUtil.writeEscaped(out, message);
+		out.writeEscaped(message);
 		out.write("\"");
 		out.write(" style=\"width:400px;\"");
 		out.write(" />");
@@ -290,7 +289,7 @@ public class FileEditAction extends WikiAction {
 	private void outputSubmitButton(
 			IWikiWriter out, String label, String method) throws Exception {
 		out.write("<input type=\"submit\" value=\"");
-		WikiUtil.writeEscaped(out, label);
+		out.writeEscaped(label);
 		out.write("\" onclick=\"form.m.value='");
 		out.write(method);
 		out.write("';return true;\" />");

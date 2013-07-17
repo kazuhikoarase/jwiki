@@ -4,7 +4,6 @@ import jwiki.core.ILink;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * ImageLinkDecorator
@@ -49,7 +48,7 @@ public class ImageLinkDecorator extends AbstractLinkDecorator {
 		out.write("<img src=\"");
 		out.write(context.createPathUrlEncoded(path) );
 		out.write("?raw\" alt=\"");
-		WikiUtil.writeEscaped(out, label);
+		out.writeEscaped(label);
 		out.write("\"/>");
 	}
 }

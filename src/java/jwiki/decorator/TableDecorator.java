@@ -9,7 +9,6 @@ import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
 import jwiki.core.Util;
-import jwiki.core.WikiUtil;
 
 /**
  * TableDecorator
@@ -81,7 +80,7 @@ public class TableDecorator extends AbstractDecorator {
 
 				out.write(">");
 				
-				WikiUtil.writeStyled(out, context, item);
+				out.writeStyled(context, item);
 
 				out.write("</");
 				out.write(tag);

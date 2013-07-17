@@ -9,7 +9,6 @@ import java.util.List;
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
-import jwiki.core.WikiUtil;
 import jwiki.util.diff.CharSequenceDiffComparable;
 import jwiki.util.diff.Diff;
 import jwiki.util.diff.IPathTracer;
@@ -55,10 +54,10 @@ public class DiffDecorator extends SimpleDecorator {
 		out.write("<table class='diff'>");
 		out.write("<tr>");
 		out.write("<th class=\"diff-left-only-odd\">");
-		WikiUtil.writeEscaped(out, lLabel);
+		out.writeEscaped(lLabel);
 		out.write("</th>");
 		out.write("<th class=\"diff-right-only-odd\">");
-		WikiUtil.writeEscaped(out, rLabel);
+		out.writeEscaped(rLabel);
 		out.write("</th>");
 		out.write("<th></th>");
 		out.write("</tr>");
@@ -151,16 +150,16 @@ public class DiffDecorator extends SimpleDecorator {
 				out.write("<span class=\"jwiki-code diff-right-only");
 				out.write(getClassSuffix(dc.getIndex() ) );
 				out.write("\">");
-				WikiUtil.writeEscaped(out, item[1], true);
+				out.writeEscaped(item[1], true);
 				out.write("</span>");
 			} else if (item[1].length() == 0) {
 				out.write("<span class=\"jwiki-code diff-left-only");
 				out.write(getClassSuffix(dc.getIndex() ) );
 				out.write("\">");
-				WikiUtil.writeEscaped(out, item[0], true);
+				out.writeEscaped(item[0], true);
 				out.write("</span>");
 			} else {
-				WikiUtil.writeEscaped(out, item[0], true);
+				out.writeEscaped(item[0], true);
 			}
 		}
 		out.write("</td>");
@@ -177,7 +176,7 @@ public class DiffDecorator extends SimpleDecorator {
 		out.write("<td class=\"jwiki-code diff-rdiv diff-left-only");
 		out.write(getClassSuffix(dc.getIndex() ) );
 		out.write("\">");
-		WikiUtil.writeEscaped(out, dc.getLText(), true);
+		out.writeEscaped(dc.getLText(), true);
 		out.write("</td>");
 		out.write("</tr>");
 		dc.increment(true, false);
@@ -192,7 +191,7 @@ public class DiffDecorator extends SimpleDecorator {
 		out.write("<td class=\"jwiki-code diff-rdiv diff-right-only");
 		out.write(getClassSuffix(dc.getIndex() ) );
 		out.write("\">");
-		WikiUtil.writeEscaped(out, dc.getRText(), true);
+		out.writeEscaped(dc.getRText(), true);
 		out.write("</td>");
 		out.write("</tr>");
 		dc.increment(false, true);
@@ -210,7 +209,7 @@ public class DiffDecorator extends SimpleDecorator {
 		out.write(String.valueOf(dc.getRIndex() + 1) );
 		out.write("</td>");
 		out.write("<td class=\"jwiki-code diff-rdiv\">");
-		WikiUtil.writeEscaped(out, dc.getLText(), true);
+		out.writeEscaped(dc.getLText(), true);
 		out.write("</td>");
 		out.write("</tr>");
 		dc.increment(true, true);

@@ -5,7 +5,6 @@ import java.util.List;
 import jwiki.core.ILine;
 import jwiki.core.IWikiContext;
 import jwiki.core.IWikiWriter;
-import jwiki.core.WikiUtil;
 
 /**
  * CodeBlockDecorator
@@ -38,7 +37,7 @@ public class CodeBlockDecorator extends AbstractDecorator {
 			if (group.get()[0].matches(endPattern(startGroup) ) ) {
 				break;
 			}
-			WikiUtil.writeEscaped(out, group.get()[0], true);
+			out.writeEscaped(group.get()[0], true);
 			out.write("<br/>");
 		}
 		out.write("</p>");
