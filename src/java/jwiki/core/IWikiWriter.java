@@ -13,6 +13,4 @@ public interface IWikiWriter {
 	void writeEscaped(String s) throws IOException;
 	void writeEscaped(char c, boolean pre) throws IOException;
 	void writeEscaped(String s, boolean pre) throws IOException;
-	void writeStyled(IWikiContext context, String s) throws Exception;
-	void writeLink(IWikiContext context, String url) throws Exception;
 }

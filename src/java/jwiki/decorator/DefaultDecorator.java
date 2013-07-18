@@ -25,7 +25,7 @@ public class DefaultDecorator extends AbstractDecorator {
 		out.write("<p>");
 
 		for (ILine<String[]> group : groupList) {
-			out.writeStyled(context, group.get()[1]);
+			StyleUtil.writeStyled(out, context, group.get()[1]);
 			out.write("<br/>");
 		}
 		

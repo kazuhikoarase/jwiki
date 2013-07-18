@@ -44,7 +44,7 @@ public class ListDecorator extends AbstractDecorator {
 			}
 			
 			out.write("<li>");
-			out.writeStyled(context, Util.trim(desc) );
+			StyleUtil.writeStyled(out, context, Util.trim(desc) );
 			out.write("</li>");
 
 			lastIndent = indent;

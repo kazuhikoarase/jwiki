@@ -80,7 +80,7 @@ public class TableDecorator extends AbstractDecorator {
 
 				out.write(">");
 				
-				out.writeStyled(context, item);
+				StyleUtil.writeStyled(out, context, item);
 
 				out.write("</");
 				out.write(tag);
