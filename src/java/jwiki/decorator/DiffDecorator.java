@@ -36,8 +36,6 @@ public class DiffDecorator extends SimpleDecorator {
 		String rLabel = group.get()[3];
 		String rName = group.get()[4];
 
-//		List<String> lTextList = toList( (String)context.getRequestScope().get(lName) );
-//		List<String> rTextList = toList( (String)context.getRequestScope().get(rName) );
 		String lText = (String)context.getRequestScope().get(lName);
 		String rText = (String)context.getRequestScope().get(rName);
 
@@ -72,12 +70,12 @@ public class DiffDecorator extends SimpleDecorator {
 		private int lastRLineNumber = 0;
 
 		public void diff(IWikiWriter out, String lText, String rText) throws Exception {
+
 			this.out = out;
 			this.lLine = new DiffLine(lText);
 			this.rLine = new DiffLine(rText);
 			
 			Diff diff = new Diff();
-//			diff.onp(new ListDiffComparable<String>(lTextList, rTextList) );
 			diff.onp(new CharSequenceDiffComparable(lText, rText) );
 			final List<int[]> deltaList = new ArrayList<int[]>();
 			diff.trace(new IPathTracer() {
@@ -146,19 +144,21 @@ public class DiffDecorator extends SimpleDecorator {
 			out.write("</td>");
 			out.write("<td class=\"jwiki-code diff-rdiv\">");
 			for (Part part : buffer.getParts() ) {
+				
 				int type = part.getType();
 				String text = part.getText();
 				if (text.startsWith("\n") ) {
 					text = text.substring(1);
 				}
+
 				if (type == LEFT_ONLY) {
-					out.write("<span class=\"diff-left-only");
+					out.write("<span class=\"jwiki-code diff-left-only");
 					out.write(getClassSuffix(index) );
 					out.write("\">");
 					out.writeEscaped(text, true);
 					out.write("</span>");
 				} else if (type ==RIGHT_ONLY) {
-					out.write("<span class=\"diff-right-only");
+					out.write("<span class=\"jwiki-code diff-right-only");
 					out.write(getClassSuffix(index) );
 					out.write("\">");
 					out.writeEscaped(text, true);
