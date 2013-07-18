@@ -21,6 +21,8 @@ public class DiffDecorator extends SimpleDecorator {
 	private static final int RIGHT_ONLY = 1;
 	private static final int LEFT_ONLY = 2;
 	
+	private static final String LF = "\n";
+	
 	public String pattern() {
 		return "^\\[\\[diff\\((.+),(.+),(.+),(.+)\\)\\]\\]$";
 	}
@@ -147,9 +149,6 @@ public class DiffDecorator extends SimpleDecorator {
 				
 				int type = part.getType();
 				String text = part.getText();
-				if (text.startsWith("\n") ) {
-					text = text.substring(1);
-				}
 
 				if (type == LEFT_ONLY) {
 					out.write("<span class=\"jwiki-code diff-left-only");
@@ -228,7 +227,6 @@ public class DiffDecorator extends SimpleDecorator {
 			lastLLineNumber = lLine.getLineNumber();
 			lastRLineNumber = rLine.getLineNumber();
 		}
-		
 	}
 	
 	private static class DiffLine {
@@ -249,10 +247,13 @@ public class DiffDecorator extends SimpleDecorator {
 			pos += 1;
 		}
 		public boolean eol() {
-			return text.charAt(pos) == '\n';
+			return text.substring(pos, pos + 1).equals(LF);
 		}
 		public String pop() {
 			String part = text.substring(start, pos);
+			if (part.startsWith(LF) ) {
+				part = part.substring(LF.length() );
+			}
 			start = pos;
 			return part;
 		}
@@ -267,8 +268,10 @@ public class DiffDecorator extends SimpleDecorator {
 		}
 		public void add(Part part) {
 			buffer.add(part);
-			hasLeft |= part.getType() == MATCH || part.getType() == LEFT_ONLY;
-			hasRight |= part.getType() == MATCH || part.getType() == RIGHT_ONLY;
+			hasLeft |= part.getType() == MATCH ||
+					part.getType() == LEFT_ONLY;
+			hasRight |= part.getType() == MATCH ||
+					part.getType() == RIGHT_ONLY;
 		}
 		public Iterable<Part> getParts() {
 			return buffer;
