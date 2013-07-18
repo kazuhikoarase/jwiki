@@ -16,7 +16,7 @@ TABLE.jwiki-index, TABLE.jwiki-index TH, TABLE.jwiki-index TD {
 }
 
 TABLE.jwiki-index TH, TABLE.jwiki-index TD {
-	padding: 2pt 4pt 2pt 4pt;	
+	padding: 2pt;	
 }
 
 TABLE.jwiki-index TH {
@@ -43,7 +43,7 @@ TABLE.jwiki-solid, TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
 }
 
 TABLE.jwiki-solid TH, TABLE.jwiki-solid TD {
-	padding: 2pt 4pt 2pt 4pt;	
+	padding: 2pt;	
 }
 
 TABLE.jwiki-solid TH {
