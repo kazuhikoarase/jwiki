@@ -1,5 +1,7 @@
 package jwiki.decorator;
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +12,7 @@ import jwiki.core.IWikiWriter;
 import jwiki.util.diff.CharSequenceDiffComparable;
 import jwiki.util.diff.Diff;
 import jwiki.util.diff.IPathTracer;
+import jwiki.util.diff.ListDiffComparable;
 
 /**
  * DiffDecorator
@@ -17,20 +20,14 @@ import jwiki.util.diff.IPathTracer;
  */
 public class DiffDecorator extends SimpleDecorator {
 
-	private static final int MATCH = 0;
-	private static final int RIGHT_ONLY = 1;
-	private static final int LEFT_ONLY = 2;
-	
-	private static final String LF = "\n";
-	
 	public String pattern() {
 		return "^\\[\\[diff\\((.+),(.+),(.+),(.+)\\)\\]\\]$";
 	}
 
 	public void render(
-		final IWikiContext context,
-		final ILine<String[]> group,
-		final IWikiWriter out
+		IWikiContext context,
+		ILine<String[]> group,
+		IWikiWriter out
 	) throws Exception {
 
 		String lLabel = group.get()[1];
@@ -38,11 +35,23 @@ public class DiffDecorator extends SimpleDecorator {
 		String rLabel = group.get()[3];
 		String rName = group.get()[4];
 
-		String lText = (String)context.getRequestScope().get(lName);
-		String rText = (String)context.getRequestScope().get(rName);
+		List<String> lTextList = toList( (String)context.getRequestScope().get(lName) );
+		List<String> rTextList = toList( (String)context.getRequestScope().get(rName) );
+
+		Diff diff = new Diff();
+		diff.onp(new ListDiffComparable<String>(lTextList, rTextList) );
+		final List<int[]> deltaList = new ArrayList<int[]>();
+		diff.trace(new IPathTracer() {
+			@Override
+			public void trace(int deltaX, int deltaY) {
+				deltaList.add(new int[]{deltaX, deltaY});
+			}
+		});
+		Collections.reverse(deltaList);
+
+		DiffContext dc = new DiffContext(lTextList, rTextList);
 
 		out.write("<table class='diff'>");
-
 		out.write("<tr>");
 		out.write("<th class=\"diff-left-only-odd\">");
 		out.writeEscaped(lLabel);
@@ -53,255 +62,215 @@ public class DiffDecorator extends SimpleDecorator {
 		out.write("<th></th>");
 		out.write("</tr>");
 		
-		new DiffViewHelper().diff(out, lText, rText);
-		
+		for (int d = 0; d < deltaList.size(); d += 1) {
+
+			int[] delta = deltaList.get(d);
+			int lDelta = delta[0];
+			int rDelta = delta[1];
+
+			if (isConflict(deltaList, d) ) {
+				
+				// conflict
+				
+				int[] delta2 = deltaList.get(d + 1);
+				lDelta += delta2[0];
+				rDelta += delta2[1];
+
+				for (int i = 0; i < lDelta; i += 1) {
+					outputConflictRow(out, dc);
+				}
+				
+				d += 1;
+
+			} else if (lDelta == 0) {
+				// right only
+				for (int i = 0; i < rDelta; i += 1) {
+					outputRightOnlyRow(out, dc);
+				}
+			} else if (rDelta == 0) {
+				// left only
+				for (int i = 0; i < lDelta; i += 1) {
+					outputLeftOnlyRow(out, dc);
+				}
+			} else {
+				// match
+				for (int i = 0; i < lDelta; i += 1) {
+					outputMatchRow(out, dc);
+				}
+			}
+		}
+
 		out.write("</table>");		
 	}
 	
-	private static class DiffViewHelper {
-		
-		private IWikiWriter out;
-		private DiffLine lLine;
-		private DiffLine rLine;
-
-		private int index = 0;
-		private PartBuffer buffer = new PartBuffer();
-		private PartBuffer lastBuffer = new PartBuffer();
-		
-		private int lastLLineNumber = 0;
-		private int lastRLineNumber = 0;
-
-		public void diff(IWikiWriter out, String lText, String rText) throws Exception {
-
-			this.out = out;
-			this.lLine = new DiffLine(lText);
-			this.rLine = new DiffLine(rText);
-			
-			Diff diff = new Diff();
-			diff.onp(new CharSequenceDiffComparable(lText, rText) );
-			final List<int[]> deltaList = new ArrayList<int[]>();
-			diff.trace(new IPathTracer() {
-				@Override
-				public void trace(int deltaX, int deltaY) {
-					deltaList.add(new int[]{deltaX, deltaY});
-				}
-			});
-			Collections.reverse(deltaList);
-
-			for (int d = 0; d < deltaList.size(); d += 1) {
-
-				final int[] delta = deltaList.get(d);
-				final int lDelta = delta[0];
-				final int rDelta = delta[1];
-
-				if (lDelta == 0) {
-					// right only
-					for (int i = 0; i < rDelta; i += 1) {
-						if (rLine.eol() ) {
-							buffer.add(RIGHT_ONLY, rLine.pop() );
-							flushLine();
-						}
-						rLine.inc();
-					}
-					buffer.add(RIGHT_ONLY, rLine.pop() );
-				} else if (rDelta == 0) {
-					// left only
-					for (int i = 0; i < lDelta; i += 1) {
-						if (lLine.eol() ) {
-							buffer.add(LEFT_ONLY, lLine.pop() );
-							flushLine();
-						}
-						lLine.inc();
-					}
-					buffer.add(LEFT_ONLY, lLine.pop() );
-				} else {
-					// match
-					for (int i = 0; i < lDelta; i += 1) {
-						if (lLine.eol() ) {
-							buffer.add(MATCH, lLine.pop() );
-							rLine.pop(); // dispose
-							flushLine();
-						}
-						lLine.inc();
-						rLine.inc();
-					}
-					buffer.add(MATCH, lLine.pop() );
-					rLine.pop(); // dispose
-				}
-			}
-			flushLine();			
+	private boolean isConflict(List<int[]> deltaList, int d) {
+		/*
+		if (d + 1 < deltaList.size() ) {
+			int[] delta = deltaList.get(d);
+			int[] delta2 = deltaList.get(d + 1);
+			return
+				delta[0] == 0 && delta2[1] == 0 && delta[1] == delta2[0] ||
+				delta[1] == 0 && delta2[0] == 0 && delta[0] == delta2[1];
 		}
+		*/
+		return false;
+	}
 
-		private void writeRow(PartBuffer buffer) throws Exception {
-			out.write("<tr>");
-			out.write("<td class=\"diff-line-no\">");
-			if (buffer.hasLeft() ) {
-				out.write(String.valueOf(lastLLineNumber + 1) );
+	private List<String[]> diff(final String lText, final String rText)
+	throws Exception {
+		final List<String[]> list = new ArrayList<String[]>();
+		final int[] pos = new int[] {lText.length(), rText.length()};
+		Diff diff = new Diff();
+		diff.onp(new CharSequenceDiffComparable(lText, rText) );
+		diff.trace(new IPathTracer() {
+			public void trace(int deltaX, int deltaY) {
+				pos[0] -= deltaX;
+				pos[1] -= deltaY;
+				list.add(new String[] {
+					lText.substring(pos[0], pos[0] + deltaX),
+					rText.substring(pos[1], pos[1] + deltaY) });
 			}
-			out.write("</td>");
-			out.write("<td class=\"diff-line-no\">");
-			if (buffer.hasRight() ) {
-				out.write(String.valueOf(lastRLineNumber + 1) );
-			}
-			out.write("</td>");
-			out.write("<td class=\"jwiki-code diff-rdiv\">");
-			for (Part part : buffer.getParts() ) {
-				
-				int type = part.getType();
-				String text = part.getText();
+		});
+		Collections.reverse(list);
+		return list;
+	}
 
-				if (type == LEFT_ONLY) {
-					out.write("<span class=\"jwiki-code diff-left-only");
-					out.write(getClassSuffix(index) );
-					out.write("\">");
-					out.writeEscaped(text, true);
-					out.write("</span>");
-				} else if (type ==RIGHT_ONLY) {
-					out.write("<span class=\"jwiki-code diff-right-only");
-					out.write(getClassSuffix(index) );
-					out.write("\">");
-					out.writeEscaped(text, true);
-					out.write("</span>");
-				} else {
-					out.writeEscaped(text, true);
-				}
+	private void outputConflictRow(IWikiWriter out, DiffContext dc) throws Exception {
+
+		List<String[]> list = diff(dc.getLText(), dc.getRText() );
+
+		out.write("<tr>");
+		out.write("<td class=\"diff-line-no\">");
+		out.write(String.valueOf(dc.getLIndex() + 1) );
+		out.write("</td>");
+		out.write("<td class=\"diff-line-no\">");
+		out.write(String.valueOf(dc.getRIndex() + 1) );
+		out.write("</td>");
+		out.write("<td class=\"jwiki-code diff-rdiv\">");
+		for (String[] item : list) {
+			if (item[0].length() == 0) {
+				out.write("<span class=\"jwiki-code diff-right-only");
+				out.write(getClassSuffix(dc.getIndex() ) );
+				out.write("\">");
+				out.writeEscaped(item[1], true);
+				out.write("</span>");
+			} else if (item[1].length() == 0) {
+				out.write("<span class=\"jwiki-code diff-left-only");
+				out.write(getClassSuffix(dc.getIndex() ) );
+				out.write("\">");
+				out.writeEscaped(item[0], true);
+				out.write("</span>");
+			} else {
+				out.writeEscaped(item[0], true);
 			}
-			out.write("</td>");
-			out.write("</tr>");
+		}
+		out.write("</td>");
+		out.write("</tr>");
+		dc.increment(true, true);
+	}	
+
+	private void outputLeftOnlyRow(IWikiWriter out, DiffContext dc) throws Exception {
+		out.write("<tr>");
+		out.write("<td class=\"diff-line-no\">");
+		out.write(String.valueOf(dc.getLIndex() + 1) );
+		out.write("</td>");
+		out.write("<td class=\"diff-line-no\"></td>");
+		out.write("<td class=\"jwiki-code diff-rdiv diff-left-only");
+		out.write(getClassSuffix(dc.getIndex() ) );
+		out.write("\">");
+		out.writeEscaped(dc.getLText(), true);
+		out.write("</td>");
+		out.write("</tr>");
+		dc.increment(true, false);
+	}	
+
+	private void outputRightOnlyRow(IWikiWriter out, DiffContext dc) throws Exception {
+		out.write("<tr>");
+		out.write("<td class=\"diff-line-no\"></td>");
+		out.write("<td class=\"diff-line-no\">");
+		out.write(String.valueOf(dc.getRIndex() + 1) );
+		out.write("</td>");
+		out.write("<td class=\"jwiki-code diff-rdiv diff-right-only");
+		out.write(getClassSuffix(dc.getIndex() ) );
+		out.write("\">");
+		out.writeEscaped(dc.getRText(), true);
+		out.write("</td>");
+		out.write("</tr>");
+		dc.increment(false, true);
+
+	}	
+	
+	private void outputMatchRow(IWikiWriter out, DiffContext dc) throws Exception {
+		out.write("<tr class=\"src");
+		out.write(getClassSuffix(dc.getIndex() ) );
+		out.write("\">");
+		out.write("<td class=\"diff-line-no\">");
+		out.write(String.valueOf(dc.getLIndex() + 1) );
+		out.write("</td>");
+		out.write("<td class=\"diff-line-no\">");
+		out.write(String.valueOf(dc.getRIndex() + 1) );
+		out.write("</td>");
+		out.write("<td class=\"jwiki-code diff-rdiv\">");
+		out.writeEscaped(dc.getLText(), true);
+		out.write("</td>");
+		out.write("</tr>");
+		dc.increment(true, true);
+	}
+	
+	private List<String> toList(String s) throws Exception {
+		BufferedReader in = new BufferedReader(new StringReader(s) );
+		try {
+			List<String> lines = new ArrayList<String>();
+			String line;
+			while ( (line = in.readLine() ) != null) {
+				lines.add(line);
+			}
+			return lines;
+		} finally {
+			in.close();
+		}
+	}
+	
+	private String getClassSuffix(int index) {
+		return (index % 2 == 0)? "-even" : "-odd";
+	}
+
+	protected static class DiffContext {
+		private List<String> lTextList;
+		private List<String> rTextList;
+		private int lIndex;
+		private int rIndex;
+		private int index;
+		public DiffContext(List<String> lTextList, List<String> rTextList) {
+			this.lTextList = lTextList;
+			this.rTextList = rTextList;
+			this.lIndex = 0;
+			this.rIndex = 0;
+			this.index = 0;
+		}
+		public void increment(boolean l, boolean r) {
+			if (l) {
+				lIndex += 1;
+			}
+			if (r) {
+				rIndex += 1;
+			}
 			index += 1;
 		}
-
-		private String getClassSuffix(int index) {
-			return (index % 2 == 0)? "-even" : "-odd";
+		public String getLText() {
+			return lTextList.get(lIndex);
 		}
-		
-		private void flushLine() throws Exception {
-			
-			if (lastLLineNumber != lLine.getLineNumber() &&
-					lastRLineNumber != rLine.getLineNumber() ) {
-				
-				writeRow(lastBuffer);
-			
-				lastBuffer.reset();
-				for (Part part : buffer.getParts() ) {
-					lastBuffer.add(part);
-				}
-				buffer.reset();
-
-			} else {
-				
-				final PartBuffer tmpLBuffer = new PartBuffer();
-				final PartBuffer tmpRBuffer = new PartBuffer();
-				
-				for (Part part : lastBuffer.getParts() ) {
-					if (part.getType() == MATCH) {
-						tmpLBuffer.add(LEFT_ONLY, part.getText() );
-						tmpRBuffer.add(RIGHT_ONLY, part.getText() );
-					} else if (part.getType() == LEFT_ONLY) {
-						tmpLBuffer.add(part);
-					} else if (part.getType() == RIGHT_ONLY) {
-						tmpRBuffer.add(part);
-					}
-				}
-				
-				if (lastLLineNumber == lLine.getLineNumber()) {
-					writeRow(tmpRBuffer);
-					lastBuffer.reset();
-					for (Part part : tmpLBuffer.getParts() ) {
-						lastBuffer.add(part);
-					}
-				} else if (lastRLineNumber == rLine.getLineNumber() ) {
-					writeRow(tmpLBuffer);
-					lastBuffer.reset();
-					for (Part part : tmpRBuffer.getParts() ) {
-						lastBuffer.add(part);
-					}
-				}
-
-				for (Part part : buffer.getParts() ) {
-					lastBuffer.add(part);
-				}
-				buffer.reset();
-			}
-
-			lastLLineNumber = lLine.getLineNumber();
-			lastRLineNumber = rLine.getLineNumber();
+		public String getRText() {
+			return rTextList.get(rIndex);
+		}
+		public int getIndex() {
+			return index;
+		}
+		public int getLIndex() {
+			return lIndex;
+		}
+		public int getRIndex() {
+			return rIndex;
 		}
 	}
-	
-	private static class DiffLine {
-		private int pos = 0;
-		private int start = 0;
-		private int lineNumber = 0;
-		private final String text;
-		public DiffLine(String text) {
-			this.text = text;
-		}
-		public int getLineNumber() {
-			return lineNumber;
-		}
-		public void inc() {
-			if (eol() ) {
-				lineNumber += 1;
-			}
-			pos += 1;
-		}
-		public boolean eol() {
-			return text.substring(pos, pos + 1).equals(LF);
-		}
-		public String pop() {
-			String part = text.substring(start, pos);
-			if (part.startsWith(LF) ) {
-				part = part.substring(LF.length() );
-			}
-			start = pos;
-			return part;
-		}
-	}
-	
-	private static class PartBuffer {
-		private boolean hasLeft = false; 
-		private boolean hasRight = false; 
-		private List<Part> buffer = new ArrayList<Part>();
-		public void add(int type, String text) {
-			add(new Part(type, text) );
-		}
-		public void add(Part part) {
-			buffer.add(part);
-			hasLeft |= part.getType() == MATCH ||
-					part.getType() == LEFT_ONLY;
-			hasRight |= part.getType() == MATCH ||
-					part.getType() == RIGHT_ONLY;
-		}
-		public Iterable<Part> getParts() {
-			return buffer;
-		}
-		public boolean hasLeft() {
-			return hasLeft;
-		}
-		public boolean hasRight() {
-			return hasRight;
-		}
-		public void reset() {
-			buffer.clear();
-			hasLeft = false;
-			hasRight = false;
-		}
-	}
-	
-	private static class Part {
-		private final int type;
-		private final String text;
-		public Part(int type, String text) {
-			this.type = type;
-			this.text = text;
-		}
-		public int getType() {
-			return type;
-		}
-		public String getText() {
-			return text;
-		}
-	}
-
 }
