@@ -6,9 +6,9 @@ package jwiki.util.diff;
  */
 public final class Diff implements IDiff {
 
-	private DiffTargetWrapper wrapper;
+	private DiffTargetWrapper wrapper = null;
 
-	private IDiff diff;
+	private IDiff diff = null;
 	
 	public Diff() {
 	}

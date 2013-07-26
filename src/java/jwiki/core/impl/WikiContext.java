@@ -31,7 +31,7 @@ public class WikiContext implements IWikiContext {
 
 	private String pathPrefix = "";
 	private String path = "";
-	private ResourceBundle resource;
+	private ResourceBundle resource = null;
 	private IFileSystem fs = null;
 	private IUserInfo userInfo = null;
 	

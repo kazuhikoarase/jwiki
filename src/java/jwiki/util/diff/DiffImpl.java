@@ -6,9 +6,9 @@ package jwiki.util.diff;
  */
 class DiffImpl implements IDiff {
 
-	private IDiffComparable target;
+	private IDiffComparable target = null;
 
-    private Match[] matches;
+    private Match[] matches = null;
 	
 	public DiffImpl() {
 	}
