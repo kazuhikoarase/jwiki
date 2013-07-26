@@ -23,7 +23,7 @@ public class HistoryDecorator extends SimpleDecorator {
 		IWikiWriter out
 	) throws Exception {
 		
-		if (context.getFile(context.getPath(), -1).isDirectory() ) {
+		if (context.getFile(context.getPath(), null).isDirectory() ) {
 			// ディレクトリの履歴は非対応
 			return;
 		}
@@ -58,14 +58,14 @@ public class HistoryDecorator extends SimpleDecorator {
 		out.write("}");
 		out.write("return '';");
 		out.write("};");
-		out.write("var lRev = r('lRev');");
-		out.write("var rRev = r('rRev');");
-		out.write("if (!lRev||!rRev) { alert('");
+		out.write("var lId = r('lId');");
+		out.write("var rId = r('rId');");
+		out.write("if (!lId||!rId) { alert('");
 		out.writeEscaped(context.getString("message.select_compare_targets") );
 		out.write("');return;}");
 		out.write("location.href='");
 		out.write(context.createPathUrlEncoded(context.getPath() ) );
-		out.write("?v=d&lRev='+lRev+'&rRev='+rRev;");
+		out.write("?v=d&lId='+lId+'&rId='+rId;");
 		out.write("}())");
 
 		out.write("\">");
@@ -89,23 +89,22 @@ public class HistoryDecorator extends SimpleDecorator {
 		out.write("</tr>");
 		
 		for (IFile file : context.listHistory(context.getPath() ) ) {
-			String revision = String.valueOf(file.getRevision() );
 			out.write("<tr>");
 			out.write("<td>");
-			out.write("<input type=\"radio\" name=\"lRev\" value=\"");
-			out.write(revision);
+			out.write("<input type=\"radio\" name=\"lId\" value=\"");
+			out.write(file.getId() );
 			out.write("\"/>");
-			out.write("<input type=\"radio\" name=\"rRev\" value=\"");
-			out.write(revision);
+			out.write("<input type=\"radio\" name=\"rId\" value=\"");
+			out.write(file.getId() );
 			out.write("\"/>");
 			out.write("</td>");
-			out.write("<td>r");
-			out.write(revision);
+			out.write("<td>");
+			out.write(file.getId() );
 			out.write("</td>");
 			out.write("<td><a href=\"");
 			out.write(context.createPathUrlEncoded(file.getPath() ) );
 			out.write("?r=");
-			out.write(revision);
+			out.write(file.getId() );
 			out.write("\">");
 			out.writeEscaped(PathUtil.getName(file.getPath() ) );
 			out.write("</a></td>");

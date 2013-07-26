@@ -24,7 +24,7 @@ public class IndexDecorator extends SimpleDecorator {
 	) throws Exception {
 
 		// ディレクトリの場合直接、それ以外の場合、親ディレクトリ。
-		String dir = context.getFile(context.getPath(), -1).isDirectory()?
+		String dir = context.getFile(context.getPath(), null).isDirectory()?
 			context.getPath() :
 			PathUtil.getParent(context.getPath() );
 		

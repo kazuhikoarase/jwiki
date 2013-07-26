@@ -11,7 +11,7 @@ public interface IFile {
 	boolean exists();
 	boolean isFile();
 	boolean isDirectory();
-	long getRevision();
+	String getId();
 	Date getDate();
 	String getAuthor();
 	String getMessage();

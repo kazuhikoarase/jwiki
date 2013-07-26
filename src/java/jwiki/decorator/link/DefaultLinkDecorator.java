@@ -39,7 +39,7 @@ public class DefaultLinkDecorator extends AbstractLinkDecorator {
 
 		path = toCanonicalPath(context, path);
 
-		if (!context.getFile(path, -1).exists() ) {
+		if (!context.getFile(path, null).exists() ) {
 			writeUnknownLink(context, path, label, out);
 			return;
 		}

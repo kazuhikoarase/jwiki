@@ -151,7 +151,7 @@ public class WikiServlet extends HttpServlet {
 		IWikiContext context
 	) throws Exception {
 
-		IFile file = context.getFile(context.getPath(), -1);
+		IFile file = context.getFile(context.getPath(), null);
 		String view = request.getParameter("v");
 	
 		if ("e".equals(view) ) {

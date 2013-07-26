@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import jwiki.core.Util;
 import jwiki.fs.IContent;
 import jwiki.fs.IFile;
 import jwiki.fs.IFileSystem;
 import jwiki.fs.IUserInfo;
+import jwiki.fs.impl.Content;
+import jwiki.fs.impl.File;
 
 import org.tmatesoft.svn.core.ISVNDirEntryHandler;
 import org.tmatesoft.svn.core.ISVNLogEntryHandler;
@@ -40,17 +43,30 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 public class SVNFileSystem implements IFileSystem {
 
 	private final SVNURL url;
-
+	
 	public SVNFileSystem(SVNURL url) throws Exception {
 		this.url = url;
 	}
-
+	
+	public IFile getFile(IUserInfo userInfo, String path, String id) throws Exception {
+		return getFile(userInfo, path, toRevision(id) );
+	}
+	
 	public IFile getFile(IUserInfo userInfo, String path, long revision) throws Exception {
 		return getFile(createRepository(userInfo), path, revision);
 	}
 	
+	public IContent get(IUserInfo userInfo, String path, String id) throws Exception {
+		return get(userInfo, path, toRevision(id) );
+	}
+	
 	public IContent get(IUserInfo userInfo, String path, long revision) throws Exception {
 		return get(createRepository(userInfo), path, revision);
+	}
+	
+	public void put(IUserInfo userInfo, String path, String id, byte[] data,
+			Map<String, String> props, String message) throws Exception {
+		put(userInfo, path, toRevision(id), data, props, message);
 	}
 
 	public void put(IUserInfo userInfo, String path, long revision, byte[] data, Map<String,String> props, String message) throws Exception {
@@ -210,10 +226,10 @@ public class SVNFileSystem implements IFileSystem {
 		final List<IFile> list = new ArrayList<IFile>();
 		repo.log(new String[]{path}, 0, -1, false, true, new ISVNLogEntryHandler() {
 			public void handleLogEntry(SVNLogEntry entry) throws SVNException {
-				list.add(new SVNFile(
+				list.add(new File(
 					path,
 					kind,
-					entry.getRevision(),
+					toId(entry.getRevision() ),
 					entry.getDate(),
 					entry.getAuthor(),
 					entry.getMessage(),
@@ -225,8 +241,8 @@ public class SVNFileSystem implements IFileSystem {
 		Collections.sort(list, new Comparator<IFile>() {
 			@Override
 			public int compare(IFile f1, IFile f2) {
-				Long rev1 = Long.valueOf(f1.getRevision() );
-				Long rev2 = Long.valueOf(f2.getRevision() );
+				Long rev1 = toRevision(f1.getId() );
+				Long rev2 = toRevision(f2.getId() );
 				return rev2.compareTo(rev1);
 			}
 		});
@@ -237,6 +253,10 @@ public class SVNFileSystem implements IFileSystem {
 		SVNRepository repo = createRepository(userInfo);
 		SVNLock lock = repo.getLock(path);
 		return lock != null? lock.getOwner() : null;
+	}
+
+	public void lock(IUserInfo userInfo, String path, String id) throws Exception {
+		lock(userInfo, path, toRevision(id) );
 	}
 
 	public void lock(IUserInfo userInfo, String path, long revision) throws Exception {
@@ -279,10 +299,10 @@ public class SVNFileSystem implements IFileSystem {
 	
 	protected IFile createFile(String path, SVNDirEntry entry) throws SVNException {
 		SVNLock lock = entry.getLock();
-		return new SVNFile(
+		return new File(
 			path,
 			entry.getKind(),
-			entry.getRevision(),
+			toId(entry.getRevision() ),
 			entry.getDate(),
 			entry.getAuthor(),
 			entry.getCommitMessage(),
@@ -301,7 +321,7 @@ public class SVNFileSystem implements IFileSystem {
 			return createFile(path, entry);
 		}
 		
-		return new SVNFile(path, kind, revision,
+		return new File(path, kind, toId(revision),
 				null, null, null, -1, null, null);
 	}
 	
@@ -310,7 +330,7 @@ public class SVNFileSystem implements IFileSystem {
 		IFile file = getFile(repo, path, revision);
 
 		if (!file.exists() ) {
-			return SVNContent.EMPTY;
+			return Content.EMPTY;
 		}
 		
 		SVNProperties svnProps = new SVNProperties();
@@ -325,7 +345,7 @@ public class SVNFileSystem implements IFileSystem {
 		for (String key : svnProps.nameSet() ) {
 			props.put(key, svnProps.getStringValue(key) );
 		}
-		return new SVNContent(revision, bout.toByteArray(), props);
+		return new Content(toId(revision), bout.toByteArray(), props);
 	}
 	
 	protected SVNLock checkLockOwner(IUserInfo userInfo, SVNRepository repo, String path) throws Exception {
@@ -335,6 +355,14 @@ public class SVNFileSystem implements IFileSystem {
 			throw new Exception("not lock owner");
 		}
 		return lock;
+	}
+
+	protected static String toId(long revision) {
+		return revision == -1? "" : "r" + revision;
+	}
+	
+	protected static long toRevision(String id) {
+		return Util.isEmpty(id)? -1 : Long.valueOf(id.substring(1) );
 	}
 }
 

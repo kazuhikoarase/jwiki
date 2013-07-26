@@ -28,13 +28,13 @@ public interface IWikiContext {
 	
 	String getString(String key);
 	
-	IContent get(String path, long revision) throws Exception;
-	void put(String path, long revision, byte[] content, Map<String, String> props, String message) throws Exception;
+	IContent get(String path, String id) throws Exception;
+	void put(String path, String id, byte[] content, Map<String, String> props, String message) throws Exception;
 	void remove(String path, String message) throws Exception;
-	IFile getFile(String path, long revision) throws Exception;
+	IFile getFile(String path, String id) throws Exception;
 	List<IFile> listFiles(String path) throws Exception;
 	List<IFile> listHistory(String path) throws Exception;
-	void lock(String path, long revision) throws Exception;
+	void lock(String path, String id) throws Exception;
 	void unlock(String path) throws Exception;
 	String getLockOwner(String path) throws Exception;
 

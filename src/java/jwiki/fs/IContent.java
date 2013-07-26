@@ -7,7 +7,7 @@ import java.util.Map;
  * @author kazuhiko arase
  */
 public interface IContent {
-	long getRevision();
+	String getId();
 	byte[] getData();
 	Map<String,String> getProperties();
 }

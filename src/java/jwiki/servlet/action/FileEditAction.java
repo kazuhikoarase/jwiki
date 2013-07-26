@@ -29,10 +29,10 @@ public class FileEditAction extends WikiAction {
 
 		if (Util.isEmpty(method) ) {
 
-		    IContent content = context.get(context.getPath(), -1);
-		    IFile file = context.getFile(context.getPath(), -1);
+		    IContent content = context.get(context.getPath(), null);
+		    IFile file = context.getFile(context.getPath(), null);
 		    setParameter("pageName", PathUtil.getName(context.getPath() ) );
-			setParameter("revision", String.valueOf(file.getRevision() ) );
+			setParameter("id", file.getId() );
 			setParameter("data", dataToString(content.getData() ) );
 			setParameter("message", "");
 
@@ -73,7 +73,7 @@ public class FileEditAction extends WikiAction {
 				return owner;
 			}
 		}
-		context.lock(file.getPath(), file.getRevision() );
+		context.lock(file.getPath(), file.getId() );
 		return null;
 	}
 	
@@ -118,7 +118,7 @@ public class FileEditAction extends WikiAction {
 	private boolean save() throws Exception {
 
 		String pageName = Util.trim(getParameter("pageName") );
-		String revision = getParameter("revision");
+		String id = getParameter("id");
 		String data = normalizeData(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 		
@@ -136,7 +136,7 @@ public class FileEditAction extends WikiAction {
 
 			// 追加・更新
 			context.put(path,
-				Long.valueOf(revision),
+				id,
 				stringToData(data),
 				null,
 				message);
@@ -168,7 +168,7 @@ public class FileEditAction extends WikiAction {
 
 	public void writeControls(IWikiWriter out) throws Exception {
 
-		IFile file = context.getFile(context.getPath(), -1);
+		IFile file = context.getFile(context.getPath(), null);
 
 		if (file.exists() ) {
 			writeLinkButton(out,
@@ -186,7 +186,7 @@ public class FileEditAction extends WikiAction {
 	public void writeWikiPage(IWikiWriter out) throws Exception {
 
 		String pageName = Util.trim(getParameter("pageName") );
-		String revision = getParameter("revision");
+		String id = getParameter("id");
 		String data = normalizeData(getParameter("data") );
 		String message = Util.trim(getParameter("message") );
 
@@ -211,8 +211,8 @@ public class FileEditAction extends WikiAction {
 		out.write("<form method=\"POST\" action=\"\" enctype=\"multipart/form-data\">");
 		out.write("<input type=\"hidden\" name=\"m\" value=\"\" />");
 
-		out.write("<input type=\"hidden\" name=\"revision\" value=\"");
-		out.writeEscaped(revision);
+		out.write("<input type=\"hidden\" name=\"id\" value=\"");
+		out.writeEscaped(id);
 		out.write("\" />");
 
 		String errorMessage = 
@@ -270,7 +270,7 @@ public class FileEditAction extends WikiAction {
 		
 		if ("c".equals(method) ) {
 
-			String latestData = dataToString(context.get(context.getPath(), -1).getData() );
+			String latestData = dataToString(context.get(context.getPath(), null).getData() );
 			context.getRequestScope().put("lText", data);
 			context.getRequestScope().put("rText", latestData);
 

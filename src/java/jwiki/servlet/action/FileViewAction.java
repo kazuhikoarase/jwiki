@@ -50,8 +50,8 @@ public class FileViewAction extends WikiAction {
 	
 	private void downloadAttachedFile() throws Exception {
 	
-		final long revision = getRevision();
-		final IContent content = context.get(context.getPath(), revision);
+		final String id = getId();
+		final IContent content = context.get(context.getPath(), id);
 
 		final byte[][] data = { null };
 
@@ -105,19 +105,14 @@ public class FileViewAction extends WikiAction {
 		delegate.writeWikiPage(out);
 	}
 	
-	private long getRevision() {
-		String r = request.getParameter("r");
-		if (!Util.isEmpty(r) ) {
-			return Long.valueOf(r);
-		}
-		return -1;
+	private String getId() {
+		return request.getParameter("r");
 	}
 	
 	private void writeFileInfo(IWikiWriter out, IFile file) throws Exception {
 
 		out.write(' ');
-		out.write('r');
-		out.write(String.valueOf(file.getRevision() ) );
+		out.write(file.getId() );
 		out.write(' ');
 		out.write(Util.formatDate(file.getDate() ) );
 		out.write(' ');
@@ -138,10 +133,10 @@ public class FileViewAction extends WikiAction {
 
 	private class DefaultPage extends Delegate {
 		public void writeControls(IWikiWriter out) throws Exception {
-			final long revision = getRevision();
-			final IFile file = context.getFile(	context.getPath(), revision);
+			final String id = getId();
+			final IFile file = context.getFile(	context.getPath(), id);
 			
-			if (revision == -1) {
+			if (Util.isEmpty(id) ) {
 
 				if (file.exists() ) {
 
@@ -171,8 +166,8 @@ public class FileViewAction extends WikiAction {
 			}
 		}
 		public void writeWikiPage(IWikiWriter out) throws Exception {
-			final long revision = getRevision();
-			final IContent content = context.get(context.getPath(), revision);
+			final String id = getId();
+			final IContent content = context.get(context.getPath(), id);
 			context.render(out, dataToString(content.getData() ) );
 		}
 	}
@@ -195,15 +190,14 @@ public class FileViewAction extends WikiAction {
 					context.getString("label.back") );
 		}
 		public void writeWikiPage(IWikiWriter out) throws Exception {
-			long lRev = Long.valueOf(Util.coalesce(request.getParameter("lRev"), "-1") );
-			long rRev = Long.valueOf(Util.coalesce(request.getParameter("rRev"), "-1") );
-			String lText = dataToString(context.get(context.getPath(), lRev).getData() );
-			String rText = dataToString(context.get(context.getPath(), rRev).getData() );
+			String lId = request.getParameter("lId");
+			String rId = request.getParameter("rId");
+			String lText = dataToString(context.get(context.getPath(), lId).getData() );
+			String rText = dataToString(context.get(context.getPath(), rId).getData() );
 			context.getRequestScope().put("lText", lText);
 			context.getRequestScope().put("rText", rText);
 			String text = String.format("[[diff(%s,%s,%s,%s)]]",
-				"r" + lRev, "lText",
-				"r" + rRev, "rText");
+					lId, "lText", rId, "rText");
 			context.render(out, text);
 		}
 	}

@@ -132,25 +132,25 @@ public class WikiContext implements IWikiContext {
 		return getUserInfo().getUsername();
 	}
 
-	public void put(String path, long revision, byte[] data,
+	public void put(String path, String id, byte[] data,
 			Map<String,String> props, String message) throws Exception {
-		fs.put(userInfo, path, revision, data, props, message);
+		fs.put(userInfo, path, id, data, props, message);
 	}
 
 	public void remove(String path, String message) throws Exception {
 		fs.remove(userInfo, path, message);
 	}
 
-	public IContent get(String path, long revision) throws Exception {
-		return fs.get(userInfo, path, revision);
+	public IContent get(String path, String id) throws Exception {
+		return fs.get(userInfo, path, id);
 	}
 	
-	public IFile getFile(String path, long revision) throws Exception {
-		final String key = path + ":r" + revision;
+	public IFile getFile(String path, String id) throws Exception {
+		final String key = path + ":" + id;
 		if (cache.containsKey(key) ) {
 			return cache.get(key);
 		}
-		IFile file = fs.getFile(userInfo, path, revision);
+		IFile file = fs.getFile(userInfo, path, id);
 		cache.put(key, file);
 		return file;
 	}
@@ -167,8 +167,8 @@ public class WikiContext implements IWikiContext {
 		return fs.getLockOwner(userInfo, path);
 	}
 	
-	public void lock(String path, long revision) throws Exception {
-		fs.lock(userInfo, path, revision);
+	public void lock(String path, String id) throws Exception {
+		fs.lock(userInfo, path, id);
 	}
 
 	public void unlock(String path) throws Exception {

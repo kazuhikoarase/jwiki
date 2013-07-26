@@ -1,4 +1,4 @@
-package jwiki.fs.svn;
+package jwiki.fs.impl;
 
 import java.util.Date;
 
@@ -8,23 +8,23 @@ import jwiki.core.Util;
 import org.tmatesoft.svn.core.SVNNodeKind;
 
 /**
- * SVNFile
+ * File
  * @author kazuhiko arase
  */
-public class SVNFile implements IFile {
+public class File implements IFile {
 	private final String path;
 	private final SVNNodeKind kind;
 	private final Date date;
-	private final long revision;
+	private final String id;
 	private final long size;
 	private final String author;
 	private final String message;
 	private final Date editingDate;
 	private final String editingUser;
-	public SVNFile(
+	public File(
 		String path,
 		SVNNodeKind kind,
-		long revision,
+		String id,
 		Date date,
 		String author,
 		String message,
@@ -34,7 +34,7 @@ public class SVNFile implements IFile {
 	) {
 		this.path = path;
 		this.kind = kind;
-		this.revision = revision;
+		this.id = id;
 		this.date = date;
 		this.author = Util.coalesce(author, "");
 		this.message = Util.coalesce(message, "");
@@ -57,8 +57,8 @@ public class SVNFile implements IFile {
 	public long getSize() {
 		return size;
 	}
-	public long getRevision() {
-		return revision;
+	public String getId() {
+		return id;
 	}
 	public Date getDate() {
 		return date;

@@ -33,7 +33,7 @@ public class DirectoryViewAction extends WikiAction {
 		// index
 		String indexPath = PathUtil.buildPath(context.getPath(), "index");
 
-		IContent content = context.get(indexPath, -1);
+		IContent content = context.get(indexPath, null);
 		if (content.getData().length > 0) {
 			context.setPath(indexPath);
 			context.render(out, dataToString(content.getData() ) );
